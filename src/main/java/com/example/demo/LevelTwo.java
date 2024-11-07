@@ -9,7 +9,8 @@ public class LevelTwo extends LevelParent {
 
 	public LevelTwo(double screenHeight, double screenWidth) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
-		boss = new Boss();
+		this.boss = new Boss();
+
 	}
 
 	@Override
@@ -36,8 +37,8 @@ public class LevelTwo extends LevelParent {
 
 	@Override
 	protected LevelView instantiateLevelView() {
-		levelView = new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH);
-		return levelView;
+		return new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH); // Polymorphism
+		// This above function returns a subclass object to a parent class variable.
 	}
 
 }
