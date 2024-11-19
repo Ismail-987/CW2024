@@ -14,10 +14,11 @@ public class LevelViewLevelTwo extends LevelView {
 		this.root = root;
 		this.shieldImage = new ShieldImage(SHIELD_X_POSITION, SHIELD_Y_POSITION);
 		addImagesToRoot();
+		showShield();
 	}
 	
 	private void addImagesToRoot() {
-		root.getChildren().addAll(shieldImage);
+		root.getChildren().add(shieldImage);
 	}
 	
 	public void showShield() {
@@ -25,6 +26,7 @@ public class LevelViewLevelTwo extends LevelView {
 	}
 
 	public void hideShield() {
+
 		shieldImage.hideShield();
 	}
 

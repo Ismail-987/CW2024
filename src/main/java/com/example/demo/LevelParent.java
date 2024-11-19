@@ -1,37 +1,47 @@
 package com.example.demo;
 
+import com.example.demo.controller.Controller;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.beans.PropertyChangeSupport;
 
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group; // Container Node or Element. Inherits parent Class. This is like div tag.
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
 
-public abstract class LevelParent extends Observable {
+public abstract class LevelParent {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 50;
 	public final double screenHeight;
 	public final double screenWidth;
 	private final double enemyMaximumYPosition;
+	public boolean exist = false; // A FLAG to track the existence of a level.
 
+	private ImageView pause_btn;
+	private PlayButton play_btn;
+	private RestartButton restart_btn;
+	private Group pause_scene;
+	//private final Button quit_Button;
 	private final Group root;
-	private final Timeline timeline;
-	private final UserPlane user;
-	private final Scene scene;
-	private final ImageView background;
+	public final Timeline timeline;
+	public final UserPlane user;
+	public final Scene scene;  // -- Scene is public for tracking.
+	public ImageView background;
+	private final PropertyChangeSupport support;  // Adds Observables
 
-	private final List<ActiveActorDestructible> friendlyUnits;
-	private final List<ActiveActorDestructible> enemyUnits;
-	private final List<ActiveActorDestructible> userProjectiles;
-	private final List<ActiveActorDestructible> enemyProjectiles;
+	private final List<ActiveActor> friendlyUnits;
+	private final List<ActiveActor> enemyUnits;
+	private final List<ActiveActor> userProjectiles;
+	private final List<ActiveActor> enemyProjectiles;
 
 	private int currentNumberOfEnemies;
-	private LevelView levelView;
+	private LevelView levelView;  // Basically A Class API
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -42,6 +52,7 @@ public abstract class LevelParent extends Observable {
 		this.enemyUnits = new ArrayList<>();
 		this.userProjectiles = new ArrayList<>();
 		this.enemyProjectiles = new ArrayList<>();
+		this.support = new PropertyChangeSupport(this);
 
 //		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
@@ -55,10 +66,21 @@ public abstract class LevelParent extends Observable {
 	}
 
 
-	public void goToNextLevel(Object levelName) {
+//	public void goToNextLevel(String levelName) {
+//		winGame(); // Stop timeline for Level 1 (to avoid conflicts with timeline for level 2) and show win game pic.
+//		exist = false; // Flag to track existence.
+//		setChanged();
+//		notifyObservers(levelName); // Notify all observers with change of Level
+//	}
+
+	public PropertyChangeSupport getSupport(){
+		return this.support;
+	}
+
+	public void goToNextLevel(String levelName) {
 		winGame(); // Stop timeline for Level 1 (to avoid conflicts with timeline for level 2) and show win game pic.
-		setChanged();
-		notifyObservers(levelName); // Notify all observers with change of Level
+		exist = false; // Flag to track existence.
+		support.firePropertyChange("Page Change", null, levelName);  // Notify all observers with change of Level
 	}
 
 
@@ -67,29 +89,31 @@ public abstract class LevelParent extends Observable {
 	public Scene initializeScene() {
 		initializeBackground(); // Prepare the background in the scene before the UI LOOP begins.
 		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
+		init_pause_button();
 		levelView.showHeartDisplay();
+		exist = true; // Added flag to track the existence of the Level Object.
 		return scene;
 	}
 
 
-	private void initializeBackground() {
+	public void initializeBackground() { // Made this method public
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
 		background.setFitWidth(screenWidth);
+		background.setUserData("back_name");
 		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode kc = e.getCode();
 				if (kc == KeyCode.UP) user.moveUp();
 				if (kc == KeyCode.DOWN) user.moveDown();
 				if (kc == KeyCode.SPACE) fireProjectile();
+				if (kc == KeyCode.P) load_pause_screen();
 			}
 		});
-		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
-			}
-		});
+		background.setOnKeyReleased(e -> {
+            KeyCode kc = e.getCode();
+            if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
+        });
 		root.getChildren().add(background);
 	}
 
@@ -129,8 +153,8 @@ public abstract class LevelParent extends Observable {
 	}
 
 
-	private void fireProjectile() {
-		ActiveActorDestructible projectile = user.fireProjectile(); // Create new user projectile
+	public void fireProjectile() {
+		ActiveActor projectile = user.fireProjectile(); // Create new user projectile
 		root.getChildren().add(projectile); // Add new projectile
 		userProjectiles.add(projectile);
 	}
@@ -155,7 +179,7 @@ public abstract class LevelParent extends Observable {
 		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
 	}
 
-	private void spawnEnemyProjectile(ActiveActorDestructible projectile) {
+	private void spawnEnemyProjectile(ActiveActor projectile) {
 		if (projectile != null) {
 			root.getChildren().add(projectile); // Add projectile to DOM.
 			enemyProjectiles.add(projectile); // Add to the list of active enemy projectiles
@@ -164,12 +188,13 @@ public abstract class LevelParent extends Observable {
 
 // FUNCTION 4
 	private void updateNumberOfEnemies() {
+
 		currentNumberOfEnemies = enemyUnits.size();
 	}
 
 // FUNCTION 5
 	private void handleEnemyPenetration() {
-		for (ActiveActorDestructible enemy : enemyUnits) {
+		for (ActiveActor enemy : enemyUnits) {
 			if (enemyHasPenetratedDefenses(enemy)) {
 				user.takeDamage();
 				enemy.destroy();
@@ -177,30 +202,33 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
-	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
+	private boolean enemyHasPenetratedDefenses(ActiveActor enemy) {
 		return Math.abs(enemy.getTranslateX()) > screenWidth;
 	}
 
 // FUNCTION 6
 	private void handleUserProjectileCollisions() {
-	handleCollisions(userProjectiles, enemyUnits);
+
+		handleCollisions(userProjectiles, enemyUnits);
 }
 
 // FUNCTION 7
 	private void handleEnemyProjectileCollisions() {
-	handleCollisions(enemyProjectiles, friendlyUnits);
+
+		handleCollisions(enemyProjectiles, friendlyUnits);
 }
 
 // FUNCTION 8
 	private void handlePlaneCollisions() {
-	handleCollisions(friendlyUnits, enemyUnits);
+
+		handleCollisions(friendlyUnits, enemyUnits);
 }
 
 // -- F(X) 6,7,8 DEPEND ON THIS
-	private void handleCollisions(List<ActiveActorDestructible> actors1,
-								  List<ActiveActorDestructible> actors2) {
-		for (ActiveActorDestructible actor : actors2) {
-			for (ActiveActorDestructible otherActor : actors1) {
+	private void handleCollisions(List<ActiveActor> actors1,
+								  List<ActiveActor> actors2) {
+		for (ActiveActor actor : actors2) {
+			for (ActiveActor otherActor : actors1) {
 				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
 					actor.takeDamage();
 					otherActor.takeDamage();
@@ -217,8 +245,8 @@ public abstract class LevelParent extends Observable {
 		removeDestroyedActors(enemyProjectiles);
 	}
 
-	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
-		List<ActiveActorDestructible> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
+	private void removeDestroyedActors(List<ActiveActor> actors) {
+		List<ActiveActor> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
 				.collect(Collectors.toList());
 		root.getChildren().removeAll(destroyedActors);
 		actors.removeAll(destroyedActors);
@@ -233,7 +261,8 @@ public abstract class LevelParent extends Observable {
 
 // FUNCTION 11
 	private void updateLevelView() {
-	levelView.removeHearts(user.getHealth());
+
+		levelView.removeHearts(user.getHealth());
 }
 
 // FUNCTION 12
@@ -253,6 +282,7 @@ public abstract class LevelParent extends Observable {
 
 	protected void loseGame() {
 		timeline.stop();
+		this.pause_btn.setVisible(false);
 		levelView.showGameOverImage();
 	}
 
@@ -268,7 +298,7 @@ public abstract class LevelParent extends Observable {
 		return enemyUnits.size();
 	}
 
-	protected void addEnemyUnit(ActiveActorDestructible enemy) {
+	protected void addEnemyUnit(ActiveActor enemy) {
 		enemyUnits.add(enemy);
 		root.getChildren().add(enemy);
 	}
@@ -283,5 +313,45 @@ public abstract class LevelParent extends Observable {
 
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();
+	}
+
+//------------------------------------------------ADDED CODES (FUNCTIONS)-----------------------------------------------
+
+
+	// PAUSE SCREEN SECTION.
+	public void  init_pause_button () {
+		this.pause_btn = this.levelView.getPauseButton();
+		this.pause_btn.setOnMousePressed(e -> {
+			load_pause_screen();
+		});
+		root.getChildren().add(pause_btn);
+	}
+	public void load_pause_screen(){
+		timeline.pause();
+		pause_btn.setVisible(false);
+		root.getChildren().add(init_pause_scene());
+	}
+	public Group init_pause_scene (){
+		this.pause_scene = levelView.getPauseScene();
+		play_btn = new PlayButton(50,150);
+		restart_btn = new RestartButton(400,150);
+		this.restart_btn.setOnMousePressed(e -> {
+			restart_game();
+		});
+		this.play_btn.setOnMousePressed(e -> {
+			resume_game();
+		});
+		pause_scene.getChildren().add(play_btn);
+		pause_scene.getChildren().add(restart_btn);
+		return pause_scene;
+	}
+	public void resume_game(){
+		pause_btn.setVisible(true);
+		this.pause_scene.setVisible(false);
+		timeline.play();
+	}
+	public void restart_game(){
+		goToNextLevel("com.example.demo.LevelOne");
+		timeline.stop();
 	}
 }

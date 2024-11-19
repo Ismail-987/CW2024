@@ -30,9 +30,8 @@ public class HeartDisplay {
 		container.setLayoutY(containerYPosition);		
 	}
 	
-	private void initializeHearts() {
+	private void initializeHearts() { // Loop Display
 		for (int i = 0; i < numberOfHeartsToDisplay; i++) {
-//			ImageView heart = new ImageView(new Image(getClass().getResource(HEART_IMAGE_NAME).toExternalForm()));
 			ImageView heart = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(HEART_IMAGE_NAME)).toExternalForm()));
 
 			heart.setFitHeight(HEART_HEIGHT);
@@ -47,6 +46,7 @@ public class HeartDisplay {
 	}
 	
 	public HBox getContainer() {
+
 		return container;
 	}
 

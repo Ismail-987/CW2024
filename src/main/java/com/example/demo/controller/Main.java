@@ -16,7 +16,7 @@ public class Main extends Application {
 	public void start(Stage stage) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		stage.setTitle(TITLE);
-		stage.setResizable(false);
+		stage.setResizable(true);
 		stage.setHeight(SCREEN_HEIGHT);
 		stage.setWidth(SCREEN_WIDTH);
 		myController = new Controller(stage);
@@ -24,6 +24,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+
 		launch();
 	}
 }
