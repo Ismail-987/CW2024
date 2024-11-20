@@ -1,11 +1,14 @@
 package com.example.demo;
 
+import com.example.demo.UIObjects.Images.actors.ActiveActor;
+import com.example.demo.UIObjects.Images.actors.EnemyPlane;
+
 public class LevelOne extends LevelParent {
 	
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
     private static final String NEXT_LEVEL = "com.example.demo.LevelTwo";
-	private static final int TOTAL_ENEMIES = 5;
-	private static final int KILLS_TO_ADVANCE = 1;
+	private static final int TOTAL_ENEMIES = 3;
+	private static final int KILLS_TO_ADVANCE = 2;
 	private static final double ENEMY_SPAWN_PROBABILITY = .20;
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 

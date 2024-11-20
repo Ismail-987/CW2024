@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.UIObjects.Images.actors;
 
 public abstract class FighterPlane extends ActiveActor {
 

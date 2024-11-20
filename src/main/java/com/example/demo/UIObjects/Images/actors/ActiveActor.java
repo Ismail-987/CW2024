@@ -1,10 +1,11 @@
-package com.example.demo;
+package com.example.demo.UIObjects.Images.actors;
 
+import com.example.demo.Destructible;
 import javafx.scene.image.*;
 
 import java.util.Objects;
 
-public abstract class ActiveActor extends ImageView implements Destructible{
+public abstract class ActiveActor extends ImageView implements Destructible {
 	
 	private static final String IMAGE_LOCATION = "/com/example/demo/images/";
 	private boolean isDestroyed;

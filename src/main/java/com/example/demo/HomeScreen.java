@@ -42,7 +42,7 @@ public class HomeScreen {
         root.getChildren().add(homelabel); // Add a Label (Follows absolute reference). SIMILAR TO document.createElement().
 
     }
-    public Scene init_home_screen(){
+    public Scene init_home_scene(){
 
         return scene; // This is like A React Component Returning a Single div or container.
     }

@@ -5,31 +5,23 @@ import java.beans.PropertyChangeListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
-import java.util.Observable;
-import java.util.Observer;
 
 import com.example.demo.HomeScreen;
 import com.example.demo.LevelOne;
-import com.example.demo.PauseScene;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import com.example.demo.LevelParent;
 
-public class Controller implements PropertyChangeListener {
+public class StageManager implements PropertyChangeListener {
 
 	private static final String HOME_SCREEN = "com.example.demo.HomeScreen";
 	private final Stage stage;
 	private  LevelParent myLevel = new LevelOne(10,20); // A copy of a level for tracking.
 
 	// Constructor
-	public Controller(Stage stage) {
+	public StageManager(Stage stage) {
 
 		this.stage = stage;
 	}
@@ -51,7 +43,7 @@ public class Controller implements PropertyChangeListener {
 				HomeScreen homeScreen = (HomeScreen) constructor.newInstance(stage.getHeight(), stage.getWidth());
 //				homeScreen.addObserver(this);
 				homeScreen.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
-				Scene scene = homeScreen.init_home_screen(); // Web page for level 1.
+				Scene scene = homeScreen.init_home_scene(); // Web page for level 1.
 				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
  			}
 			else {

@@ -1,15 +1,19 @@
 package com.example.demo;
 
-import com.example.demo.controller.Controller;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
 
+
+import com.example.demo.UIObjects.Images.actors.ActiveActor;
+import com.example.demo.UIObjects.Images.actors.FighterPlane;
+import com.example.demo.UIObjects.Images.actors.UserPlane;
+import com.example.demo.UIObjects.Images.figures.PlayButton;
+import com.example.demo.UIObjects.Images.figures.RestartButton;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group; // Container Node or Element. Inherits parent Class. This is like div tag.
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
@@ -89,8 +93,8 @@ public abstract class LevelParent {
 	public Scene initializeScene() {
 		initializeBackground(); // Prepare the background in the scene before the UI LOOP begins.
 		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
-		init_pause_button();
-		levelView.showHeartDisplay();
+		initializePauseButton();
+		levelView.initializeHeartDisplay();
 		exist = true; // Added flag to track the existence of the Level Object.
 		return scene;
 	}
@@ -319,8 +323,8 @@ public abstract class LevelParent {
 
 
 	// PAUSE SCREEN SECTION.
-	public void  init_pause_button () {
-		this.pause_btn = this.levelView.getPauseButton();
+	public void  initializePauseButton () {
+		this.pause_btn = this.levelView.createPauseButton();
 		this.pause_btn.setOnMousePressed(e -> {
 			load_pause_screen();
 		});
@@ -332,7 +336,7 @@ public abstract class LevelParent {
 		root.getChildren().add(init_pause_scene());
 	}
 	public Group init_pause_scene (){
-		this.pause_scene = levelView.getPauseScene();
+		this.pause_scene = levelView.createPauseScene();
 		play_btn = new PlayButton(50,150);
 		restart_btn = new RestartButton(400,150);
 		this.restart_btn.setOnMousePressed(e -> {

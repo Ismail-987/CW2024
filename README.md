@@ -33,6 +33,9 @@ This project involves the maintenance and extension of a game software
 1. PauseButton.java
 2. PlayButton.java
 3. RestartButton.java
+4. HomeScreen.java
+5. PauseScene.java
+6. StageManager.java (Used to be Controller.java)
 
 
 ### MODIFIED CLASSES
@@ -41,10 +44,11 @@ This project involves the maintenance and extension of a game software
 2. Boss.java
 * Changed the IMAGE_NAME attribute to match the correct format for importing images.
 3. SheildImage.java
-* SHIELD_IMAGE is changed from .jpg to .png.
+* SHIELD_IMAGE attribute is changed from .jpg to .png.
 4. Controller Class
 * Changed the notification system from Observer Pattern to PropertyChangeListener. 
- This is bacause the Observer Class is no longer supported in Java (Deprecated).
+ This is because the Observer Class is no longer supported in Java (Deprecated).
+* Changed its name to StageManager.java for convenience.
 5. ActiveActorDestructible.java
 * This class has been deleted from the code as its functionally not relevant.
  This lowers the code base.
