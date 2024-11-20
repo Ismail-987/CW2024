@@ -6,17 +6,17 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
-import com.example.demo.HomeScreen;
-import com.example.demo.LevelOne;
+import com.example.demo.scenes.LevelOne;
+import com.example.demo.scenes.HomeScene;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.LevelParent;
+import com.example.demo.scenes.LevelParent;
 
 public class StageManager implements PropertyChangeListener {
 
-	private static final String HOME_SCREEN = "com.example.demo.HomeScreen";
+	private static final String HOME_SCENE = "com.example.demo.scenes.HomeScene";
 	private final Stage stage;
 	private  LevelParent myLevel = new LevelOne(10,20); // A copy of a level for tracking.
 
@@ -30,20 +30,20 @@ public class StageManager implements PropertyChangeListener {
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
 
 			stage.show();
-			goToLevel(HOME_SCREEN);
+			goToLevel(HOME_SCENE);
 
 	}
 			// This is Link Element. THE MANAGER OF THE STAGE
 	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 			// Create Class Object that represent ClassName Class
-			if(Objects.equals(className, HOME_SCREEN)){
+			if(Objects.equals(className, HOME_SCENE)){
 				Class<?> myClass = Class.forName(className);
 				Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-				HomeScreen homeScreen = (HomeScreen) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				HomeScene homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
 //				homeScreen.addObserver(this);
-				homeScreen.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
-				Scene scene = homeScreen.init_home_scene(); // Web page for level 1.
+				homeScene.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
+				Scene scene = homeScene.init_home_scene(); // Web page for level 1.
 				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
  			}
 			else {
@@ -73,7 +73,6 @@ public class StageManager implements PropertyChangeListener {
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 				 | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			Alert alert = new Alert(AlertType.ERROR);
-//			alert.setContentText(e.getClass().toString());
 			alert.setContentText(e.getCause().toString());
 			alert.show();
 		}

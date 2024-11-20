@@ -1,15 +1,13 @@
-package com.example.demo;
+package com.example.demo.scenes;
 
 import java.beans.PropertyChangeSupport;
-import java.util.*;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.*;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 
-public class HomeScreen {
+public class HomeScene {
     private Scene scene;
     private Group root;
     private Button sgbutton;
@@ -18,7 +16,7 @@ public class HomeScreen {
     private double SCREENWIDTH;
     private final PropertyChangeSupport support;
 
-    public HomeScreen( double screenHeight, double screenWidth){
+    public HomeScene( double screenHeight, double screenWidth){
         this.root = new Group();
         this.homelabel = new Label("WELCOME TO OUR GAME");
         this.SCREENHEIGHT = screenHeight;
@@ -31,7 +29,7 @@ public class HomeScreen {
     public void init_Button(){
         this.sgbutton = new Button("START GAME");
         this.sgbutton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.LevelOne");
+            load_level_1("com.example.demo.scenes.LevelOne");
         });
         sgbutton.setLayoutX(5);
         sgbutton.setLayoutY(5);

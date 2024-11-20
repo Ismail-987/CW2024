@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.factories;
 
 import com.example.demo.UIObjects.Images.figures.ShieldImage;
 import javafx.scene.Group;

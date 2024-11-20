@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.UIObjects.Containers;
 
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import java.util.Objects;
 
 
-public class PauseScene {
+public class PauseScreen {
 
     private Group root;
 
@@ -18,7 +18,7 @@ public class PauseScene {
     private double X_POSITION;
     private double Y_POSITION;
 
-    public PauseScene (double Xposition, double Yposition){
+    public PauseScreen (double Xposition, double Yposition){
         this.root = new Group();
         this.root.setLayoutX(Xposition);
         this.root.setLayoutY(Yposition);

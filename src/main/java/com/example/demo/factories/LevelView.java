@@ -1,6 +1,7 @@
-package com.example.demo;
+package com.example.demo.factories;
 
 import com.example.demo.UIObjects.Containers.HeartDisplay;
+import com.example.demo.UIObjects.Containers.PauseScreen;
 import com.example.demo.UIObjects.Images.figures.GameOverImage;
 import com.example.demo.UIObjects.Images.figures.PauseButton;
 import com.example.demo.UIObjects.Images.figures.WinImage;
@@ -42,8 +43,9 @@ public class LevelView {
 	public ImageView createPauseButton(){
 		return new PauseButton(PAUSE_BUTTON_X_POSITION,PAUSE_BUTTON_Y_POSITION);
 	}
+
 	public Group createPauseScene(){
-		return new PauseScene(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
+		return new PauseScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
 	}
 
 	public void showWinImage() {
@@ -52,7 +54,6 @@ public class LevelView {
 	}
 	
 	public void showGameOverImage() {
-
 		root.getChildren().add(gameOverImage);
 	}
 	

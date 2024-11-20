@@ -16,7 +16,7 @@ This project involves the maintenance and extension of a game software
 
 ### THAT SUCCESSFULLY WORK PROPERLY
 * Fixed the failure to transition to second level.
-* Created a home screen to welcome the Gamers to our game.
+* Created a home screen to welcome Gamers to our game.
 * Created a pause screen to allow users to have a navigation to other sections of the game.
 * Users can pause by clicking the pause button or pressing "P" on keyboard.
 * Users can resume the game by clicking play button in the pause screen.
@@ -33,8 +33,8 @@ This project involves the maintenance and extension of a game software
 1. PauseButton.java
 2. PlayButton.java
 3. RestartButton.java
-4. HomeScreen.java
-5. PauseScene.java
+4. HomeScene.java
+5. PauseScreen.java
 6. StageManager.java (Used to be Controller.java)
 
 
@@ -54,6 +54,16 @@ This project involves the maintenance and extension of a game software
  This lowers the code base.
 6. 
 
+## PACKAGES
+### NEW PACKAGES
+1. com.example.demo.factories
+2. com.example.demo.scenes
+3. com.example.demo.UIObjects
+4. com.example.demo.UIObjects.Containers
+5. com.example.demo.UIObjects.Images
+6. com.example.demo.UIObjects.Images.actors
+7. com.example.demo.UIObjects.Images.figures
 
+### MODIFIED PACKAGES
 
 ## UNCERTAINTIES

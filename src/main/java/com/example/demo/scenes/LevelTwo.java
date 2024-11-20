@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.scenes;
 
+import com.example.demo.factories.LevelView;
+import com.example.demo.factories.LevelViewLevelTwo;
 import com.example.demo.UIObjects.Images.actors.Boss;
 
 public class LevelTwo extends LevelParent {

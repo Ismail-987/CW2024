@@ -1,10 +1,11 @@
-package com.example.demo;
+package com.example.demo.scenes;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
 
 
+import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.FighterPlane;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
@@ -355,7 +356,7 @@ public abstract class LevelParent {
 		timeline.play();
 	}
 	public void restart_game(){
-		goToNextLevel("com.example.demo.LevelOne");
+		goToNextLevel("com.example.demo.scenes.LevelOne");
 		timeline.stop();
 	}
 }
