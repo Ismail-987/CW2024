@@ -30,11 +30,11 @@ public class StageManager implements PropertyChangeListener {
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
 
 			stage.show();
-			goToLevel(HOME_SCENE);
+			goToScene(HOME_SCENE);
 
 	}
 			// This is Link Element. THE MANAGER OF THE STAGE
-	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
+	private void goToScene(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 			// Create Class Object that represent ClassName Class
 			if(Objects.equals(className, HOME_SCENE)){
@@ -43,7 +43,7 @@ public class StageManager implements PropertyChangeListener {
 				HomeScene homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
 //				homeScreen.addObserver(this);
 				homeScene.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
-				Scene scene = homeScene.init_home_scene(); // Web page for level 1.
+				Scene scene = homeScene.createHomeScene(); // Web page for level 1.
 				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
  			}
 			else {
@@ -69,7 +69,7 @@ public class StageManager implements PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		try {
-			goToLevel((String) evt.getNewValue());// The real manager.
+			goToScene((String) evt.getNewValue());// The real manager.
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 				 | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			Alert alert = new Alert(AlertType.ERROR);

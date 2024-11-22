@@ -27,6 +27,7 @@ This project involves the maintenance and extension of a game software
 
 ## FEATURES NOT IMPLEMENTED
 
+
 ## JAVA CLASSES
 
 ### NEW CLASSES
@@ -50,7 +51,7 @@ This project involves the maintenance and extension of a game software
  This is because the Observer Class is no longer supported in Java (Deprecated).
 * Changed its name to StageManager.java for convenience.
 5. ActiveActorDestructible.java
-* This class has been deleted from the code as its functionally not relevant.
+* This class has been deleted from the code as its functionality can be combined in a single super class.
  This lowers the code base.
 6. 
 
@@ -67,3 +68,7 @@ This project involves the maintenance and extension of a game software
 ### MODIFIED PACKAGES
 
 ## UNCERTAINTIES
+1. Lack of enough experience with application of Design Principles and Patterns.
+- It was extremely challenging to try to implement SOLID principles
+ and various patterns for such a large code base. Had I had more 
+ exposure and experience, better results would have been attained, I believe.

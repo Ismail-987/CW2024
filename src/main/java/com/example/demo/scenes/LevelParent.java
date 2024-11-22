@@ -201,14 +201,14 @@ public abstract class LevelParent {
 	private void handleEnemyPenetration() {
 		for (ActiveActor enemy : enemyUnits) {
 			if (enemyHasPenetratedDefenses(enemy)) {
-				user.takeDamage();
-				enemy.destroy();
+				loseGame();
 			}
 		}
 	}
 
 	private boolean enemyHasPenetratedDefenses(ActiveActor enemy) {
-		return Math.abs(enemy.getTranslateX()) > screenWidth;
+
+		return Math.abs(enemy.getTranslateX()) > screenWidth; // Get the translation from the starting position and check if is greater than screenWidth
 	}
 
 // FUNCTION 6
