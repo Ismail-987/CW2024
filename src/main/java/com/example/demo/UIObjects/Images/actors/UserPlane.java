@@ -33,6 +33,7 @@ public class UserPlane extends FighterPlane {
 	
 	@Override
 	public void updateActor() {
+
 		updatePosition();
 	}
 	
@@ -42,26 +43,32 @@ public class UserPlane extends FighterPlane {
 	}
 
 	private boolean isMoving() {
+
 		return velocityMultiplier != 0;
 	}
 
 	public void moveUp() {
-		velocityMultiplier = -1;
+
+		velocityMultiplier = -1; // velocityMultiplier is a flag to indicate movement and of what type (direction of the velocity).
 	}
 
 	public void moveDown() {
+
 		velocityMultiplier = 1;
 	}
 
 	public void stop() {
+
 		velocityMultiplier = 0;
 	}
 
 	public int getNumberOfKills() {
+
 		return numberOfKills;
 	}
 
 	public void incrementKillCount() {
+
 		numberOfKills++;
 	}
 

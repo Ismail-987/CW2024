@@ -1,5 +1,6 @@
 package com.example.demo.factories;
 
+import com.example.demo.UIObjects.Images.actors.UserPlane;
 import com.example.demo.UIObjects.Images.figures.ShieldImage;
 import javafx.scene.Group;
 
@@ -10,19 +11,20 @@ public class LevelViewLevelTwo extends LevelView {
 	private final Group root;
 	private final ShieldImage shieldImage;
 	
-	public LevelViewLevelTwo(Group root, int heartsToDisplay) {
-		super(root, heartsToDisplay);
+	public LevelViewLevelTwo(Group root, int heartsToDisplay, String backgorundImageName, UserPlane user) {
+		super(root, heartsToDisplay, backgorundImageName, user);
 		this.root = root;
 		this.shieldImage = new ShieldImage(SHIELD_X_POSITION, SHIELD_Y_POSITION);
-		addImagesToRoot();
-		showShield();
+
 	}
 	
-	private void addImagesToRoot() {
+	public void addImagesToRoot() {
+
 		root.getChildren().add(shieldImage);
 	}
 	
 	public void showShield() {
+
 		shieldImage.showShield();
 	}
 

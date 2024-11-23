@@ -35,9 +35,9 @@ public abstract class LevelParent {
 	//private final Button quit_Button;
 	private final Group root;
 	public final Timeline timeline;
-	public final UserPlane user;
-	public final Scene scene;  // -- Scene is public for tracking.
-	public ImageView background;
+	private final UserPlane user;
+	private final Scene scene;  // -- Scene is public for tracking.
+	private ImageView background;
 	private final PropertyChangeSupport support;  // Adds Observables
 
 	private final List<ActiveActor> friendlyUnits;
@@ -79,25 +79,14 @@ public abstract class LevelParent {
 //	}
 
 	public PropertyChangeSupport getSupport(){
+
 		return this.support;
 	}
 
-	public void goToNextLevel(String levelName) {
+	public void goToScene(String levelName) {
 		winGame(); // Stop timeline for Level 1 (to avoid conflicts with timeline for level 2) and show win game pic.
 		exist = false; // Flag to track existence.
 		support.firePropertyChange("Page Change", null, levelName);  // Notify all observers with change of Level
-	}
-
-
-	protected abstract LevelView instantiateLevelView();
-
-	public Scene initializeScene() {
-		initializeBackground(); // Prepare the background in the scene before the UI LOOP begins.
-		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
-		initializePauseButton();
-		levelView.initializeHeartDisplay();
-		exist = true; // Added flag to track the existence of the Level Object.
-		return scene;
 	}
 
 
@@ -116,11 +105,26 @@ public abstract class LevelParent {
 			}
 		});
 		background.setOnKeyReleased(e -> {
-            KeyCode kc = e.getCode();
-            if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
-        });
+			KeyCode kc = e.getCode();
+			if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
+		});
 		root.getChildren().add(background);
 	}
+
+	protected abstract LevelView instantiateLevelView();
+
+	public Scene initializeScene() {
+		initializeBackground(); // Prepare the background in the scene before the UI LOOP begins.
+		levelView.addImagesToRoot();
+		levelView.showShield();
+		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
+		initializePauseButton();
+		levelView.initializeHeartDisplay();
+		exist = true; // Added flag to track the existence of the Level Object.
+		return scene;
+	}
+
+
 
 	protected abstract void initializeFriendlyUnits();
 
@@ -278,7 +282,9 @@ public abstract class LevelParent {
 
 
 
-
+	public Timeline getTimeline(){
+		return this.timeline;
+	}
 
 	protected void winGame() {
 		timeline.stop();
@@ -356,7 +362,7 @@ public abstract class LevelParent {
 		timeline.play();
 	}
 	public void restart_game(){
-		goToNextLevel("com.example.demo.scenes.LevelOne");
+		goToScene("com.example.demo.scenes.LevelOne");
 		timeline.stop();
 	}
 }

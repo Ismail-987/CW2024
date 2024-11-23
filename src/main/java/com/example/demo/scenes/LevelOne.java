@@ -25,7 +25,7 @@ public class LevelOne extends LevelParent {
 			loseGame();
 		}
 		if (userHasReachedKillTarget()) {
-			goToNextLevel(NEXT_LEVEL); // Inform Observer To change page / Screen to level 2 page or screen
+			goToScene(NEXT_LEVEL); // Inform Observer To change page / Screen to level 2 page or screen
 		}
 	}
 
@@ -49,7 +49,7 @@ public class LevelOne extends LevelParent {
 	@Override
 	protected LevelView instantiateLevelView() {
 
-		return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);
+		return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH, BACKGROUND_IMAGE_NAME, getUser());
 	}
 
 	private boolean userHasReachedKillTarget() {

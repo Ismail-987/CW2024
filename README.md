@@ -20,6 +20,8 @@ This project involves the maintenance and extension of a game software
 * Created a pause screen to allow users to have a navigation to other sections of the game.
 * Users can pause by clicking the pause button or pressing "P" on keyboard.
 * Users can resume the game by clicking play button in the pause screen.
+* Home Screen Menu. User can have a basic navigation around the Home menu.
+* Showing shield.
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * Resizing the stage. Unfortunately user can resize the stage but aspect ratio is not feasible.

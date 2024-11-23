@@ -41,7 +41,7 @@ public class LevelTwo extends LevelParent {
 
 	@Override
 	protected LevelView instantiateLevelView() {
-		return new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH); // Polymorphism
+		return new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH,BACKGROUND_IMAGE_NAME,getUser()); // Polymorphism
 		// This above function returns a subclass object to a parent class variable.
 	}
 

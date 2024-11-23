@@ -28,6 +28,7 @@ public abstract class ActiveActor extends ImageView implements Destructible {
 	}
 
 	protected void moveVertically(double verticalMove) {
+
 		this.setTranslateY(getTranslateY() + verticalMove);
 	}
 
@@ -44,6 +45,7 @@ public abstract class ActiveActor extends ImageView implements Destructible {
 	}
 
 	public boolean isDestroyed() {
+
 		return isDestroyed;
 	}
 
