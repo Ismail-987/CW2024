@@ -426,7 +426,7 @@ public abstract class LevelParent {
 	}
 	public void restart_game(){
 		goToScene("com.example.demo.scenes.LevelOne");
-		timeline.stop();
+		timeline.stop(); // Added
 	}
 
 	public void goToHomeScene(String sceneName){
