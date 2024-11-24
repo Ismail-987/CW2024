@@ -19,6 +19,7 @@ public class StageManager implements PropertyChangeListener {
 	private static final String HOME_SCENE = "com.example.demo.scenes.HomeScene";
 	private final Stage stage;
 	private  LevelParent myLevel = new LevelOne(10,20); // A copy of a level for tracking.
+	private HomeScene homeScene = new HomeScene(10,20);
 
 	// Constructor
 	public StageManager(Stage stage) {
@@ -38,12 +39,17 @@ public class StageManager implements PropertyChangeListener {
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 			// Create Class Object that represent ClassName Class
 			if(Objects.equals(className, HOME_SCENE)){
+				if(homeScene.exists){
+					homeScene.background.requestFocus();
+					stage.setScene(homeScene.returnScene());
+				}
 				Class<?> myClass = Class.forName(className);
 				Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-				HomeScene homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				 homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				 homeScene.exists = true;
 //				homeScreen.addObserver(this);
 				homeScene.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
-				Scene scene = homeScene.createHomeScene(); // Web page for level 1.
+				Scene scene = homeScene.returnScene(); // Web page for level 1.
 				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
  			}
 			else {
@@ -58,6 +64,7 @@ public class StageManager implements PropertyChangeListener {
 					myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth()); // Create Level 1 Screen or Page
 //					myLevel.addObserver(this);
 					myLevel.getSupport().addPropertyChangeListener(this); // Add a SUBSCRIBER.
+					homeScene.oldValue="Page Change";
 					Scene scene = myLevel.initializeScene(); // Web page for level 1.
 					stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
 					// Game Loop

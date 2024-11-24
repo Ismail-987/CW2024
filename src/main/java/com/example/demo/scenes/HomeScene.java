@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class HomeScene {
+
     private Scene scene;
     private Group root;
     private Button sgbutton;
@@ -19,11 +20,13 @@ public class HomeScene {
     private Button settingsButton;
     private  double SCREENHEIGHT;
     private double SCREENWIDTH;
-    private ImageView background;
+    public ImageView background;
     private String backgroundImageName = "/com/example/demo/images/homescreenbackground2.jpg";
     private ImageView homeMenu;
     private String skybattleImageName = "/com/example/demo/images/homescreen.jpg";
     private final PropertyChangeSupport support;
+    public Boolean exists = false;
+    public String oldValue = "null";
 
     public HomeScene( double screenHeight, double screenWidth){
         this.root = new Group();
@@ -39,7 +42,7 @@ public class HomeScene {
     public void initializeButtons(){
         this.sgbutton = new Button();
         this.sgbutton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne");
+            load_level_1("com.example.demo.scenes.LevelOne",oldValue);
         });
         sgbutton.setLayoutX(448);
         sgbutton.setLayoutY(320);
@@ -66,7 +69,7 @@ public class HomeScene {
         continueButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne");
+            load_level_1("com.example.demo.scenes.LevelOne",oldValue);
         });
 
         this.informationButton = new Button();
@@ -77,7 +80,7 @@ public class HomeScene {
         informationButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne");
+            load_level_1("com.example.demo.scenes.LevelOne",oldValue);
         });
 
 
@@ -89,7 +92,7 @@ public class HomeScene {
         settingsButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne");
+            load_level_1("com.example.demo.scenes.LevelOne",oldValue);
         });
 
         //sgbutton.setStyle("-fx-background-color: transparent;");
@@ -120,13 +123,13 @@ public class HomeScene {
         background.setFitWidth(SCREENWIDTH);
         root.getChildren().add(background);
     }
-    public Scene createHomeScene(){
+    public Scene returnScene(){
 
         return scene; // This is like A React Component Returning a Single div or container.
     }
-    public void load_level_1(String levelName) {
+    public void load_level_1(String levelName, String oldValue) {
 
-        support.firePropertyChange("Page Change", null, levelName); // Notify all observers with change of Level
+        support.firePropertyChange("Page Change",oldValue, levelName); // Notify all observers with change of Level
     }
 
     public PropertyChangeSupport getSupport(){
