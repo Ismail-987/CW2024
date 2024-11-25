@@ -74,3 +74,5 @@ This project involves the maintenance and extension of a game software
 - It was extremely challenging to try to implement SOLID principles
  and various patterns for such a large code base. Had I had more 
  exposure and experience, better results would have been attained, I believe.
+2. Graphics designing. It was a challenging experience to have consistent screens for various scene.
+ This is because of low experience with graphics designing and usage of graphics tools.

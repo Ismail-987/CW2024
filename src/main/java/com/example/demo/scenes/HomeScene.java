@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class HomeScene {
+
     private Scene scene;
     private Group root;
     private Button sgbutton;
@@ -19,11 +20,12 @@ public class HomeScene {
     private Button settingsButton;
     private  double SCREENHEIGHT;
     private double SCREENWIDTH;
-    private ImageView background;
+    public ImageView background;
     private String backgroundImageName = "/com/example/demo/images/homescreenbackground2.jpg";
     private ImageView homeMenu;
     private String skybattleImageName = "/com/example/demo/images/homescreen.jpg";
     private final PropertyChangeSupport support;
+    public Boolean exists = false;
 
     public HomeScene( double screenHeight, double screenWidth){
         this.root = new Group();
@@ -120,20 +122,27 @@ public class HomeScene {
         background.setFitWidth(SCREENWIDTH);
         root.getChildren().add(background);
     }
-    public Scene createHomeScene(){
+    public Scene returnScene(){
 
         return scene; // This is like A React Component Returning a Single div or container.
     }
     public void load_level_1(String levelName) {
+        if(exists){
+            support.firePropertyChange("Page Change",null, levelName); // Notify all observers with change of Level
+        }
+        else {
+            support.firePropertyChange("Level",null, levelName); // Notify all observers with change of Level
+        }
 
-        support.firePropertyChange("Page Change", null, levelName); // Notify all observers with change of Level
     }
 
     public PropertyChangeSupport getSupport(){
         return this.support;
     }
 
-
+    public Group getRoot(){
+        return this.root;
+    }
 //    public void load_level_1(String levelName) {
 //        setChanged();
 //        notifyObservers(levelName); // Notify all observers with change of Level

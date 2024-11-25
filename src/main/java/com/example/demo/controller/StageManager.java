@@ -19,6 +19,7 @@ public class StageManager implements PropertyChangeListener {
 	private static final String HOME_SCENE = "com.example.demo.scenes.HomeScene";
 	private final Stage stage;
 	private  LevelParent myLevel = new LevelOne(10,20); // A copy of a level for tracking.
+	private HomeScene homeScene = new HomeScene(10,20);
 
 	// Constructor
 	public StageManager(Stage stage) {
@@ -38,12 +39,17 @@ public class StageManager implements PropertyChangeListener {
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 			// Create Class Object that represent ClassName Class
 			if(Objects.equals(className, HOME_SCENE)){
+
+				if(homeScene.exists){
+					stage.setScene(homeScene.returnScene());
+				}
 				Class<?> myClass = Class.forName(className);
 				Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-				HomeScene homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				 homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				 homeScene.exists = true;
 //				homeScreen.addObserver(this);
 				homeScene.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
-				Scene scene = homeScene.createHomeScene(); // Web page for level 1.
+				Scene scene = homeScene.returnScene(); // Web page for level 1.
 				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
  			}
 			else {
@@ -51,7 +57,7 @@ public class StageManager implements PropertyChangeListener {
 				if (myLevel.exist) {
 //					myLevel.timeline.play();  // Resume
 //					myLevel.background.requestFocus(); // timeline.pause() removes focus.
-//					stage.setScene(myLevel.scene);
+					stage.setScene(myLevel.getScene());
 				} else {
 					Class<?> myClass = Class.forName(className);
 					Constructor<?> constructor = myClass.getConstructor(double.class, double.class);

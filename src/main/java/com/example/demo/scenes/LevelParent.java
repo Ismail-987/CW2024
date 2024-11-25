@@ -5,16 +5,17 @@ import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
 
 
+import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.FighterPlane;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
-import com.example.demo.UIObjects.Images.figures.PlayButton;
 import com.example.demo.UIObjects.Images.figures.RestartButton;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group; // Container Node or Element. Inherits parent Class. This is like div tag.
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
@@ -28,13 +29,22 @@ public abstract class LevelParent {
 	private final double enemyMaximumYPosition;
 	public boolean exist = false; // A FLAG to track the existence of a level.
 
+
 	private ImageView pause_btn;
-	private PlayButton play_btn;
-	private RestartButton restart_btn;
+	private  Button playButton;
+	private Button restartButton;
+	private  Button quitButton;
+	private Button informationButton;
+	private Button  homeButton;
+	private Button settingsButton;
+
+
+
 	private Group pause_scene;
 	//private final Button quit_Button;
 	private final Group root;
-	public final Timeline timeline;
+
+	private final Timeline timeline;
 	private final UserPlane user;
 	private final Scene scene;  // -- Scene is public for tracking.
 	private ImageView background;
@@ -59,7 +69,7 @@ public abstract class LevelParent {
 		this.enemyProjectiles = new ArrayList<>();
 		this.support = new PropertyChangeSupport(this);
 
-//		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
+
 		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
@@ -282,10 +292,6 @@ public abstract class LevelParent {
 
 
 
-	public Timeline getTimeline(){
-		return this.timeline;
-	}
-
 	protected void winGame() {
 		timeline.stop();
 		levelView.showWinImage();
@@ -328,6 +334,27 @@ public abstract class LevelParent {
 
 //------------------------------------------------ADDED CODES (FUNCTIONS)-----------------------------------------------
 
+	// GETTERS AND SETTERS
+	//------------------------------------------------------------------------------------------------------------------
+	public  Timeline getTimeline (){
+		return timeline;
+	}
+
+	public Scene getScene(){
+		return this.scene;
+	}
+
+	public LevelView getLevelView(){
+		return this.levelView;
+	}
+
+	public ImageView getPauseButton (){
+		return pause_btn;
+	}
+
+	//OTHERS
+	//------------------------------------------------------------------------------------------------------------------
+
 
 	// PAUSE SCREEN SECTION.
 	public void  initializePauseButton () {
@@ -340,20 +367,78 @@ public abstract class LevelParent {
 	public void load_pause_screen(){
 		timeline.pause();
 		pause_btn.setVisible(false);
-		root.getChildren().add(init_pause_scene());
+		root.getChildren().add(initializePauseScreen());
 	}
-	public Group init_pause_scene (){
-		this.pause_scene = levelView.createPauseScene();
-		play_btn = new PlayButton(50,150);
-		restart_btn = new RestartButton(400,150);
-		this.restart_btn.setOnMousePressed(e -> {
+	public Group initializePauseScreen (){
+		this.pause_scene = levelView.createPauseScene(); // Bring screen background
+		this.playButton = new Button();
+		playButton.setMinWidth(147.6);
+		playButton.setMinHeight(52.8);
+		playButton.setLayoutX(47);
+		playButton.setLayoutY(255.6);
+		playButton.setStyle("-fx-background-color: transparent;");
+
+		this.restartButton = new Button();
+		restartButton.setMinWidth(147.6);
+		restartButton.setMinHeight(52.8);
+		restartButton.setLayoutX(224.2);
+		restartButton.setLayoutY(255.6);
+		restartButton.setStyle("-fx-background-color: transparent;");
+
+		this.homeButton = new Button();
+		homeButton.setMinWidth(147.6);
+		homeButton.setMinHeight(52.8);
+		homeButton.setLayoutX(224.2);
+		homeButton.setLayoutY(392);
+		homeButton.setStyle("-fx-background-color: transparent;");
+
+		this.informationButton = new Button();
+		informationButton.setMinWidth(147.6);
+		informationButton.setMinHeight(52.8);
+		informationButton.setLayoutX(47);
+		informationButton.setLayoutY(392);
+		informationButton.setStyle("-fx-background-color: transparent;");
+
+		this.quitButton = new Button();
+		quitButton.setMinWidth(147.6);
+		quitButton.setMinHeight(52.8);
+		quitButton.setLayoutX(404.2);
+		quitButton.setLayoutY(392);
+		quitButton.setStyle("-fx-background-color: transparent;");
+
+		this.settingsButton = new Button();
+		settingsButton.setMinWidth(147.6);
+		settingsButton.setMinHeight(52.8);
+		settingsButton.setLayoutX(404.2);
+		settingsButton.setLayoutY(255.6);
+		settingsButton.setStyle("-fx-background-color: transparent;");
+
+
+		this.restartButton.setOnMousePressed(e -> {
 			restart_game();
 		});
-		this.play_btn.setOnMousePressed(e -> {
+		this.playButton.setOnMousePressed(e -> {
 			resume_game();
 		});
-		pause_scene.getChildren().add(play_btn);
-		pause_scene.getChildren().add(restart_btn);
+		this.quitButton.setOnMousePressed(e -> {
+			System.exit(1);
+		});
+		this.informationButton.setOnMousePressed(e -> {
+			resume_game();
+		});
+		this.settingsButton.setOnMousePressed(e -> {
+			resume_game();
+		});
+		this.homeButton.setOnMousePressed(e -> {
+			goToScene("com.example.demo.scenes.HomeScene");
+		});
+
+		pause_scene.getChildren().add(playButton);
+		pause_scene.getChildren().add(restartButton);
+		pause_scene.getChildren().add(homeButton);
+		pause_scene.getChildren().add(informationButton);
+		pause_scene.getChildren().add(settingsButton);
+		pause_scene.getChildren().add(quitButton);
 		return pause_scene;
 	}
 	public void resume_game(){
@@ -363,6 +448,13 @@ public abstract class LevelParent {
 	}
 	public void restart_game(){
 		goToScene("com.example.demo.scenes.LevelOne");
+		timeline.stop(); // Added
+	}
+
+
+	public void goToHomeScene(String sceneName){
 		timeline.stop();
+		support.firePropertyChange("Page Change", null, sceneName);
+
 	}
 }
