@@ -3,6 +3,8 @@ package com.example.demo.scenes;
 import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.EnemyPlane;
+import javafx.scene.Group;
+import javafx.scene.control.Button;
 
 public class LevelOne extends LevelParent {
 	
@@ -12,6 +14,14 @@ public class LevelOne extends LevelParent {
 	private static final int KILLS_TO_ADVANCE = 2;
 	private static final double ENEMY_SPAWN_PROBABILITY = .20;
 	private static final int PLAYER_INITIAL_HEALTH = 5;
+
+	private  Button winNextLevelButton;
+	private Button winReplayLevelButton;
+	private  Button winQuitButton;
+	private Button winSaveButton;
+	private Button  winHomeButton;
+	private Button winSettingsButton;
+	private Group winScreen;
 
 
 	public LevelOne(double screenHeight, double screenWidth) {
@@ -25,7 +35,10 @@ public class LevelOne extends LevelParent {
 			loseGame();
 		}
 		if (userHasReachedKillTarget()) {
-			goToScene(NEXT_LEVEL); // Inform Observer To change page / Screen to level 2 page or screen
+			getTimeline().stop();
+			getPauseButton().setVisible(false);
+			getRoot().getChildren().add(initializeWinScreen());
+//			goToScene(NEXT_LEVEL); // Inform Observer To change page / Screen to level 2 page or screen
 		}
 	}
 
@@ -54,6 +67,54 @@ public class LevelOne extends LevelParent {
 
 	private boolean userHasReachedKillTarget() {
 		return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;
+	}
+
+
+	public Group initializeWinScreen(){
+		this.winScreen = getLevelView().createWinScreen();
+
+		this.winQuitButton = new Button("Quit Game");
+		winQuitButton.setMinWidth(147.6);
+		winQuitButton.setMinHeight(52.8);
+		winQuitButton.setLayoutX(10.2);
+		winQuitButton.setLayoutY(392);
+
+		this.winNextLevelButton = new Button("Next Level");
+		winNextLevelButton.setMinWidth(147.6);
+		winNextLevelButton.setMinHeight(52.8);
+		winNextLevelButton.setLayoutX(100.2);
+		winNextLevelButton.setLayoutY(392);
+
+		this.winReplayLevelButton = new Button("Replay level");
+		winReplayLevelButton.setMinWidth(147.6);
+		winReplayLevelButton.setMinHeight(52.8);
+		winReplayLevelButton.setLayoutX(224.2);
+		winReplayLevelButton.setLayoutY(202);
+
+		this.winHomeButton = new Button("Home Button");
+		winHomeButton.setMinWidth(147.6);
+		winHomeButton.setMinHeight(52.8);
+		winHomeButton.setLayoutX(224.2);
+		winHomeButton.setLayoutY(392);
+
+		this.winQuitButton.setOnMousePressed(e -> {
+			System.exit(1);
+		});
+
+		this.winNextLevelButton.setOnMousePressed(e -> {
+			goToScene(NEXT_LEVEL);
+		});
+
+		this.winHomeButton.setOnMousePressed(e -> {
+			goToScene("com.example.demo.scenes.HomeScene");
+		});
+
+		winScreen.getChildren().add(winQuitButton);
+		winScreen.getChildren().add(winNextLevelButton);
+		winScreen.getChildren().add(winReplayLevelButton);
+		winScreen.getChildren().add(winHomeButton);
+
+		return winScreen;
 	}
 
 }

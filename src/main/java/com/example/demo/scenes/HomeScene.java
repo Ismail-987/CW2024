@@ -26,7 +26,6 @@ public class HomeScene {
     private String skybattleImageName = "/com/example/demo/images/homescreen.jpg";
     private final PropertyChangeSupport support;
     public Boolean exists = false;
-    public String oldValue = "null";
 
     public HomeScene( double screenHeight, double screenWidth){
         this.root = new Group();
@@ -42,7 +41,7 @@ public class HomeScene {
     public void initializeButtons(){
         this.sgbutton = new Button();
         this.sgbutton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne",oldValue);
+            load_level_1("com.example.demo.scenes.LevelOne");
         });
         sgbutton.setLayoutX(448);
         sgbutton.setLayoutY(320);
@@ -69,7 +68,7 @@ public class HomeScene {
         continueButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne",oldValue);
+            load_level_1("com.example.demo.scenes.LevelOne");
         });
 
         this.informationButton = new Button();
@@ -80,7 +79,7 @@ public class HomeScene {
         informationButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne",oldValue);
+            load_level_1("com.example.demo.scenes.LevelOne");
         });
 
 
@@ -92,7 +91,7 @@ public class HomeScene {
         settingsButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne",oldValue);
+            load_level_1("com.example.demo.scenes.LevelOne");
         });
 
         //sgbutton.setStyle("-fx-background-color: transparent;");
@@ -127,16 +126,23 @@ public class HomeScene {
 
         return scene; // This is like A React Component Returning a Single div or container.
     }
-    public void load_level_1(String levelName, String oldValue) {
+    public void load_level_1(String levelName) {
+        if(exists){
+            support.firePropertyChange("Page Change",null, levelName); // Notify all observers with change of Level
+        }
+        else {
+            support.firePropertyChange("Level",null, levelName); // Notify all observers with change of Level
+        }
 
-        support.firePropertyChange("Page Change",oldValue, levelName); // Notify all observers with change of Level
     }
 
     public PropertyChangeSupport getSupport(){
         return this.support;
     }
 
-
+    public Group getRoot(){
+        return this.root;
+    }
 //    public void load_level_1(String levelName) {
 //        setChanged();
 //        notifyObservers(levelName); // Notify all observers with change of Level
