@@ -2,6 +2,7 @@ package com.example.demo.factories;
 
 import com.example.demo.UIObjects.Containers.HeartDisplay;
 import com.example.demo.UIObjects.Containers.PauseScreen;
+import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
 import com.example.demo.UIObjects.Images.figures.GameOverImage;
@@ -33,7 +34,7 @@ public class LevelView {
 	private final Group root;
 	private UserPlane user;
 	private ImageView background;
-	private Group pause_screen;
+
 	private PauseButton pause_button;
 	private PlayButton play_button;
 	private final WinImage winImage;
@@ -62,6 +63,10 @@ public class LevelView {
 
 	public Group createPauseScene(){
 		return new PauseScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
+	}
+
+	public Group createWinScreen (){
+		return new WinScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
 	}
 
 	public void showWinImage() {

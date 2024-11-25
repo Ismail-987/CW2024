@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
 
 
+import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.FighterPlane;
@@ -28,6 +29,7 @@ public abstract class LevelParent {
 	private final double enemyMaximumYPosition;
 	public boolean exist = false; // A FLAG to track the existence of a level.
 
+
 	private ImageView pause_btn;
 	private  Button playButton;
 	private Button restartButton;
@@ -35,6 +37,8 @@ public abstract class LevelParent {
 	private Button informationButton;
 	private Button  homeButton;
 	private Button settingsButton;
+
+
 
 	private Group pause_scene;
 	//private final Button quit_Button;
@@ -64,6 +68,7 @@ public abstract class LevelParent {
 		this.userProjectiles = new ArrayList<>();
 		this.enemyProjectiles = new ArrayList<>();
 		this.support = new PropertyChangeSupport(this);
+
 
 		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -335,6 +340,17 @@ public abstract class LevelParent {
 		return timeline;
 	}
 
+	public Scene getScene(){
+		return this.scene;
+	}
+
+	public LevelView getLevelView(){
+		return this.levelView;
+	}
+
+	public ImageView getPauseButton (){
+		return pause_btn;
+	}
 
 	//OTHERS
 	//------------------------------------------------------------------------------------------------------------------
@@ -355,41 +371,47 @@ public abstract class LevelParent {
 	}
 	public Group initializePauseScreen (){
 		this.pause_scene = levelView.createPauseScene(); // Bring screen background
-		this.playButton = new Button("Play");
+		this.playButton = new Button();
 		playButton.setMinWidth(147.6);
 		playButton.setMinHeight(52.8);
 		playButton.setLayoutX(47);
 		playButton.setLayoutY(255.6);
+		playButton.setStyle("-fx-background-color: transparent;");
 
-		this.restartButton = new Button("Restart");
+		this.restartButton = new Button();
 		restartButton.setMinWidth(147.6);
 		restartButton.setMinHeight(52.8);
 		restartButton.setLayoutX(224.2);
 		restartButton.setLayoutY(255.6);
+		restartButton.setStyle("-fx-background-color: transparent;");
 
-		this.homeButton = new Button("Home");
+		this.homeButton = new Button();
 		homeButton.setMinWidth(147.6);
 		homeButton.setMinHeight(52.8);
 		homeButton.setLayoutX(224.2);
 		homeButton.setLayoutY(392);
+		homeButton.setStyle("-fx-background-color: transparent;");
 
-		this.informationButton = new Button("Information");
+		this.informationButton = new Button();
 		informationButton.setMinWidth(147.6);
 		informationButton.setMinHeight(52.8);
 		informationButton.setLayoutX(47);
 		informationButton.setLayoutY(392);
+		informationButton.setStyle("-fx-background-color: transparent;");
 
-		this.quitButton = new Button("Quit");
+		this.quitButton = new Button();
 		quitButton.setMinWidth(147.6);
 		quitButton.setMinHeight(52.8);
 		quitButton.setLayoutX(404.2);
 		quitButton.setLayoutY(392);
+		quitButton.setStyle("-fx-background-color: transparent;");
 
-		this.settingsButton = new Button("Settings");
+		this.settingsButton = new Button();
 		settingsButton.setMinWidth(147.6);
 		settingsButton.setMinHeight(52.8);
 		settingsButton.setLayoutX(404.2);
 		settingsButton.setLayoutY(255.6);
+		settingsButton.setStyle("-fx-background-color: transparent;");
 
 
 		this.restartButton.setOnMousePressed(e -> {
@@ -408,7 +430,7 @@ public abstract class LevelParent {
 			resume_game();
 		});
 		this.homeButton.setOnMousePressed(e -> {
-			goToHomeScene("com.example.demo.scenes.HomeScene");
+			goToScene("com.example.demo.scenes.HomeScene");
 		});
 
 		pause_scene.getChildren().add(playButton);
@@ -429,8 +451,10 @@ public abstract class LevelParent {
 		timeline.stop(); // Added
 	}
 
+
 	public void goToHomeScene(String sceneName){
-		support.firePropertyChange("HomeScene", "Page Change", sceneName);
 		timeline.stop();
+		support.firePropertyChange("Page Change", null, sceneName);
+
 	}
 }
