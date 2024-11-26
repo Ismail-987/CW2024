@@ -8,9 +8,12 @@ This project involves the maintenance and extension of a game software
 * https://github.com/Ismail-987/CW2024.git
 
 ## COMPILATION INSTRUCTIONS
+1. Upon opening the game in any IDE, in command line run "mvn install"  
+ for maven to fetch the added dependencies in pom.xml. 
 
 ## ADDED DEPENDENCIES
-1. java.desktop package in module com.example.demo in module-info.java.
+1. javafx-media - Need to check if module-info.java has - "requires javafx.media" package added.
+2. java.desktop package in module com.example.demo in module-info.java.
 
 ## FEATURES IMPLEMENTED 
 
@@ -23,6 +26,7 @@ This project involves the maintenance and extension of a game software
 * Home Screen Menu. User can have a basic navigation around the Home menu.
 * Showing shield.
 * After completing a level, user is shown a win screen for further navigation.
+* Added background music for various levels.
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * Resizing the stage. Unfortunately user can resize the stage but aspect ratio is not feasible.
