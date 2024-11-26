@@ -1,5 +1,6 @@
 package com.example.demo.scenes;
 
+//import java.applet.AudioClip;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
@@ -10,7 +11,9 @@ import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.FighterPlane;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
-import com.example.demo.UIObjects.Images.figures.RestartButton;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group; // Container Node or Element. Inherits parent Class. This is like div tag.
@@ -55,6 +58,8 @@ public abstract class LevelParent {
 	private final UserPlane user;
 	private final Scene scene;  // -- Scene is public for tracking.
 	private ImageView background;
+	private MediaPlayer backgroundMusic;
+
 	private final PropertyChangeSupport support;  // Adds Observables
 
 	private final List<ActiveActor> friendlyUnits;
@@ -65,7 +70,7 @@ public abstract class LevelParent {
 	private int currentNumberOfEnemies;
 	private LevelView levelView;  // Basically A Class API
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+	public LevelParent(String backgroundImageName,String backgroundMusic, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight); // Attach Root node (tag) to the scene (HTML page)
 		this.timeline = new Timeline();
@@ -78,6 +83,7 @@ public abstract class LevelParent {
 
 
 		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
+		this.backgroundMusic = new MediaPlayer(new Media(getClass().getResource(backgroundMusic).toString()));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
@@ -137,6 +143,7 @@ public abstract class LevelParent {
 		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
 		initializePauseButton();
 		levelView.initializeHeartDisplay();
+		backgroundMusic.play();
 		exist = true; // Added flag to track the existence of the Level Object.
 		return scene;
 	}
@@ -301,11 +308,13 @@ public abstract class LevelParent {
 
 	protected void winGame() {
 		timeline.stop();
+		backgroundMusic.stop();
 		levelView.showWinImage();
 	}
 
 	protected void loseGame() {
 		timeline.stop();
+		backgroundMusic.stop();
 		this.pause_btn.setVisible(false);
 		levelView.showGameOverImage();
 	}
@@ -359,6 +368,10 @@ public abstract class LevelParent {
 		return pause_btn;
 	}
 
+	public MediaPlayer getBackgroundMusic(){
+		return this.backgroundMusic;
+	}
+
 	//OTHERS
 	//------------------------------------------------------------------------------------------------------------------
 
@@ -373,6 +386,7 @@ public abstract class LevelParent {
 	}
 	public void load_pause_screen(){
 		timeline.pause();
+		backgroundMusic.pause();
 		pause_btn.setVisible(false);
 		root.getChildren().add(initializePauseScreen());
 	}
@@ -489,6 +503,7 @@ public abstract class LevelParent {
 		pause_btn.setVisible(true);
 		this.pause_scene.setVisible(false);
 		timeline.play();
+		backgroundMusic.play();
 	}
 	public void restart_game(){
 		goToScene("com.example.demo.scenes.LevelOne");

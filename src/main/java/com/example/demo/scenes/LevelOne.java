@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 public class LevelOne extends LevelParent {
 	
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
+	private  static  final String BACKGROUNDMUSIC ="/com/example/demo/images/level1music.mp3" ;
     private static final String NEXT_LEVEL = "com.example.demo.scenes.LevelTwo";
 	private static final int TOTAL_ENEMIES = 3;
 	private static final int KILLS_TO_ADVANCE = 2;
@@ -25,7 +26,9 @@ public class LevelOne extends LevelParent {
 
 
 	public LevelOne(double screenHeight, double screenWidth) {
-		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+
+		super(BACKGROUND_IMAGE_NAME,BACKGROUNDMUSIC, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+
 
 	}
 
@@ -36,6 +39,7 @@ public class LevelOne extends LevelParent {
 		}
 		if (userHasReachedKillTarget()) {
 			getTimeline().stop();
+			getBackgroundMusic().stop();
 			getPauseButton().setVisible(false);
 			getRoot().getChildren().add(initializeWinScreen());
 //			goToScene(NEXT_LEVEL); // Inform Observer To change page / Screen to level 2 page or screen
