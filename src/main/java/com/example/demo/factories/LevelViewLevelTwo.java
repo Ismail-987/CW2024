@@ -1,5 +1,7 @@
 package com.example.demo.factories;
 
+import com.example.demo.UIObjects.Containers.GameFinishedScreen;
+import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
 import com.example.demo.UIObjects.Images.figures.ShieldImage;
 import javafx.scene.Group;
@@ -10,6 +12,7 @@ public class LevelViewLevelTwo extends LevelView {
 	private static final int SHIELD_Y_POSITION = 500;
 	private final Group root;
 	private final ShieldImage shieldImage;
+	private Group winScreen;
 	
 	public LevelViewLevelTwo(Group root, int heartsToDisplay, String backgorundImageName, UserPlane user) {
 		super(root, heartsToDisplay, backgorundImageName, user);
@@ -33,4 +36,8 @@ public class LevelViewLevelTwo extends LevelView {
 		shieldImage.hideShield();
 	}
 
+
+	public Group createGameFinishedScreen (){
+		return new GameFinishedScreen(375,100).get_scene_container();
+	}
 }

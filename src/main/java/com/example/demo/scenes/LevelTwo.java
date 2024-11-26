@@ -3,6 +3,7 @@ package com.example.demo.scenes;
 import com.example.demo.factories.LevelView;
 import com.example.demo.factories.LevelViewLevelTwo;
 import com.example.demo.UIObjects.Images.actors.Boss;
+import javafx.scene.Group;
 
 public class LevelTwo extends LevelParent {
 
@@ -10,6 +11,7 @@ public class LevelTwo extends LevelParent {
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private final Boss boss;
 	private LevelViewLevelTwo levelView;
+	private Group gameFinished;
 
 	public LevelTwo(double screenHeight, double screenWidth) {
 		super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
@@ -29,6 +31,8 @@ public class LevelTwo extends LevelParent {
 		}
 		else if (boss.isDestroyed()) {
 			winGame();
+			this.getPauseButton().setVisible(false);
+			getRoot().getChildren().add(getLevelView().createGameFinishedScreen());
 		}
 	}
 

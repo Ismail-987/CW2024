@@ -1,6 +1,7 @@
 package com.example.demo.factories;
 
 import com.example.demo.UIObjects.Containers.HeartDisplay;
+import com.example.demo.UIObjects.Containers.LoseScreen;
 import com.example.demo.UIObjects.Containers.PauseScreen;
 import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
@@ -69,6 +70,10 @@ public class LevelView {
 		return new WinScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
 	}
 
+	public Group createLooseScreen (){
+		return new LoseScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
+	}
+
 	public void showWinImage() {
 		root.getChildren().add(winImage);
 		winImage.showWinImage();
@@ -90,6 +95,10 @@ public class LevelView {
 	public void addImagesToRoot(){
 
 	}
+
+	public Group createGameFinishedScreen(){
+		return new Group();
+	};
 
 //
 //	public void initializeBackground() { // Made this method public
