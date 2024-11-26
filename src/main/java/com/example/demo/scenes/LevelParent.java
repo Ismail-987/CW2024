@@ -39,7 +39,14 @@ public abstract class LevelParent {
 	private Button settingsButton;
 
 
+	private  Button lossHomeButton;
+	private Button lostRestartButton;
+	private  Button lostSkipLevelButton;
+	private Button lostTipsButton;
+	private Button  lostQuitButton;
 
+
+	private Group lossScreen;
 	private Group pause_scene;
 	//private final Button quit_Button;
 	private final Group root;
@@ -441,6 +448,43 @@ public abstract class LevelParent {
 		pause_scene.getChildren().add(quitButton);
 		return pause_scene;
 	}
+
+	public void intializeLooseScreen (){
+		this.lossScreen = levelView.createLooseScreen();
+		this.lostQuitButton = new Button("Quit");
+		lostQuitButton.setMinWidth(147.6);
+		lostQuitButton.setMinHeight(52.8);
+		lostQuitButton.setLayoutX(47);
+		lostQuitButton.setLayoutY(255.6);
+
+		this.playButton = new Button();
+		playButton.setMinWidth(147.6);
+		playButton.setMinHeight(52.8);
+		playButton.setLayoutX(47);
+		playButton.setLayoutY(255.6);
+
+		this.playButton = new Button();
+		playButton.setMinWidth(147.6);
+		playButton.setMinHeight(52.8);
+		playButton.setLayoutX(47);
+		playButton.setLayoutY(255.6);
+
+		this.playButton = new Button();
+		playButton.setMinWidth(147.6);
+		playButton.setMinHeight(52.8);
+		playButton.setLayoutX(47);
+		playButton.setLayoutY(255.6);
+
+		this.playButton = new Button();
+		playButton.setMinWidth(147.6);
+		playButton.setMinHeight(52.8);
+		playButton.setLayoutX(47);
+		playButton.setLayoutY(255.6);
+
+
+
+	}
+
 	public void resume_game(){
 		pause_btn.setVisible(true);
 		this.pause_scene.setVisible(false);

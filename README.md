@@ -22,6 +22,7 @@ This project involves the maintenance and extension of a game software
 * Users can resume the game by clicking play button in the pause screen.
 * Home Screen Menu. User can have a basic navigation around the Home menu.
 * Showing shield.
+* After completing a level, user is shown a win screen for further navigation.
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * Resizing the stage. Unfortunately user can resize the stage but aspect ratio is not feasible.
@@ -39,6 +40,8 @@ This project involves the maintenance and extension of a game software
 4. HomeScene.java
 5. PauseScreen.java
 6. StageManager.java (Used to be Controller.java)
+7. WinScreen.java
+8. PauseScreen.java
 
 
 ### MODIFIED CLASSES
@@ -55,7 +58,8 @@ This project involves the maintenance and extension of a game software
 5. ActiveActorDestructible.java
 * This class has been deleted from the code as its functionality can be combined in a single super class.
  This lowers the code base.
-6. 
+6. LevelOne.java
+* Added Win Screen for better interactivity.
 
 ## PACKAGES
 ### NEW PACKAGES

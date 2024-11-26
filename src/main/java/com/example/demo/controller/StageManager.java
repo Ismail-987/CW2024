@@ -50,6 +50,7 @@ public class StageManager implements PropertyChangeListener {
 //				homeScreen.addObserver(this);
 				homeScene.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
 				Scene scene = homeScene.returnScene(); // Web page for level 1.
+
 				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
  			}
 			else {
