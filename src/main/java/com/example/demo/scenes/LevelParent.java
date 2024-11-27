@@ -7,6 +7,7 @@ import java.beans.PropertyChangeSupport;
 
 
 import com.example.demo.UIObjects.Containers.WinScreen;
+import com.example.demo.UIObjects.Images.actors.Projectile;
 import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.FighterPlane;
@@ -25,7 +26,7 @@ import javafx.util.Duration;
 
 public abstract class LevelParent {
 
-	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+	private static final double SCREEN_HEIGHT_ADJUSTMENT = 160;
 	private static final int MILLISECOND_DELAY = 50;
 	public final double screenHeight;
 	public final double screenWidth;
@@ -60,6 +61,7 @@ public abstract class LevelParent {
 	private ImageView background;
 	private MediaPlayer backgroundMusic;
 
+
 	private final PropertyChangeSupport support;  // Adds Observables
 
 	private final List<ActiveActor> friendlyUnits;
@@ -93,13 +95,6 @@ public abstract class LevelParent {
 		friendlyUnits.add(user);
 	}
 
-
-//	public void goToNextLevel(String levelName) {
-//		winGame(); // Stop timeline for Level 1 (to avoid conflicts with timeline for level 2) and show win game pic.
-//		exist = false; // Flag to track existence.
-//		setChanged();
-//		notifyObservers(levelName); // Notify all observers with change of Level
-//	}
 
 	public PropertyChangeSupport getSupport(){
 
@@ -187,7 +182,8 @@ public abstract class LevelParent {
 
 
 	public void fireProjectile() {
-		ActiveActor projectile = user.fireProjectile(); // Create new user projectile
+		Projectile projectile = user.fireProjectile(); // Create new user projectile
+		projectile.getProjectileSound().play();
 		root.getChildren().add(projectile); // Add new projectile
 		userProjectiles.add(projectile);
 	}
@@ -209,11 +205,13 @@ public abstract class LevelParent {
 
 // FUNCTION 3
 	private void generateEnemyFire() {
-		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
+		enemyUnits.forEach(enemy ->
+				spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
 	}
 
-	private void spawnEnemyProjectile(ActiveActor projectile) {
+	private void spawnEnemyProjectile(Projectile projectile) {
 		if (projectile != null) {
+			projectile.getProjectileSound().play();
 			root.getChildren().add(projectile); // Add projectile to DOM.
 			enemyProjectiles.add(projectile); // Add to the list of active enemy projectiles
 		}

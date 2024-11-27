@@ -52,7 +52,7 @@ public class Boss extends FighterPlane {
 	}
 
 	@Override
-	public ActiveActor fireProjectile() {
+	public Projectile fireProjectile() {
 		return bossFiresInCurrentFrame() ? new BossProjectile(getProjectileInitialPosition()) : null;
 	}
 	

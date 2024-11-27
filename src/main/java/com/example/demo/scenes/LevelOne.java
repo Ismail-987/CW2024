@@ -5,6 +5,8 @@ import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.EnemyPlane;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class LevelOne extends LevelParent {
 	
@@ -23,6 +25,9 @@ public class LevelOne extends LevelParent {
 	private Button  winHomeButton;
 	private Button winSettingsButton;
 	private Group winScreen;
+	private MediaPlayer youWinMusic = new MediaPlayer(new Media(getClass().getResource("/com/example/demo/images/youwinmusic.mp3").toString()));
+	private MediaPlayer youLostSound = new MediaPlayer(new Media(getClass().getResource("/com/example/demo/images/youLostSound.mp3").toString()));
+
 
 
 	public LevelOne(double screenHeight, double screenWidth) {
@@ -36,12 +41,14 @@ public class LevelOne extends LevelParent {
 	protected void checkIfGameOver() {
 		if (userIsDestroyed()) {
 			loseGame();
+			youLostSound.play();
 		}
 		if (userHasReachedKillTarget()) {
 			getTimeline().stop();
 			getBackgroundMusic().stop();
 			getPauseButton().setVisible(false);
 			getRoot().getChildren().add(initializeWinScreen());
+			youWinMusic.play();
 //			goToScene(NEXT_LEVEL); // Inform Observer To change page / Screen to level 2 page or screen
 		}
 	}
@@ -78,41 +85,67 @@ public class LevelOne extends LevelParent {
 		this.winScreen = getLevelView().createWinScreen();
 
 		this.winQuitButton = new Button("Quit Game");
-		winQuitButton.setMinWidth(147.6);
-		winQuitButton.setMinHeight(52.8);
-		winQuitButton.setLayoutX(10.2);
-		winQuitButton.setLayoutY(392);
+		winQuitButton.setMinWidth(125.6);
+		winQuitButton.setMinHeight(74.8);
+		winQuitButton.setLayoutX(87.2);
+		winQuitButton.setLayoutY(350.8);
 
 		this.winNextLevelButton = new Button("Next Level");
-		winNextLevelButton.setMinWidth(147.6);
-		winNextLevelButton.setMinHeight(52.8);
-		winNextLevelButton.setLayoutX(100.2);
-		winNextLevelButton.setLayoutY(392);
+		winNextLevelButton.setMinWidth(103.6);
+		winNextLevelButton.setMinHeight(74.8);
+		winNextLevelButton.setLayoutX(67.2);
+		winNextLevelButton.setLayoutY(262.2);
 
 		this.winReplayLevelButton = new Button("Replay level");
-		winReplayLevelButton.setMinWidth(147.6);
-		winReplayLevelButton.setMinHeight(52.8);
-		winReplayLevelButton.setLayoutX(224.2);
-		winReplayLevelButton.setLayoutY(202);
+		winReplayLevelButton.setMinWidth(125.6);
+		winReplayLevelButton.setMinHeight(74.8);
+		winReplayLevelButton.setLayoutX(386.8);
+		winReplayLevelButton.setLayoutY(345.8);
 
 		this.winHomeButton = new Button("Home Button");
-		winHomeButton.setMinWidth(147.6);
-		winHomeButton.setMinHeight(52.8);
-		winHomeButton.setLayoutX(224.2);
-		winHomeButton.setLayoutY(392);
+		winHomeButton.setMinWidth(103.6);
+		winHomeButton.setMinHeight(74.8);
+		winHomeButton.setLayoutX(431.2);
+		winHomeButton.setLayoutY(262.2);
+
+		this.winSaveButton = new Button("Save");
+		winSaveButton.setMinWidth(103.6);
+		winSaveButton.setMinHeight(74.8);
+		winSaveButton.setLayoutX(185.2);
+		winSaveButton.setLayoutY(262.2);
+
+		this.winSettingsButton = new Button("Settings");
+		winSettingsButton.setMinWidth(103.6);
+		winSettingsButton.setMinHeight(74.8);
+		winSettingsButton.setLayoutX(307);
+		winSettingsButton.setLayoutY(262.2);
+
+
+		this.winSettingsButton.setOnMousePressed(e -> {
+			System.exit(1);
+		});
+
+		this.winSaveButton.setOnMousePressed(e -> {
+			System.exit(1);
+		});
 
 		this.winQuitButton.setOnMousePressed(e -> {
 			System.exit(1);
 		});
 
 		this.winNextLevelButton.setOnMousePressed(e -> {
+			youWinMusic.stop();
 			goToScene(NEXT_LEVEL);
+
 		});
 
 		this.winHomeButton.setOnMousePressed(e -> {
+			youWinMusic.stop();
 			goToScene("com.example.demo.scenes.HomeScene");
 		});
 
+		winScreen.getChildren().add(winSaveButton);
+		winScreen.getChildren().add(winSettingsButton);
 		winScreen.getChildren().add(winQuitButton);
 		winScreen.getChildren().add(winNextLevelButton);
 		winScreen.getChildren().add(winReplayLevelButton);

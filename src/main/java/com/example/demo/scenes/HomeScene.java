@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class HomeScene {
 
@@ -24,6 +26,7 @@ public class HomeScene {
     private String backgroundImageName = "/com/example/demo/images/homescreenbackground2.jpg";
     private ImageView homeMenu;
     private String skybattleImageName = "/com/example/demo/images/homescreen.jpg";
+    private MediaPlayer homeScreenMusic = new MediaPlayer(new Media(getClass().getResource("/com/example/demo/images/homemenuviewmusic.mp3").toString()));
     private final PropertyChangeSupport support;
     public Boolean exists = false;
 
@@ -37,10 +40,12 @@ public class HomeScene {
         this.scene = new Scene(root,screenWidth,screenHeight);
         this.support = new PropertyChangeSupport(this);
 
+
     }
     public void initializeButtons(){
         this.sgbutton = new Button();
         this.sgbutton.setOnMousePressed(e -> {
+            this.homeScreenMusic.stop();
             load_level_1("com.example.demo.scenes.LevelOne");
         });
         sgbutton.setLayoutX(448);
@@ -57,6 +62,7 @@ public class HomeScene {
         quitButton.setStyle("-fx-background-color: transparent;");
 
         this.quitButton.setOnMousePressed(e -> {
+            homeScreenMusic.stop();
             System.exit(1);
         });
 
@@ -68,6 +74,7 @@ public class HomeScene {
         continueButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
+            homeScreenMusic.stop();
             load_level_1("com.example.demo.scenes.LevelOne");
         });
 
@@ -79,6 +86,7 @@ public class HomeScene {
         informationButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
+            homeScreenMusic.stop();
             load_level_1("com.example.demo.scenes.LevelOne");
         });
 
@@ -91,6 +99,7 @@ public class HomeScene {
         settingsButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
+            homeScreenMusic.stop();
             load_level_1("com.example.demo.scenes.LevelOne");
         });
 
@@ -143,8 +152,14 @@ public class HomeScene {
     public Group getRoot(){
         return this.root;
     }
+
+    public MediaPlayer getHomeScreenMusic(){
+        return this.homeScreenMusic;
+    }
+
 //    public void load_level_1(String levelName) {
 //        setChanged();
 //        notifyObservers(levelName); // Notify all observers with change of Level
 //    }
+
 }
