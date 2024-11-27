@@ -9,7 +9,7 @@ public abstract class FighterPlane extends ActiveActor {
 		this.health = health;
 	}
 
-	public abstract ActiveActor fireProjectile();
+	public abstract Projectile fireProjectile();
 	
 	@Override
 	public void takeDamage() {

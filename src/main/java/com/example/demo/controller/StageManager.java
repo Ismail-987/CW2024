@@ -41,6 +41,7 @@ public class StageManager implements PropertyChangeListener {
 			if(Objects.equals(className, HOME_SCENE)){
 
 				if(homeScene.exists){
+					homeScene.getHomeScreenMusic().play();
 					stage.setScene(homeScene.returnScene());
 				}
 				Class<?> myClass = Class.forName(className);
@@ -49,6 +50,7 @@ public class StageManager implements PropertyChangeListener {
 				 homeScene.exists = true;
 //				homeScreen.addObserver(this);
 				homeScene.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
+				homeScene.getHomeScreenMusic().play();
 				Scene scene = homeScene.returnScene(); // Web page for level 1.
 
 				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
