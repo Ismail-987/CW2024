@@ -407,11 +407,13 @@ public abstract class LevelParent {
 		scoreLabel = new Label("SCORE : ");
 		scoreLabel.setLayoutX(870);
 		scoreLabel.setLayoutY(30);
+		scoreLabel.getStyleClass().add("score-label");
 
 		levelLabel = new Label("LEVEL : ");
 		levelLabel.setText("LEVEL "+ levelNo +" : "+levelName);
 		levelLabel.setLayoutY(30);
 		levelLabel.setLayoutX(468);
+		levelLabel.getStyleClass().add("level-label");
 
 		this.root.getChildren().add(scoreLabel);
 		this.root.getChildren().add(levelLabel);

@@ -9,7 +9,7 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
 	private static final double BOSS_FIRE_RATE = .04;
-	private static final double BOSS_SHIELD_PROBABILITY = 0.02;
+	private static final double BOSS_SHIELD_PROBABILITY = .02;
 	private static final int IMAGE_HEIGHT = 300;
 	private static final int VERTICAL_VELOCITY = 8;
 	private static final int HEALTH = 20;
@@ -75,7 +75,7 @@ public class Boss extends FighterPlane {
 	private void updateShield() {
 		if (isShielded) {
 			framesWithShieldActivated++;
-			System.out.println(framesWithShieldActivated);
+			System.out.println("At boss to test the frames with shield."+framesWithShieldActivated);
 		}
 		else if (shieldShouldBeActivated()) {
 			activateShield();
@@ -130,8 +130,12 @@ public class Boss extends FighterPlane {
 		framesWithShieldActivated = 0;
 	}
 
-	public boolean isShielded(){
+	@Override
+	public Boolean isShielded(){
 		return isShielded;
+	}
+	public int getInitHealth(){
+		return HEALTH;
 	}
 
 }

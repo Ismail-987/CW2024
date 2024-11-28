@@ -1,9 +1,13 @@
 package com.example.demo.scenes;
 
+import com.example.demo.UIObjects.Images.actors.ActiveActor;
+import com.example.demo.UIObjects.Images.actors.FighterPlane;
 import com.example.demo.factories.LevelView;
 import com.example.demo.factories.LevelViewLevelTwo;
 import com.example.demo.UIObjects.Images.actors.Boss;
 import javafx.scene.Group;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class LevelTwo extends LevelParent {
 
@@ -12,9 +16,10 @@ public class LevelTwo extends LevelParent {
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private static final int CURRENT_LEVEL_NUMBER = 2;
 	private static final String CURRENT_LEVEL_NAME = "PHOENIX-387";
-	private final Boss boss;
+	private final FighterPlane boss;
 	private LevelViewLevelTwo levelView;
 	private Group gameFinished;
+	private MediaPlayer youWinMusic = new MediaPlayer(new Media(getClass().getResource("/com/example/demo/images/youwinmusic.mp3").toString()));
 
 	public LevelTwo(double screenHeight, double screenWidth) {
 		super(BACKGROUND_IMAGE_NAME,BACKGROUNDMUSIC, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH,CURRENT_LEVEL_NUMBER,CURRENT_LEVEL_NAME);
@@ -34,8 +39,12 @@ public class LevelTwo extends LevelParent {
 		}
 		else if (boss.isDestroyed()) {
 			winGame();
+			youWinMusic.play();
 			this.getPauseButton().setVisible(false);
 			getRoot().getChildren().add(getLevelView().createGameFinishedScreen());
+		}else{
+
+			getScoreLabel().setText("SCORE : "+(boss.getInitHealth()- boss.getHealth())+ "/ "+ boss.getInitHealth());
 		}
 	}
 
