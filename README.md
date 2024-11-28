@@ -24,11 +24,11 @@ This project involves the maintenance and extension of a game software
 * Users can pause by clicking the pause button or pressing "P" on keyboard.
 * Users can resume the game by clicking play button in the pause screen.
 * Home Screen Menu. User can have a basic navigation around the Home menu.
-* Showing shield.
+* Shield is active and working as expected.
 * After completing a level, user is shown a win screen for further navigation.
 * Added background music for various levels.
 * Added projectile sound system.
-* The shield can now be seen.
+* 
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * Resizing the stage. Unfortunately user can resize the stage but aspect ratio is not feasible.
