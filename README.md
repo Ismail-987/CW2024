@@ -54,7 +54,17 @@ This project involves the maintenance and extension of a game software
  It informs the user of how long to go to finish a particular level.
 * The game also displays what level is it to the user so that the user can 
  know where he or she is.
-7. 
+
+7. MULTI-LEVEL FUNCTIONALITY
+* The game supports multiple levels of up to 4. 
+* In each level, you pass through different worlds where you fight the enemies of the 
+ final boss who lives in Planet "PHOENIX-365" to save the UNIVERSE. 
+* The player first goes from Earth, destroys the enemies. Then attempts 
+ another revenge by travelling to MARS and kills the enemies of that place. Then,
+ travels to JUPITER and finishes the enemies off. Then to realize that their boss lives in 
+ planet "PHOENIX-365". He then prepares well and face the final Boss and save
+ the UNIVERSE.
+8. 
 
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
@@ -78,6 +88,10 @@ This project involves the maintenance and extension of a game software
 6. StageManager.java (Used to be Controller.java)
 7. WinScreen.java
 8. PauseScreen.java
+9. LevelFinal.java (Used to be LevelTwo.java) + LevelViewLevelFinal.java
+   (Used to be LevelViewLevelTwo.java)
+10. LevelTwo.java + LevelViewLevelTwo.java
+11. LevelThree.java + LevelViewLevelThree.java
 
 
 ### MODIFIED CLASSES

@@ -12,8 +12,7 @@ import javafx.scene.image.ImageView;
 
 import java.util.Objects;
 
-public class LevelViewLevelTwo extends LevelView{
-
+public class LevelViewLevelThree extends LevelView{
 
     private static final double HEART_DISPLAY_X_POSITION = 5;
     private static final double HEART_DISPLAY_Y_POSITION = 25;
@@ -35,7 +34,7 @@ public class LevelViewLevelTwo extends LevelView{
     private final HeartDisplay heartDisplay;
 
 
-    public LevelViewLevelTwo(Group root, int heartsToDisplay, String backgroundImageName, UserPlane user) {
+    public LevelViewLevelThree(Group root, int heartsToDisplay, String backgroundImageName, UserPlane user) {
         super(root, heartsToDisplay, backgroundImageName, user);
         this.root = root;
         this.heartDisplay = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, heartsToDisplay);

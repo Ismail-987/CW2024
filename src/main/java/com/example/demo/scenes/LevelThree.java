@@ -3,6 +3,7 @@ package com.example.demo.scenes;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.EnemyPlane;
 import com.example.demo.factories.LevelView;
+import com.example.demo.factories.LevelViewLevelThree;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.media.Media;
@@ -14,13 +15,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class LevelTwo extends LevelParent{
+public class LevelThree extends LevelParent{
+
 
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
     private  static  final String BACKGROUNDMUSIC ="/com/example/demo/images/level1music.mp3" ;
-    private static final String NEXT_LEVEL = "com.example.demo.scenes.LevelThree";
-    private static final int CURRENT_LEVEL_NUMBER = 2;
-    private static final String CURRENT_LEVEL_NAME = "MARS";
+    private static final String NEXT_LEVEL = "com.example.demo.scenes.LevelFinal";
+    private static final int CURRENT_LEVEL_NUMBER = 3;
+    private static final String CURRENT_LEVEL_NAME = "JUPITER";
     private static final int TOTAL_ENEMIES = 3;
     private static final int KILLS_TO_ADVANCE = 2;
     private static final double ENEMY_SPAWN_PROBABILITY = .20;
@@ -39,7 +41,7 @@ public class LevelTwo extends LevelParent{
 
 
 
-    public LevelTwo(double screenHeight, double screenWidth) {
+    public LevelThree(double screenHeight, double screenWidth) {
 
         super(BACKGROUND_IMAGE_NAME,BACKGROUNDMUSIC, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH,CURRENT_LEVEL_NUMBER,CURRENT_LEVEL_NAME);
 
@@ -82,7 +84,7 @@ public class LevelTwo extends LevelParent{
     @Override
     protected LevelView instantiateLevelView() {
 
-        return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH, BACKGROUND_IMAGE_NAME, getUser());
+        return new LevelViewLevelThree(getRoot(), PLAYER_INITIAL_HEALTH, BACKGROUND_IMAGE_NAME, getUser());
     }
 
     private boolean userHasReachedKillTarget() {

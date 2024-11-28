@@ -410,7 +410,12 @@ public abstract class LevelParent {
 		scoreLabel.getStyleClass().add("score-label");
 
 		levelLabel = new Label("LEVEL : ");
-		levelLabel.setText("LEVEL "+ levelNo +" : "+levelName);
+		if (levelNo == 4){
+			levelLabel.setText("FINAL LEVEL "+" : "+levelName);
+		}else {
+			levelLabel.setText("LEVEL "+ levelNo +" : "+levelName);
+		}
+
 		levelLabel.setLayoutY(30);
 		levelLabel.setLayoutX(468);
 		levelLabel.getStyleClass().add("level-label");
