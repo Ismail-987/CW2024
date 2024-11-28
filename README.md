@@ -42,6 +42,21 @@ This project involves the maintenance and extension of a game software
 * Added sounds/ musics upon losing and winning.
 * Added projectile sound system.
 
+5. SAVING
+* The game allows user to save the last level that the user reached.
+ Upon clicking "SAVE" buttons in screens like PauseGame and YouWin game,
+ the game will save the level checkpoint. Upon clicking "CONTINUE" button 
+ in HomeScreen in HomeScene, the game will load the level next to the last 
+ level that the user saved, continuing the progress.
+
+6. SCORE TRACKING AND LEVEL DISPLAY
+* The game has the facilities for tracking the score count upon every kill.
+ It informs the user of how long to go to finish a particular level.
+* The game also displays what level is it to the user so that the user can 
+ know where he or she is.
+7. 
+
+
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * Resizing the stage. Unfortunately user can resize the stage but aspect ratio is not feasible.
  Perhaps if I could more time for the game, I could have make it a reality.
@@ -94,6 +109,10 @@ This project involves the maintenance and extension of a game software
 7. com.example.demo.UIObjects.Images.figures
 
 ### MODIFIED PACKAGES
+
+## NEW FILES
+1. game-styles.css
+2. gameStatus.txt
 
 ## UNCERTAINTIES
 1. Lack of enough experience with application of Design Principles and Patterns.
