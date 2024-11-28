@@ -27,6 +27,7 @@ This project involves the maintenance and extension of a game software
 * Showing shield.
 * After completing a level, user is shown a win screen for further navigation.
 * Added background music for various levels.
+* Added projectile sound system.
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * Resizing the stage. Unfortunately user can resize the stage but aspect ratio is not feasible.
@@ -53,6 +54,7 @@ This project involves the maintenance and extension of a game software
 * Restructured in a logical Order for ease of programming access.
 2. Boss.java
 * Changed the IMAGE_NAME attribute to match the correct format for importing images.
+* Added projectile sound system for boss projectiles
 3. SheildImage.java
 * SHIELD_IMAGE attribute is changed from .jpg to .png.
 4. Controller Class

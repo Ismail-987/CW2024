@@ -33,7 +33,6 @@ public class LevelView {
 	private static final int PAUSE_SCENE_X_POSITION = 375;
 	private static final int PAUSE_SCENE_Y_POSITION = 100;
 	private final Group root;
-	private UserPlane user;
 	private ImageView background;
 
 	private PauseButton pause_button;
@@ -45,7 +44,6 @@ public class LevelView {
 	
 	public LevelView(Group root, int heartsToDisplay, String backgroundImageName, UserPlane actor) {
 		this.root = root;
-		this.user = actor;
 		this.heartDisplay = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, heartsToDisplay);
 		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION);
 		this.gameOverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSITION);

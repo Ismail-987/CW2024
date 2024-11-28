@@ -89,16 +89,3 @@ public class StageManager implements PropertyChangeListener {
 }
 
 
-//@Override
-//	// This method gets called by default if the observed object's setChanged() fx is called.
-//	public void update(Observable arg0, Object arg1) {
-//		try {
-//			goToLevel((String) arg1);// The real manager.
-//		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-//				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//			Alert alert = new Alert(AlertType.ERROR);
-////			alert.setContentText(e.getClass().toString());
-//			alert.setContentText(e.getCause().toString());
-//			alert.show();
-//		}
-//	}
