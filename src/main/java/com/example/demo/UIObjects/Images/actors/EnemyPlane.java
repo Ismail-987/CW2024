@@ -34,4 +34,15 @@ public class EnemyPlane extends FighterPlane {
 		updatePosition();
 	}
 
+	@Override
+	public Boolean isShielded(){
+		return false;
+	};
+
+	@Override
+	public int getInitHealth(){
+		return 0;
+	}
+
+
 }

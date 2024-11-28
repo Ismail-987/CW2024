@@ -3,6 +3,8 @@ package com.example.demo.UIObjects.Containers;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.Objects;
 
@@ -15,11 +17,20 @@ public class HeartDisplay {
 	private double containerXPosition;
 	private double containerYPosition;
 	private int numberOfHeartsToDisplay;
+	// Background bar (full health size)
+	private Rectangle backgroundBar = new Rectangle(300, 30);
+
+
+	// Foreground bar (dynamic health size)
+	Rectangle foregroundBar = new Rectangle(300, 30);
+
 	
 	public HeartDisplay(double xPosition, double yPosition, int heartsToDisplay) {
 		this.containerXPosition = xPosition;
 		this.containerYPosition = yPosition;
 		this.numberOfHeartsToDisplay = heartsToDisplay;
+		backgroundBar.setFill(Color.DARKRED);
+		foregroundBar.setFill(Color.LIMEGREEN);
 		initializeContainer();
 		initializeHearts();
 	}

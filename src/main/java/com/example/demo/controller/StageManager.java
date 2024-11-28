@@ -65,12 +65,18 @@ public class StageManager implements PropertyChangeListener {
 					Class<?> myClass = Class.forName(className);
 					Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
 					myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth()); // Create Level 1 Screen or Page
-//					myLevel.addObserver(this);
 					myLevel.getSupport().addPropertyChangeListener(this); // Add a SUBSCRIBER.
 					Scene scene = myLevel.initializeScene(); // Web page for level 1.
-					stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
-					// Game Loop
-					myLevel.startGame(); // This will start the game loop after initializing or setting the scene.
+					try {
+						scene.getStylesheets().add(getClass().getResource("/game-styles.css").toExternalForm());
+					} catch (NullPointerException e) {
+						System.err.println("CSS file not found! Ensure the file is in the correct location.");
+					}finally {
+						stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
+						// Game Loop
+						myLevel.startGame(); // This will start the game loop after initializing or setting the scene.
+					}
+
 				}
 			}
 	}

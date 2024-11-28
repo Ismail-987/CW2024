@@ -1,0 +1,13 @@
+.score-label, .level-label {
+    -fx-font-family: "Arial Black", "Verdana", sans-serif;
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to bottom, #0077cc, #005fa3);
+    -fx-padding: 7;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 2, 2);
+    -fx-alignment: center;
+}

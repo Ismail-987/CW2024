@@ -18,21 +18,36 @@ This project involves the maintenance and extension of a game software
 ## FEATURES IMPLEMENTED 
 
 ### THAT SUCCESSFULLY WORK PROPERLY
-* Fixed the failure to transition to second level.
-* Created a home screen to welcome Gamers to our game.
-* Created a pause screen to allow users to have a navigation to other sections of the game.
-* Users can pause by clicking the pause button or pressing "P" on keyboard.
-* Users can resume the game by clicking play button in the pause screen.
+1. HOME NAVIGATION
+* Created a home screen to welcome Gamers to our game. It has :-
 * Home Screen Menu. User can have a basic navigation around the Home menu.
-* Showing shield.
+
+2. PAUSE AND PLAY FUNCTIONALITY
+* Users can pause by clicking the pause button on the top right or pressing "P" on keyboard.
+* This will direct them to a pause screen.
+* Users can resume the game by clicking play button in the pause screen.
+* 
+
+3. SHIELD FUNCTIONALITY
+* Showing shield. The boss's shield is now active and working as expected.
+
+4. UPON WINNING AND LOSING
 * After completing a level, user is shown a win screen for further navigation.
+* After a lost, loose sound is played and "You Lost" screen is shown.
+ Provides user with multiple functionalities like skipping level or tips.
+
+5. SOUND AND MUSIC BACKGROUNDS
 * Added background music for various levels.
+* Added the background to pause menu.
+* Added sounds/ musics upon losing and winning.
 * Added projectile sound system.
-* The shield can now be seen.
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * Resizing the stage. Unfortunately user can resize the stage but aspect ratio is not feasible.
  Perhaps if I could more time for the game, I could have make it a reality.
+* NAVIGATION BUTTONS. Some navigation buttons in some screens will not behave as expected.
+ Unfortunately, it became overwhelming to finish all the functionality but had it been with more time,
+ they would have work as expected.
 
 ## FEATURES NOT IMPLEMENTED
 
@@ -85,5 +100,5 @@ This project involves the maintenance and extension of a game software
 - It was extremely challenging to try to implement SOLID principles
  and various patterns for such a large code base. Had I had more 
  exposure and experience, better results would have been attained, I believe.
-2. Graphics designing. It was a challenging experience to have consistent screens for various scene.
+2. Graphics designing. It was a challenging experience to have consistent screens for various scenes.
  This is because of low experience with graphics designing and usage of graphics tools.
