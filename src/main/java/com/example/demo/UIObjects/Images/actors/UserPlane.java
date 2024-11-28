@@ -72,4 +72,13 @@ public class UserPlane extends FighterPlane {
 		numberOfKills++;
 	}
 
+	@Override
+	public int getInitHealth(){
+		return 0;
+	}
+	@Override
+	public Boolean isShielded (){
+		return false;
+	}
+
 }

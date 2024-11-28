@@ -40,6 +40,10 @@ public abstract class FighterPlane extends ActiveActor {
 	@Override
 	public abstract void updatePosition();
 
+	public abstract Boolean isShielded();
+
 	public abstract void updateActor();
+
+	public abstract int getInitHealth();
 		
 }
