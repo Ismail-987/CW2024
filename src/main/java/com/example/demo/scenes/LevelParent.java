@@ -1,6 +1,11 @@
 package com.example.demo.scenes;
 
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
@@ -36,11 +41,12 @@ public abstract class LevelParent {
 
 
 	private ImageView pause_btn;
-	private  Button playButton;
-	private Button restartButton;
-	private  Button quitButton;
+
+	private Button playButton;
+	private Button saveButton;
+	private Button quitButton;
 	private Button informationButton;
-	private Button  homeButton;
+	private Button homeButton;
 	private Button settingsButton;
 
 
@@ -433,12 +439,12 @@ public abstract class LevelParent {
 		playButton.setLayoutY(255.6);
 		playButton.setStyle("-fx-background-color: transparent;");
 
-		this.restartButton = new Button();
-		restartButton.setMinWidth(147.6);
-		restartButton.setMinHeight(52.8);
-		restartButton.setLayoutX(224.2);
-		restartButton.setLayoutY(255.6);
-		restartButton.setStyle("-fx-background-color: transparent;");
+		this.saveButton = new Button();
+		saveButton.setMinWidth(147.6);
+		saveButton.setMinHeight(52.8);
+		saveButton.setLayoutX(224.2);
+		saveButton.setLayoutY(255.6);
+		saveButton.setStyle("-fx-background-color: transparent;");
 
 		this.homeButton = new Button();
 		homeButton.setMinWidth(147.6);
@@ -469,8 +475,34 @@ public abstract class LevelParent {
 		settingsButton.setStyle("-fx-background-color: transparent;");
 
 
-		this.restartButton.setOnMousePressed(e -> {
-			restart_game();
+		this.saveButton.setOnMousePressed(e -> {
+			try {
+				// Define the path to the file in a platform-independent way
+				Path savedStatusPath = Paths.get("src", "main", "resources", "gameStatus", "gameStatus.txt");
+
+				// Print resolved absolute path
+				System.out.println("Resolved Path: " + savedStatusPath.toAbsolutePath());
+
+				// Ensure parent directories exist
+				Files.createDirectories(savedStatusPath.getParent());
+				System.out.println("Parent directories ensured.");
+
+				if(!Files.exists(savedStatusPath)){
+					// Attempt to create the file unconditionally
+					Files.createFile(savedStatusPath); // Force file creation
+					System.out.println("File created successfully at: " + savedStatusPath.toAbsolutePath());
+				}
+
+				// Write to the file
+				try (FileWriter fileWriter = new FileWriter(savedStatusPath.toFile(), false)) {
+					fileWriter.write("");
+					System.out.println("Game level saved successfully!");
+				}
+
+			} catch (IOException ex) {
+				ex.printStackTrace();
+				throw new RuntimeException("Failed to save game status", ex);
+			}
 		});
 		this.playButton.setOnMousePressed(e -> {
 			resume_game();
@@ -489,7 +521,7 @@ public abstract class LevelParent {
 		});
 
 		pause_scene.getChildren().add(playButton);
-		pause_scene.getChildren().add(restartButton);
+		pause_scene.getChildren().add(saveButton);
 		pause_scene.getChildren().add(homeButton);
 		pause_scene.getChildren().add(informationButton);
 		pause_scene.getChildren().add(settingsButton);
