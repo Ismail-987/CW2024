@@ -140,11 +140,11 @@ public abstract class LevelParent {
 
 	public Scene initializeScene() {
 		initializeBackground(); // Prepare the background in the scene before the UI LOOP begins.
-		levelView.addImagesToRoot();
-		levelView.showShield();
+		//levelView.addImagesToRoot();
 		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
 		initializePauseButton();
 		levelView.initializeHeartDisplay();
+		levelView.initializeShield();
 		initializeLevelLabels();
 		backgroundMusic.play();
 		exist = true; // Added flag to track the existence of the Level Object.
@@ -299,7 +299,7 @@ public abstract class LevelParent {
 	}
 
 // FUNCTION 11
-	private void updateLevelView() {
+	public void updateLevelView() {
 
 		levelView.removeHearts(user.getHealth());
 }
@@ -315,7 +315,7 @@ public abstract class LevelParent {
 	protected void winGame() {
 		timeline.stop();
 		backgroundMusic.stop();
-		levelView.showWinImage();
+
 	}
 
 	protected void loseGame() {

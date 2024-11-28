@@ -6,10 +6,7 @@ import com.example.demo.UIObjects.Containers.PauseScreen;
 import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
-import com.example.demo.UIObjects.Images.figures.GameOverImage;
-import com.example.demo.UIObjects.Images.figures.PauseButton;
-import com.example.demo.UIObjects.Images.figures.PlayButton;
-import com.example.demo.UIObjects.Images.figures.WinImage;
+import com.example.demo.UIObjects.Images.figures.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -90,10 +87,18 @@ public class LevelView {
 	public void showShield(){
 
 	}
-	public void addImagesToRoot(){
+
+    public ShieldImage getShield() {
+        return null;
+    }
+
+
+    public void addImagesToRoot(){
 
 	}
+	public void initializeShield(){
 
+	}
 	public Group createGameFinishedScreen(){
 		return new Group();
 	};

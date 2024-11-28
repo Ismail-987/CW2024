@@ -28,10 +28,12 @@ public abstract class FighterPlane extends ActiveActor {
 	}
 
 	private boolean healthAtZero() {
+
 		return health == 0;
 	}
 
 	public int getHealth() {
+
 		return health;
 	}
 

@@ -48,8 +48,20 @@ public class LevelTwo extends LevelParent {
 
 	@Override
 	protected LevelView instantiateLevelView() {
-		return new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH,BACKGROUND_IMAGE_NAME,getUser()); // Polymorphism
+		levelView = new LevelViewLevelTwo(getRoot(), PLAYER_INITIAL_HEALTH,BACKGROUND_IMAGE_NAME,getUser());
+		return levelView; // Polymorphism
 		// This above function returns a subclass object to a parent class variable.
 	}
 
+	@Override
+	public void updateLevelView(){
+		levelView.removeHearts(getUser().getHealth());
+		if (boss.isShielded()){
+			levelView.showShield();
+			levelView.getShield().setLayoutY(boss.getLayoutY()+boss.getTranslateY());
+		}else{
+			levelView.hideShield();
+		}
+
+	}
 }
