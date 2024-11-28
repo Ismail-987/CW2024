@@ -1,5 +1,15 @@
 package com.example.demo.scenes;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Scanner;
+
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 
@@ -8,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class HomeScene {
 
@@ -21,9 +33,11 @@ public class HomeScene {
     private  double SCREENHEIGHT;
     private double SCREENWIDTH;
     public ImageView background;
+    private String LEVELNAME;
     private String backgroundImageName = "/com/example/demo/images/homescreenbackground2.jpg";
     private ImageView homeMenu;
     private String skybattleImageName = "/com/example/demo/images/homescreen.jpg";
+    private MediaPlayer homeScreenMusic = new MediaPlayer(new Media(getClass().getResource("/com/example/demo/images/homemenuviewmusic.mp3").toString()));
     private final PropertyChangeSupport support;
     public Boolean exists = false;
 
@@ -36,12 +50,12 @@ public class HomeScene {
         initializeButtons();
         this.scene = new Scene(root,screenWidth,screenHeight);
         this.support = new PropertyChangeSupport(this);
-
     }
     public void initializeButtons(){
         this.sgbutton = new Button();
         this.sgbutton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne");
+            this.homeScreenMusic.stop();
+            load_level("com.example.demo.scenes.LevelOne");
         });
         sgbutton.setLayoutX(448);
         sgbutton.setLayoutY(320);
@@ -57,6 +71,7 @@ public class HomeScene {
         quitButton.setStyle("-fx-background-color: transparent;");
 
         this.quitButton.setOnMousePressed(e -> {
+            homeScreenMusic.stop();
             System.exit(1);
         });
 
@@ -68,7 +83,41 @@ public class HomeScene {
         continueButton.setStyle("-fx-background-color: transparent;");
 
         this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne");
+            homeScreenMusic.stop();
+            // READING FROM A FILE TO CHECK THE LAST LEVEL POINT.
+            // Define the path to the file
+
+            File savedStatusFile = new File("src/main/resources/gameStatus/gameStatus.txt");
+
+            // Debugging: Check if the file exists and print the file path
+            System.out.println("Looking for file at: " + savedStatusFile.getAbsolutePath());
+
+            if (savedStatusFile.exists()) {
+                System.out.println("File exists!");
+
+                try (Scanner scanner = new Scanner(savedStatusFile)) {
+                    // Read the first line from the file
+                    if (scanner.hasNextLine()) {
+                        String levelName = scanner.nextLine().trim(); // Clean up any spaces/newlines
+
+                        if (!levelName.isEmpty()) {
+                            LEVELNAME = levelName;
+                            System.out.println("Loaded Level Name: " + LEVELNAME);
+                            load_level(LEVELNAME);
+                        } else {
+                            System.out.println("No level found. Loading default level.");
+                            load_level("com.example.demo.scenes.LevelOne");
+                        }
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException("Failed to read game status", ex);
+                }
+            } else {
+                System.out.println("File does not exist. Loading default level.");
+                load_level("com.example.demo.scenes.LevelOne");
+            }
+
         });
 
         this.informationButton = new Button();
@@ -78,8 +127,9 @@ public class HomeScene {
         informationButton.setMinWidth(210);
         informationButton.setStyle("-fx-background-color: transparent;");
 
-        this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne");
+        this.informationButton.setOnMousePressed(e -> {
+            homeScreenMusic.stop();
+            load_level("com.example.demo.scenes.LevelOne");
         });
 
 
@@ -90,13 +140,10 @@ public class HomeScene {
         settingsButton.setMinWidth(190);
         settingsButton.setStyle("-fx-background-color: transparent;");
 
-        this.continueButton.setOnMousePressed(e -> {
-            load_level_1("com.example.demo.scenes.LevelOne");
+        this.settingsButton.setOnMousePressed(e -> {
+            homeScreenMusic.stop();
+            load_level("com.example.demo.scenes.LevelOne");
         });
-
-        //sgbutton.setStyle("-fx-background-color: transparent;");
-
-
 
         root.getChildren().add(sgbutton);
         root.getChildren().add(continueButton);
@@ -126,7 +173,7 @@ public class HomeScene {
 
         return scene; // This is like A React Component Returning a Single div or container.
     }
-    public void load_level_1(String levelName) {
+    public void load_level(String levelName) {
         if(exists){
             support.firePropertyChange("Page Change",null, levelName); // Notify all observers with change of Level
         }
@@ -143,8 +190,9 @@ public class HomeScene {
     public Group getRoot(){
         return this.root;
     }
-//    public void load_level_1(String levelName) {
-//        setChanged();
-//        notifyObservers(levelName); // Notify all observers with change of Level
-//    }
+
+    public MediaPlayer getHomeScreenMusic(){
+        return this.homeScreenMusic;
+    }
+
 }

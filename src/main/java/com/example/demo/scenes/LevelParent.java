@@ -1,16 +1,21 @@
 package com.example.demo.scenes;
 
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
 
 
 import com.example.demo.UIObjects.Containers.WinScreen;
+import com.example.demo.UIObjects.Images.actors.Projectile;
 import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.FighterPlane;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
-import com.example.demo.UIObjects.Images.figures.RestartButton;
+import javafx.scene.control.Label;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group; // Container Node or Element. Inherits parent Class. This is like div tag.
@@ -22,7 +27,7 @@ import javafx.util.Duration;
 
 public abstract class LevelParent {
 
-	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+	private static final double SCREEN_HEIGHT_ADJUSTMENT = 160;
 	private static final int MILLISECOND_DELAY = 50;
 	public final double screenHeight;
 	public final double screenWidth;
@@ -39,15 +44,29 @@ public abstract class LevelParent {
 	private Button settingsButton;
 
 
+	private  Button lossHomeButton;
+	private Button lostRestartButton;
+	private  Button lostSkipLevelButton;
+	private Button lostTipsButton;
+	private Button  lostQuitButton;
 
+	private Label scoreLabel;
+	private Label levelLabel;
+	private int levelNo;
+	private String levelName;
+
+
+	private Group lossScreen;
 	private Group pause_scene;
-	//private final Button quit_Button;
 	private final Group root;
 
 	private final Timeline timeline;
 	private final UserPlane user;
 	private final Scene scene;  // -- Scene is public for tracking.
 	private ImageView background;
+	private MediaPlayer backgroundMusic;
+
+
 	private final PropertyChangeSupport support;  // Adds Observables
 
 	private final List<ActiveActor> friendlyUnits;
@@ -58,7 +77,7 @@ public abstract class LevelParent {
 	private int currentNumberOfEnemies;
 	private LevelView levelView;  // Basically A Class API
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+	public LevelParent(String backgroundImageName, String backgroundMusic, double screenHeight, double screenWidth, int playerInitialHealth,int levelNo, String levelName) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight); // Attach Root node (tag) to the scene (HTML page)
 		this.timeline = new Timeline();
@@ -71,22 +90,18 @@ public abstract class LevelParent {
 
 
 		this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
+		this.backgroundMusic = new MediaPlayer(new Media(getClass().getResource(backgroundMusic).toString()));
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
+		this.levelNo = levelNo;
+		this.levelName = levelName;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline(); // Prepare the UI Loop and what will happen in it before setting the Scene.
 		friendlyUnits.add(user);
 	}
 
-
-//	public void goToNextLevel(String levelName) {
-//		winGame(); // Stop timeline for Level 1 (to avoid conflicts with timeline for level 2) and show win game pic.
-//		exist = false; // Flag to track existence.
-//		setChanged();
-//		notifyObservers(levelName); // Notify all observers with change of Level
-//	}
 
 	public PropertyChangeSupport getSupport(){
 
@@ -125,11 +140,13 @@ public abstract class LevelParent {
 
 	public Scene initializeScene() {
 		initializeBackground(); // Prepare the background in the scene before the UI LOOP begins.
-		levelView.addImagesToRoot();
-		levelView.showShield();
+		//levelView.addImagesToRoot();
 		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
 		initializePauseButton();
 		levelView.initializeHeartDisplay();
+		levelView.initializeShield();
+		initializeLevelLabels();
+		backgroundMusic.play();
 		exist = true; // Added flag to track the existence of the Level Object.
 		return scene;
 	}
@@ -173,7 +190,8 @@ public abstract class LevelParent {
 
 
 	public void fireProjectile() {
-		ActiveActor projectile = user.fireProjectile(); // Create new user projectile
+		Projectile projectile = user.fireProjectile(); // Create new user projectile
+		projectile.getProjectileSound().play();
 		root.getChildren().add(projectile); // Add new projectile
 		userProjectiles.add(projectile);
 	}
@@ -195,11 +213,13 @@ public abstract class LevelParent {
 
 // FUNCTION 3
 	private void generateEnemyFire() {
-		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
+		enemyUnits.forEach(enemy ->
+				spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
 	}
 
-	private void spawnEnemyProjectile(ActiveActor projectile) {
+	private void spawnEnemyProjectile(Projectile projectile) {
 		if (projectile != null) {
+			projectile.getProjectileSound().play();
 			root.getChildren().add(projectile); // Add projectile to DOM.
 			enemyProjectiles.add(projectile); // Add to the list of active enemy projectiles
 		}
@@ -279,7 +299,7 @@ public abstract class LevelParent {
 	}
 
 // FUNCTION 11
-	private void updateLevelView() {
+	public void updateLevelView() {
 
 		levelView.removeHearts(user.getHealth());
 }
@@ -294,13 +314,15 @@ public abstract class LevelParent {
 
 	protected void winGame() {
 		timeline.stop();
-		levelView.showWinImage();
+		backgroundMusic.stop();
+
 	}
 
 	protected void loseGame() {
 		timeline.stop();
+		backgroundMusic.stop();
 		this.pause_btn.setVisible(false);
-		levelView.showGameOverImage();
+		initializeLooseScreen();
 	}
 
 	protected UserPlane getUser() {
@@ -352,6 +374,17 @@ public abstract class LevelParent {
 		return pause_btn;
 	}
 
+	public MediaPlayer getBackgroundMusic(){
+		return this.backgroundMusic;
+	}
+
+	public Label getScoreLabel(){
+		return this.scoreLabel;
+	}
+
+	public Label getLevelLabel() {
+		return levelLabel;
+	}
 	//OTHERS
 	//------------------------------------------------------------------------------------------------------------------
 
@@ -366,9 +399,26 @@ public abstract class LevelParent {
 	}
 	public void load_pause_screen(){
 		timeline.pause();
+		backgroundMusic.pause();
 		pause_btn.setVisible(false);
 		root.getChildren().add(initializePauseScreen());
 	}
+	public void initializeLevelLabels (){
+		scoreLabel = new Label("SCORE : ");
+		scoreLabel.setLayoutX(870);
+		scoreLabel.setLayoutY(30);
+		scoreLabel.getStyleClass().add("score-label");
+
+		levelLabel = new Label("LEVEL : ");
+		levelLabel.setText("LEVEL "+ levelNo +" : "+levelName);
+		levelLabel.setLayoutY(30);
+		levelLabel.setLayoutX(468);
+		levelLabel.getStyleClass().add("level-label");
+
+		this.root.getChildren().add(scoreLabel);
+		this.root.getChildren().add(levelLabel);
+	}
+
 	public Group initializePauseScreen (){
 		this.pause_scene = levelView.createPauseScene(); // Bring screen background
 		this.playButton = new Button();
@@ -441,20 +491,58 @@ public abstract class LevelParent {
 		pause_scene.getChildren().add(quitButton);
 		return pause_scene;
 	}
+
+	public void initializeLooseScreen (){
+		this.lossScreen = levelView.createLooseScreen();
+		this.lostQuitButton = new Button("Quit");
+		lostQuitButton.setMinWidth(179.6);
+		lostQuitButton.setMinHeight(35.2);
+		lostQuitButton.setLayoutX(383.6);
+		lostQuitButton.setLayoutY(238);
+
+		this.lossHomeButton = new Button("Home");
+		lossHomeButton.setMinWidth(169.6);
+		lossHomeButton.setMinHeight(35.2);
+		lossHomeButton.setLayoutX(198.8);
+		lossHomeButton.setLayoutY(378);
+
+		this.lostRestartButton = new Button("Replay");
+		lostRestartButton.setMinWidth(175.8);
+		lostRestartButton.setMinHeight(35.2);
+		lostRestartButton.setLayoutX(40);
+		lostRestartButton.setLayoutY(240);
+
+		this.lostTipsButton = new Button("Tips");
+		lostTipsButton.setMinWidth(167.6);
+		lostTipsButton.setMinHeight(35.2);
+		lostTipsButton.setLayoutX(196.6);
+		lostTipsButton.setLayoutY(425.2);
+
+		this.lostSkipLevelButton = new Button("Skip level");
+		lostSkipLevelButton.setMinWidth(169.6);
+		lostSkipLevelButton.setMinHeight(35.2);
+		lostSkipLevelButton.setLayoutX(214.2);
+		lostSkipLevelButton.setLayoutY(238);
+
+		lossScreen.getChildren().add(lostTipsButton);
+		lossScreen.getChildren().add(lossHomeButton);
+		lossScreen.getChildren().add(lostRestartButton);
+		lossScreen.getChildren().add(lostSkipLevelButton);
+		lossScreen.getChildren().add(lostQuitButton);
+
+		this.root.getChildren().add(lossScreen);
+
+	}
+
 	public void resume_game(){
 		pause_btn.setVisible(true);
 		this.pause_scene.setVisible(false);
 		timeline.play();
+		backgroundMusic.play();
 	}
 	public void restart_game(){
 		goToScene("com.example.demo.scenes.LevelOne");
 		timeline.stop(); // Added
 	}
 
-
-	public void goToHomeScene(String sceneName){
-		timeline.stop();
-		support.firePropertyChange("Page Change", null, sceneName);
-
-	}
 }

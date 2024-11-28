@@ -38,7 +38,7 @@ public class UserPlane extends FighterPlane {
 	}
 	
 	@Override
-	public ActiveActor fireProjectile() {
+	public Projectile fireProjectile() {
 		return new UserProjectile(PROJECTILE_X_POSITION, getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET));
 	}
 
@@ -70,6 +70,15 @@ public class UserPlane extends FighterPlane {
 	public void incrementKillCount() {
 
 		numberOfKills++;
+	}
+
+	@Override
+	public int getInitHealth(){
+		return 0;
+	}
+	@Override
+	public Boolean isShielded (){
+		return false;
 	}
 
 }

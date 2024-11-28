@@ -41,6 +41,7 @@ public class StageManager implements PropertyChangeListener {
 			if(Objects.equals(className, HOME_SCENE)){
 
 				if(homeScene.exists){
+					homeScene.getHomeScreenMusic().play();
 					stage.setScene(homeScene.returnScene());
 				}
 				Class<?> myClass = Class.forName(className);
@@ -49,7 +50,9 @@ public class StageManager implements PropertyChangeListener {
 				 homeScene.exists = true;
 //				homeScreen.addObserver(this);
 				homeScene.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
+				homeScene.getHomeScreenMusic().play();
 				Scene scene = homeScene.returnScene(); // Web page for level 1.
+
 				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
  			}
 			else {
@@ -62,12 +65,18 @@ public class StageManager implements PropertyChangeListener {
 					Class<?> myClass = Class.forName(className);
 					Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
 					myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth()); // Create Level 1 Screen or Page
-//					myLevel.addObserver(this);
 					myLevel.getSupport().addPropertyChangeListener(this); // Add a SUBSCRIBER.
 					Scene scene = myLevel.initializeScene(); // Web page for level 1.
-					stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
-					// Game Loop
-					myLevel.startGame(); // This will start the game loop after initializing or setting the scene.
+					try {
+						scene.getStylesheets().add(getClass().getResource("/game-styles.css").toExternalForm());
+					} catch (NullPointerException e) {
+						System.err.println("CSS file not found! Ensure the file is in the correct location.");
+					}finally {
+						stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
+						// Game Loop
+						myLevel.startGame(); // This will start the game loop after initializing or setting the scene.
+					}
+
 				}
 			}
 	}
@@ -86,16 +95,3 @@ public class StageManager implements PropertyChangeListener {
 }
 
 
-//@Override
-//	// This method gets called by default if the observed object's setChanged() fx is called.
-//	public void update(Observable arg0, Object arg1) {
-//		try {
-//			goToLevel((String) arg1);// The real manager.
-//		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-//				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//			Alert alert = new Alert(AlertType.ERROR);
-////			alert.setContentText(e.getClass().toString());
-//			alert.setContentText(e.getCause().toString());
-//			alert.show();
-//		}
-//	}

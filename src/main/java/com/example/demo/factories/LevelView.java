@@ -1,14 +1,12 @@
 package com.example.demo.factories;
 
 import com.example.demo.UIObjects.Containers.HeartDisplay;
+import com.example.demo.UIObjects.Containers.LoseScreen;
 import com.example.demo.UIObjects.Containers.PauseScreen;
 import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
-import com.example.demo.UIObjects.Images.figures.GameOverImage;
-import com.example.demo.UIObjects.Images.figures.PauseButton;
-import com.example.demo.UIObjects.Images.figures.PlayButton;
-import com.example.demo.UIObjects.Images.figures.WinImage;
+import com.example.demo.UIObjects.Images.figures.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -32,7 +30,6 @@ public class LevelView {
 	private static final int PAUSE_SCENE_X_POSITION = 375;
 	private static final int PAUSE_SCENE_Y_POSITION = 100;
 	private final Group root;
-	private UserPlane user;
 	private ImageView background;
 
 	private PauseButton pause_button;
@@ -44,7 +41,6 @@ public class LevelView {
 	
 	public LevelView(Group root, int heartsToDisplay, String backgroundImageName, UserPlane actor) {
 		this.root = root;
-		this.user = actor;
 		this.heartDisplay = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, heartsToDisplay);
 		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION);
 		this.gameOverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSITION);
@@ -69,6 +65,10 @@ public class LevelView {
 		return new WinScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
 	}
 
+	public Group createLooseScreen (){
+		return new LoseScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
+	}
+
 	public void showWinImage() {
 		root.getChildren().add(winImage);
 		winImage.showWinImage();
@@ -87,9 +87,21 @@ public class LevelView {
 	public void showShield(){
 
 	}
-	public void addImagesToRoot(){
+
+    public ShieldImage getShield() {
+        return null;
+    }
+
+
+    public void addImagesToRoot(){
 
 	}
+	public void initializeShield(){
+
+	}
+	public Group createGameFinishedScreen(){
+		return new Group();
+	};
 
 //
 //	public void initializeBackground() { // Made this method public

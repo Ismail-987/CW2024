@@ -9,16 +9,16 @@ public class Boss extends FighterPlane {
 	private static final double INITIAL_Y_POSITION = 400;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
 	private static final double BOSS_FIRE_RATE = .04;
-	private static final double BOSS_SHIELD_PROBABILITY = .002;
+	private static final double BOSS_SHIELD_PROBABILITY = .02;
 	private static final int IMAGE_HEIGHT = 300;
 	private static final int VERTICAL_VELOCITY = 8;
-	private static final int HEALTH = 100;
+	private static final int HEALTH = 20;
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
 	private static final int Y_POSITION_UPPER_BOUND = 40;
 	private static final int Y_POSITION_LOWER_BOUND = 475;
-	private static final int MAX_FRAMES_WITH_SHIELD = 500;
+	private static final int MAX_FRAMES_WITH_SHIELD = 60;
 	private final List<Integer> movePattern;
 	private boolean isShielded;
 	private int consecutiveMovesInSameDirection;
@@ -52,7 +52,7 @@ public class Boss extends FighterPlane {
 	}
 
 	@Override
-	public ActiveActor fireProjectile() {
+	public Projectile fireProjectile() {
 		return bossFiresInCurrentFrame() ? new BossProjectile(getProjectileInitialPosition()) : null;
 	}
 	
@@ -73,9 +73,17 @@ public class Boss extends FighterPlane {
 	}
 
 	private void updateShield() {
-		if (isShielded) framesWithShieldActivated++;
-		else if (shieldShouldBeActivated()) activateShield();	
-		if (shieldExhausted()) deactivateShield();
+		if (isShielded) {
+			framesWithShieldActivated++;
+			System.out.println("At boss to test the frames with shield."+framesWithShieldActivated);
+		}
+		else if (shieldShouldBeActivated()) {
+			activateShield();
+		}
+
+		if (shieldExhausted()){
+			deactivateShield();
+		}
 	}
 
 	private int getNextMove() {
@@ -120,6 +128,14 @@ public class Boss extends FighterPlane {
 	private void deactivateShield() {
 		isShielded = false;
 		framesWithShieldActivated = 0;
+	}
+
+	@Override
+	public Boolean isShielded(){
+		return isShielded;
+	}
+	public int getInitHealth(){
+		return HEALTH;
 	}
 
 }
