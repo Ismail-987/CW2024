@@ -1,6 +1,6 @@
 package com.example.demo.scenes;
 
-//import java.applet.AudioClip;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
@@ -12,6 +12,7 @@ import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.FighterPlane;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
+import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
@@ -49,10 +50,14 @@ public abstract class LevelParent {
 	private Button lostTipsButton;
 	private Button  lostQuitButton;
 
+	private Label scoreLabel;
+	private Label levelLabel;
+	private int levelNo;
+	private String levelName;
+
 
 	private Group lossScreen;
 	private Group pause_scene;
-	//private final Button quit_Button;
 	private final Group root;
 
 	private final Timeline timeline;
@@ -72,7 +77,7 @@ public abstract class LevelParent {
 	private int currentNumberOfEnemies;
 	private LevelView levelView;  // Basically A Class API
 
-	public LevelParent(String backgroundImageName,String backgroundMusic, double screenHeight, double screenWidth, int playerInitialHealth) {
+	public LevelParent(String backgroundImageName, String backgroundMusic, double screenHeight, double screenWidth, int playerInitialHealth,int levelNo, String levelName) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight); // Attach Root node (tag) to the scene (HTML page)
 		this.timeline = new Timeline();
@@ -89,6 +94,8 @@ public abstract class LevelParent {
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
+		this.levelNo = levelNo;
+		this.levelName = levelName;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline(); // Prepare the UI Loop and what will happen in it before setting the Scene.
@@ -138,6 +145,7 @@ public abstract class LevelParent {
 		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
 		initializePauseButton();
 		levelView.initializeHeartDisplay();
+		initializeLevelLabels();
 		backgroundMusic.play();
 		exist = true; // Added flag to track the existence of the Level Object.
 		return scene;
@@ -314,7 +322,7 @@ public abstract class LevelParent {
 		timeline.stop();
 		backgroundMusic.stop();
 		this.pause_btn.setVisible(false);
-		levelView.showGameOverImage();
+		initializeLooseScreen();
 	}
 
 	protected UserPlane getUser() {
@@ -370,6 +378,13 @@ public abstract class LevelParent {
 		return this.backgroundMusic;
 	}
 
+	public Label getScoreLabel(){
+		return this.scoreLabel;
+	}
+
+	public Label getLevelLabel() {
+		return levelLabel;
+	}
 	//OTHERS
 	//------------------------------------------------------------------------------------------------------------------
 
@@ -388,6 +403,20 @@ public abstract class LevelParent {
 		pause_btn.setVisible(false);
 		root.getChildren().add(initializePauseScreen());
 	}
+	public void initializeLevelLabels (){
+		scoreLabel = new Label("SCORE : ");
+		scoreLabel.setLayoutX(870);
+		scoreLabel.setLayoutY(30);
+
+		levelLabel = new Label("LEVEL : ");
+		levelLabel.setText("LEVEL "+ levelNo +" : "+levelName);
+		levelLabel.setLayoutY(30);
+		levelLabel.setLayoutX(468);
+
+		this.root.getChildren().add(scoreLabel);
+		this.root.getChildren().add(levelLabel);
+	}
+
 	public Group initializePauseScreen (){
 		this.pause_scene = levelView.createPauseScene(); // Bring screen background
 		this.playButton = new Button();
@@ -461,39 +490,45 @@ public abstract class LevelParent {
 		return pause_scene;
 	}
 
-	public void intializeLooseScreen (){
+	public void initializeLooseScreen (){
 		this.lossScreen = levelView.createLooseScreen();
 		this.lostQuitButton = new Button("Quit");
-		lostQuitButton.setMinWidth(147.6);
-		lostQuitButton.setMinHeight(52.8);
-		lostQuitButton.setLayoutX(47);
-		lostQuitButton.setLayoutY(255.6);
+		lostQuitButton.setMinWidth(179.6);
+		lostQuitButton.setMinHeight(35.2);
+		lostQuitButton.setLayoutX(383.6);
+		lostQuitButton.setLayoutY(238);
 
-		this.playButton = new Button();
-		playButton.setMinWidth(147.6);
-		playButton.setMinHeight(52.8);
-		playButton.setLayoutX(47);
-		playButton.setLayoutY(255.6);
+		this.lossHomeButton = new Button("Home");
+		lossHomeButton.setMinWidth(169.6);
+		lossHomeButton.setMinHeight(35.2);
+		lossHomeButton.setLayoutX(198.8);
+		lossHomeButton.setLayoutY(378);
 
-		this.playButton = new Button();
-		playButton.setMinWidth(147.6);
-		playButton.setMinHeight(52.8);
-		playButton.setLayoutX(47);
-		playButton.setLayoutY(255.6);
+		this.lostRestartButton = new Button("Replay");
+		lostRestartButton.setMinWidth(175.8);
+		lostRestartButton.setMinHeight(35.2);
+		lostRestartButton.setLayoutX(40);
+		lostRestartButton.setLayoutY(240);
 
-		this.playButton = new Button();
-		playButton.setMinWidth(147.6);
-		playButton.setMinHeight(52.8);
-		playButton.setLayoutX(47);
-		playButton.setLayoutY(255.6);
+		this.lostTipsButton = new Button("Tips");
+		lostTipsButton.setMinWidth(167.6);
+		lostTipsButton.setMinHeight(35.2);
+		lostTipsButton.setLayoutX(196.6);
+		lostTipsButton.setLayoutY(425.2);
 
-		this.playButton = new Button();
-		playButton.setMinWidth(147.6);
-		playButton.setMinHeight(52.8);
-		playButton.setLayoutX(47);
-		playButton.setLayoutY(255.6);
+		this.lostSkipLevelButton = new Button("Skip level");
+		lostSkipLevelButton.setMinWidth(169.6);
+		lostSkipLevelButton.setMinHeight(35.2);
+		lostSkipLevelButton.setLayoutX(214.2);
+		lostSkipLevelButton.setLayoutY(238);
 
+		lossScreen.getChildren().add(lostTipsButton);
+		lossScreen.getChildren().add(lossHomeButton);
+		lossScreen.getChildren().add(lostRestartButton);
+		lossScreen.getChildren().add(lostSkipLevelButton);
+		lossScreen.getChildren().add(lostQuitButton);
 
+		this.root.getChildren().add(lossScreen);
 
 	}
 
@@ -508,10 +543,4 @@ public abstract class LevelParent {
 		timeline.stop(); // Added
 	}
 
-
-	public void goToHomeScene(String sceneName){
-		timeline.stop();
-		support.firePropertyChange("Page Change", null, sceneName);
-
-	}
 }

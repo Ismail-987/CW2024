@@ -10,12 +10,14 @@ public class LevelTwo extends LevelParent {
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/homescreenbackground.jpg";
 	private static final String BACKGROUNDMUSIC =  "/com/example/demo/images/level1music.mp3";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
+	private static final int CURRENT_LEVEL_NUMBER = 2;
+	private static final String CURRENT_LEVEL_NAME = "PHOENIX-387";
 	private final Boss boss;
 	private LevelViewLevelTwo levelView;
 	private Group gameFinished;
 
 	public LevelTwo(double screenHeight, double screenWidth) {
-		super(BACKGROUND_IMAGE_NAME,BACKGROUNDMUSIC, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
+		super(BACKGROUND_IMAGE_NAME,BACKGROUNDMUSIC, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH,CURRENT_LEVEL_NUMBER,CURRENT_LEVEL_NAME);
 		this.boss = new Boss();
 
 	}
