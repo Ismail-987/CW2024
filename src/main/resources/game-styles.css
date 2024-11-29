@@ -11,3 +11,14 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 2, 2);
     -fx-alignment: center;
 }
+.play-buttons, .pause-buttons, .youWin-buttons {
+    -fx-background-color: transparent;
+    -fx-text: none;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 2, 2);
+}
+
+.level-pause, .level-win {
+    -fx-border-radius: 5;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 1.5;
+}

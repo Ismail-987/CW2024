@@ -38,7 +38,7 @@ This project involves the maintenance and extension of a game software
 
 5. SOUND AND MUSIC BACKGROUNDS
 * Added background music for various levels.
-* Added the background to pause menu.
+* Added music background to pause menu.
 * Added sounds/ musics upon losing and winning.
 * Added projectile sound system.
 

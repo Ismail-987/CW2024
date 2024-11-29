@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 
 public class LevelFinal extends LevelParent {
 
-	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/homescreenbackground.jpg";
+	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/finalLevelBackground.jpg";
 	private static final String BACKGROUNDMUSIC =  "/com/example/demo/images/level1music.mp3";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
 	private static final int CURRENT_LEVEL_NUMBER = 4;

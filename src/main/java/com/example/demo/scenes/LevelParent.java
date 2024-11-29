@@ -437,42 +437,42 @@ public abstract class LevelParent {
 		playButton.setMinHeight(52.8);
 		playButton.setLayoutX(47);
 		playButton.setLayoutY(255.6);
-		playButton.setStyle("-fx-background-color: transparent;");
+		playButton.getStyleClass().add("pause-buttons");
 
 		this.saveButton = new Button();
 		saveButton.setMinWidth(147.6);
 		saveButton.setMinHeight(52.8);
 		saveButton.setLayoutX(224.2);
 		saveButton.setLayoutY(255.6);
-		saveButton.setStyle("-fx-background-color: transparent;");
+		saveButton.getStyleClass().add("pause-buttons");
 
 		this.homeButton = new Button();
 		homeButton.setMinWidth(147.6);
 		homeButton.setMinHeight(52.8);
 		homeButton.setLayoutX(224.2);
 		homeButton.setLayoutY(392);
-		homeButton.setStyle("-fx-background-color: transparent;");
+		homeButton.getStyleClass().add("pause-buttons");
 
 		this.informationButton = new Button();
 		informationButton.setMinWidth(147.6);
 		informationButton.setMinHeight(52.8);
 		informationButton.setLayoutX(47);
 		informationButton.setLayoutY(392);
-		informationButton.setStyle("-fx-background-color: transparent;");
+		informationButton.getStyleClass().add("pause-buttons");
 
 		this.quitButton = new Button();
 		quitButton.setMinWidth(147.6);
 		quitButton.setMinHeight(52.8);
 		quitButton.setLayoutX(404.2);
 		quitButton.setLayoutY(392);
-		quitButton.setStyle("-fx-background-color: transparent;");
+		quitButton.getStyleClass().add("pause-buttons");
 
 		this.settingsButton = new Button();
 		settingsButton.setMinWidth(147.6);
 		settingsButton.setMinHeight(52.8);
 		settingsButton.setLayoutX(404.2);
 		settingsButton.setLayoutY(255.6);
-		settingsButton.setStyle("-fx-background-color: transparent;");
+		settingsButton.getStyleClass().add("pause-buttons");
 
 
 		this.saveButton.setOnMousePressed(e -> {

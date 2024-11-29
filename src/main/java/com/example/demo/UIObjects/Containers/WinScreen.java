@@ -14,7 +14,8 @@ public class WinScreen {
 
     private String image = "/com/example/demo/images/winScreen.jpg";
     private ImageView winBackground = new ImageView();
-    private Timeline timeline;
+    private Group winScreen;
+
 
     public WinScreen(double Xposition, double Yposition){
 

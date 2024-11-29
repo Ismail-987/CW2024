@@ -17,9 +17,10 @@ import javafx.scene.media.MediaPlayer;
 
 public class LevelOne extends LevelParent {
 	
-	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
+	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/level1Background.jpg";
 	private  static  final String BACKGROUNDMUSIC ="/com/example/demo/images/level1music.mp3" ;
     private static final String NEXT_LEVEL = "com.example.demo.scenes.LevelTwo";
+	private static final String THIS_LEVEL = "com.example.demo.scenes.LevelOne";
 	private static final int CURRENT_LEVEL_NUMBER = 1;
 	private static final String CURRENT_LEVEL_NAME = "EARTH";
 	private static final int TOTAL_ENEMIES = 3;
@@ -101,36 +102,42 @@ public class LevelOne extends LevelParent {
 		winQuitButton.setMinHeight(74.8);
 		winQuitButton.setLayoutX(87.2);
 		winQuitButton.setLayoutY(350.8);
+		winQuitButton.getStyleClass().add("youWin-buttons");
 
 		this.winNextLevelButton = new Button("Next Level");
 		winNextLevelButton.setMinWidth(103.6);
 		winNextLevelButton.setMinHeight(74.8);
 		winNextLevelButton.setLayoutX(67.2);
 		winNextLevelButton.setLayoutY(262.2);
+		winNextLevelButton.getStyleClass().add("pause-buttons");
 
 		this.winReplayLevelButton = new Button("Replay level");
 		winReplayLevelButton.setMinWidth(125.6);
 		winReplayLevelButton.setMinHeight(74.8);
 		winReplayLevelButton.setLayoutX(386.8);
 		winReplayLevelButton.setLayoutY(345.8);
+		winReplayLevelButton.getStyleClass().add("youWin-buttons");
 
 		this.winHomeButton = new Button("Home Button");
 		winHomeButton.setMinWidth(103.6);
 		winHomeButton.setMinHeight(74.8);
 		winHomeButton.setLayoutX(431.2);
 		winHomeButton.setLayoutY(262.2);
+		winHomeButton.getStyleClass().add("youWin-buttons");
 
 		this.winSaveButton = new Button("Save");
 		winSaveButton.setMinWidth(103.6);
 		winSaveButton.setMinHeight(74.8);
 		winSaveButton.setLayoutX(185.2);
 		winSaveButton.setLayoutY(262.2);
+		winSaveButton.getStyleClass().add("youWin-buttons");
 
 		this.winSettingsButton = new Button("Settings");
 		winSettingsButton.setMinWidth(103.6);
 		winSettingsButton.setMinHeight(74.8);
 		winSettingsButton.setLayoutX(307);
 		winSettingsButton.setLayoutY(262.2);
+		winSettingsButton.getStyleClass().add("youWin-buttons");
 
 
 		this.winSettingsButton.setOnMousePressed(e -> {
@@ -180,6 +187,11 @@ public class LevelOne extends LevelParent {
 		this.winHomeButton.setOnMousePressed(e -> {
 			youWinMusic.stop();
 			goToScene("com.example.demo.scenes.HomeScene");
+		});
+
+		this.winReplayLevelButton.setOnMousePressed(e -> {
+			youWinMusic.stop();
+			goToScene(THIS_LEVEL);
 		});
 
 		winScreen.getChildren().add(winSaveButton);

@@ -16,9 +16,10 @@ import java.nio.file.Paths;
 
 public class LevelTwo extends LevelParent{
 
-    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/level2Background.jpg";
     private  static  final String BACKGROUNDMUSIC ="/com/example/demo/images/level1music.mp3" ;
     private static final String NEXT_LEVEL = "com.example.demo.scenes.LevelThree";
+    private static final String THIS_LEVEL = "com.example.demo.scenes.LevelTwo";
     private static final int CURRENT_LEVEL_NUMBER = 2;
     private static final String CURRENT_LEVEL_NAME = "MARS";
     private static final int TOTAL_ENEMIES = 3;
