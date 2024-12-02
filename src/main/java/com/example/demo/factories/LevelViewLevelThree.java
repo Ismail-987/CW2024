@@ -2,8 +2,6 @@ package com.example.demo.factories;
 
 import com.example.demo.UIObjects.Containers.HeartDisplay;
 import com.example.demo.UIObjects.Containers.LoseScreen;
-import com.example.demo.UIObjects.Containers.PauseScreen;
-import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
 import com.example.demo.UIObjects.Images.figures.*;
 import javafx.scene.Group;
@@ -28,7 +26,6 @@ public class LevelViewLevelThree extends LevelView{
     private ImageView background;
 
     private PauseButton pause_button;
-    private PlayButton play_button;
     private final WinImage winImage;
     private final GameOverImage gameOverImage;
     private final HeartDisplay heartDisplay;
@@ -51,14 +48,6 @@ public class LevelViewLevelThree extends LevelView{
 
     public ImageView createPauseButton(){
         return new PauseButton(PAUSE_BUTTON_X_POSITION,PAUSE_BUTTON_Y_POSITION);
-    }
-
-    public Group createPauseScene(){
-        return new PauseScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
-    }
-
-    public Group createWinScreen (){
-        return new WinScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
     }
 
     public Group createLooseScreen (){

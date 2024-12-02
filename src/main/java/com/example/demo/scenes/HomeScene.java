@@ -13,6 +13,8 @@ import java.util.Scanner;
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 
+import com.example.demo.utilities.DataUtilities;
+import com.example.demo.utilities.FileUtility;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.Group;
@@ -33,11 +35,8 @@ public class HomeScene {
     private  double SCREENHEIGHT;
     private double SCREENWIDTH;
     public ImageView background;
-    private String LEVELNAME;
-    private String backgroundImageName = "/com/example/demo/images/homescreenbackground2.jpg";
     private ImageView homeMenu;
-    private String skybattleImageName = "/com/example/demo/images/homescreen.jpg";
-    private MediaPlayer homeScreenMusic = new MediaPlayer(new Media(getClass().getResource("/com/example/demo/images/homemenuviewmusic.mp3").toString()));
+    private MediaPlayer homeScreenMusic = new MediaPlayer(new Media(getClass().getResource(DataUtilities.HomeMusic).toString()));
     private final PropertyChangeSupport support;
     public Boolean exists = false;
 
@@ -84,40 +83,7 @@ public class HomeScene {
 
         this.continueButton.setOnMousePressed(e -> {
             homeScreenMusic.stop();
-            // READING FROM A FILE TO CHECK THE LAST LEVEL POINT.
-            // Define the path to the file
-
-            File savedStatusFile = new File("src/main/resources/gameStatus/gameStatus.txt");
-
-            // Debugging: Check if the file exists and print the file path
-            System.out.println("Looking for file at: " + savedStatusFile.getAbsolutePath());
-
-            if (savedStatusFile.exists()) {
-                System.out.println("File exists!");
-
-                try (Scanner scanner = new Scanner(savedStatusFile)) {
-                    // Read the first line from the file
-                    if (scanner.hasNextLine()) {
-                        String levelName = scanner.nextLine().trim(); // Clean up any spaces/newlines
-
-                        if (!levelName.isEmpty()) {
-                            LEVELNAME = levelName;
-                            System.out.println("Loaded Level Name: " + LEVELNAME);
-                            load_level(LEVELNAME);
-                        } else {
-                            System.out.println("No level found. Loading default level.");
-                            load_level("com.example.demo.scenes.LevelOne");
-                        }
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    throw new RuntimeException("Failed to read game status", ex);
-                }
-            } else {
-                System.out.println("File does not exist. Loading default level.");
-                load_level("com.example.demo.scenes.LevelOne");
-            }
-
+            load_level(FileUtility.readGameStatus());
         });
 
         this.informationButton = new Button();
@@ -155,7 +121,7 @@ public class HomeScene {
     }
 
     public void initializeHomeMenu(){
-        this.homeMenu = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(skybattleImageName)).toExternalForm()));
+        this.homeMenu = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(DataUtilities.HomeMenuBackgroundImage)).toExternalForm()));
         homeMenu.setFitWidth(500);
         homeMenu.setFitHeight(500);
         homeMenu.setLayoutX(400);
@@ -164,7 +130,7 @@ public class HomeScene {
     }
 
     public void initializeBackground(){
-        this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(backgroundImageName)).toExternalForm()));
+        this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(DataUtilities.HomeBackgroundImage)).toExternalForm()));
         background.setFitHeight(SCREENHEIGHT);
         background.setFitWidth(SCREENWIDTH);
         root.getChildren().add(background);
@@ -174,13 +140,7 @@ public class HomeScene {
         return scene; // This is like A React Component Returning a Single div or container.
     }
     public void load_level(String levelName) {
-        if(exists){
             support.firePropertyChange("Page Change",null, levelName); // Notify all observers with change of Level
-        }
-        else {
-            support.firePropertyChange("Level",null, levelName); // Notify all observers with change of Level
-        }
-
     }
 
     public PropertyChangeSupport getSupport(){
@@ -192,7 +152,9 @@ public class HomeScene {
     }
 
     public MediaPlayer getHomeScreenMusic(){
+
         return this.homeScreenMusic;
     }
+
 
 }

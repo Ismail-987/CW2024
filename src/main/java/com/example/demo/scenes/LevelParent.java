@@ -1,31 +1,28 @@
 package com.example.demo.scenes;
 
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.beans.PropertyChangeSupport;
 
 
-import com.example.demo.UIObjects.Containers.WinScreen;
+import com.example.demo.UIObjects.Containers.LoseScreen;
+import com.example.demo.UIObjects.Containers.PauseScreen;
 import com.example.demo.UIObjects.Images.actors.Projectile;
 import com.example.demo.factories.LevelView;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.FighterPlane;
 import com.example.demo.UIObjects.Images.actors.UserPlane;
+import com.example.demo.utilities.DataUtilities;
+import com.example.demo.utilities.FileUtility;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.io.File;
 import javafx.animation.*;
 import javafx.event.EventHandler;
-import javafx.scene.Group; // Container Node or Element. Inherits parent Class. This is like div tag.
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
@@ -37,24 +34,11 @@ public abstract class LevelParent {
 	public final double screenHeight;
 	public final double screenWidth;
 	private final double enemyMaximumYPosition;
-	public boolean exist = false; // A FLAG to track the existence of a level.
+	public boolean exist = false;
 
 
 	private ImageView pause_btn;
-
-	private Button playButton;
-	private Button saveButton;
-	private Button quitButton;
-	private Button informationButton;
-	private Button homeButton;
-	private Button settingsButton;
-
-
-	private  Button lossHomeButton;
-	private Button lostRestartButton;
-	private  Button lostSkipLevelButton;
-	private Button lostTipsButton;
-	private Button  lostQuitButton;
+	private PauseScreen pauseScreen;
 
 	private Label scoreLabel;
 	private Label levelLabel;
@@ -62,18 +46,18 @@ public abstract class LevelParent {
 	private String levelName;
 
 
-	private Group lossScreen;
+	private LoseScreen lossScreen;
 	private Group pause_scene;
 	private final Group root;
 
 	private final Timeline timeline;
 	private final UserPlane user;
-	private final Scene scene;  // -- Scene is public for tracking.
+	private final Scene scene;
 	private ImageView background;
 	private MediaPlayer backgroundMusic;
 
 
-	private final PropertyChangeSupport support;  // Adds Observables
+	private final PropertyChangeSupport support;
 
 	private final List<ActiveActor> friendlyUnits;
 	private final List<ActiveActor> enemyUnits;
@@ -81,11 +65,11 @@ public abstract class LevelParent {
 	private final List<ActiveActor> enemyProjectiles;
 
 	private int currentNumberOfEnemies;
-	private LevelView levelView;  // Basically A Class API
+	private LevelView levelView;
 
 	public LevelParent(String backgroundImageName, String backgroundMusic, double screenHeight, double screenWidth, int playerInitialHealth,int levelNo, String levelName) {
 		this.root = new Group();
-		this.scene = new Scene(root, screenWidth, screenHeight); // Attach Root node (tag) to the scene (HTML page)
+		this.scene = new Scene(root, screenWidth, screenHeight);
 		this.timeline = new Timeline();
 		this.user = new UserPlane(playerInitialHealth);
 		this.friendlyUnits = new ArrayList<>();
@@ -104,7 +88,7 @@ public abstract class LevelParent {
 		this.levelName = levelName;
 		this.levelView = instantiateLevelView();
 		this.currentNumberOfEnemies = 0;
-		initializeTimeline(); // Prepare the UI Loop and what will happen in it before setting the Scene.
+		initializeTimeline();
 		friendlyUnits.add(user);
 	}
 
@@ -115,13 +99,13 @@ public abstract class LevelParent {
 	}
 
 	public void goToScene(String levelName) {
-		winGame(); // Stop timeline for Level 1 (to avoid conflicts with timeline for level 2) and show win game pic.
-		exist = false; // Flag to track existence.
-		support.firePropertyChange("Page Change", null, levelName);  // Notify all observers with change of Level
+		winGame();
+		exist = false;
+		support.firePropertyChange("Page Change", null, levelName);
 	}
 
 
-	public void initializeBackground() { // Made this method public
+	public void initializeBackground() {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
 		background.setFitWidth(screenWidth);
@@ -145,15 +129,14 @@ public abstract class LevelParent {
 	protected abstract LevelView instantiateLevelView();
 
 	public Scene initializeScene() {
-		initializeBackground(); // Prepare the background in the scene before the UI LOOP begins.
-		//levelView.addImagesToRoot();
-		initializeFriendlyUnits(); // Prepare friendly units before the UI LOOP begins.
+		initializeBackground();
+		initializeFriendlyUnits();
 		initializePauseButton();
 		levelView.initializeHeartDisplay();
 		levelView.initializeShield();
 		initializeLevelLabels();
 		backgroundMusic.play();
-		exist = true; // Added flag to track the existence of the Level Object.
+		exist = true;
 		return scene;
 	}
 
@@ -164,17 +147,15 @@ public abstract class LevelParent {
 
 	public void startGame() {
 		background.requestFocus();
-		// Start a timeline or a gameloop.
 		timeline.play();
 	}
 
 
-	//-- UI LOOP. For this case is the GAME LOOP.
+
 	private void updateScene() {
-		// Functions that will run on every cycle. Some may represent animation of various objects.
-		// Some may be of Event handling i.e, they may use of user inputs.
+
 		spawnEnemyUnits();
-		updateActors(); // Update their positions. This will depend on Gamer Input i.e Event based.
+		updateActors();
 		generateEnemyFire();
 		updateNumberOfEnemies();
 		handleEnemyPenetration();
@@ -184,21 +165,20 @@ public abstract class LevelParent {
 		removeAllDestroyedActors();
 		updateKillCount();
 		updateLevelView();
-		checkIfGameOver(); // This also checks for nextLevel condition and notify observers.
+		checkIfGameOver();
 	}
 
 	private void initializeTimeline() {
 		timeline.setCycleCount(Timeline.INDEFINITE);
-		// KeyFrame defines frames per second.
 		KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> updateScene());
 		timeline.getKeyFrames().add(gameLoop);
 	}
 
 
 	public void fireProjectile() {
-		Projectile projectile = user.fireProjectile(); // Create new user projectile
+		Projectile projectile = user.fireProjectile();
 		projectile.getProjectileSound().play();
-		root.getChildren().add(projectile); // Add new projectile
+		root.getChildren().add(projectile);
 		userProjectiles.add(projectile);
 	}
 
@@ -226,8 +206,8 @@ public abstract class LevelParent {
 	private void spawnEnemyProjectile(Projectile projectile) {
 		if (projectile != null) {
 			projectile.getProjectileSound().play();
-			root.getChildren().add(projectile); // Add projectile to DOM.
-			enemyProjectiles.add(projectile); // Add to the list of active enemy projectiles
+			root.getChildren().add(projectile);
+			enemyProjectiles.add(projectile);
 		}
 	}
 
@@ -248,7 +228,7 @@ public abstract class LevelParent {
 
 	private boolean enemyHasPenetratedDefenses(ActiveActor enemy) {
 
-		return Math.abs(enemy.getTranslateX()) > screenWidth; // Get the translation from the starting position and check if is greater than screenWidth
+		return Math.abs(enemy.getTranslateX()) > screenWidth;
 	}
 
 // FUNCTION 6
@@ -321,14 +301,13 @@ public abstract class LevelParent {
 	protected void winGame() {
 		timeline.stop();
 		backgroundMusic.stop();
-
 	}
 
 	protected void loseGame() {
 		timeline.stop();
 		backgroundMusic.stop();
 		this.pause_btn.setVisible(false);
-		initializeLooseScreen();
+		root.getChildren().add(initializeLooseScreen());
 	}
 
 	protected UserPlane getUser() {
@@ -409,6 +388,18 @@ public abstract class LevelParent {
 		pause_btn.setVisible(false);
 		root.getChildren().add(initializePauseScreen());
 	}
+
+	public void createPauseScreen(){
+		this.pauseScreen = new PauseScreen(375,100,this::resume_game,()->{goToScene(DataUtilities.HomeScene);},()->{FileUtility.saveGameStatus(levelName);});
+	}
+
+	public Group initializePauseScreen(){
+		createPauseScreen();
+		this.pause_scene = pauseScreen.get_scene_container();
+		return pause_scene;
+	}
+
+	// --- These initializations have to have their own classes of factories.-------------------------------
 	public void initializeLevelLabels (){
 		scoreLabel = new Label("SCORE : ");
 		scoreLabel.setLayoutX(870);
@@ -430,145 +421,14 @@ public abstract class LevelParent {
 		this.root.getChildren().add(levelLabel);
 	}
 
-	public Group initializePauseScreen (){
-		this.pause_scene = levelView.createPauseScene(); // Bring screen background
-		this.playButton = new Button();
-		playButton.setMinWidth(147.6);
-		playButton.setMinHeight(52.8);
-		playButton.setLayoutX(47);
-		playButton.setLayoutY(255.6);
-		playButton.getStyleClass().add("pause-buttons");
-
-		this.saveButton = new Button();
-		saveButton.setMinWidth(147.6);
-		saveButton.setMinHeight(52.8);
-		saveButton.setLayoutX(224.2);
-		saveButton.setLayoutY(255.6);
-		saveButton.getStyleClass().add("pause-buttons");
-
-		this.homeButton = new Button();
-		homeButton.setMinWidth(147.6);
-		homeButton.setMinHeight(52.8);
-		homeButton.setLayoutX(224.2);
-		homeButton.setLayoutY(392);
-		homeButton.getStyleClass().add("pause-buttons");
-
-		this.informationButton = new Button();
-		informationButton.setMinWidth(147.6);
-		informationButton.setMinHeight(52.8);
-		informationButton.setLayoutX(47);
-		informationButton.setLayoutY(392);
-		informationButton.getStyleClass().add("pause-buttons");
-
-		this.quitButton = new Button();
-		quitButton.setMinWidth(147.6);
-		quitButton.setMinHeight(52.8);
-		quitButton.setLayoutX(404.2);
-		quitButton.setLayoutY(392);
-		quitButton.getStyleClass().add("pause-buttons");
-
-		this.settingsButton = new Button();
-		settingsButton.setMinWidth(147.6);
-		settingsButton.setMinHeight(52.8);
-		settingsButton.setLayoutX(404.2);
-		settingsButton.setLayoutY(255.6);
-		settingsButton.getStyleClass().add("pause-buttons");
 
 
-		this.saveButton.setOnMousePressed(e -> {
-			try {
-				// Define the path to the file in a platform-independent way
-				Path savedStatusPath = Paths.get("src", "main", "resources", "gameStatus", "gameStatus.txt");
-
-				// Print resolved absolute path
-				System.out.println("Resolved Path: " + savedStatusPath.toAbsolutePath());
-
-				// Ensure parent directories exist
-				Files.createDirectories(savedStatusPath.getParent());
-				System.out.println("Parent directories ensured.");
-
-				if(!Files.exists(savedStatusPath)){
-					// Attempt to create the file unconditionally
-					Files.createFile(savedStatusPath); // Force file creation
-					System.out.println("File created successfully at: " + savedStatusPath.toAbsolutePath());
-				}
-
-				// Write to the file
-				try (FileWriter fileWriter = new FileWriter(savedStatusPath.toFile(), false)) {
-					fileWriter.write("");
-					System.out.println("Game level saved successfully!");
-				}
-
-			} catch (IOException ex) {
-				ex.printStackTrace();
-				throw new RuntimeException("Failed to save game status", ex);
-			}
-		});
-		this.playButton.setOnMousePressed(e -> {
-			resume_game();
-		});
-		this.quitButton.setOnMousePressed(e -> {
-			System.exit(1);
-		});
-		this.informationButton.setOnMousePressed(e -> {
-			resume_game();
-		});
-		this.settingsButton.setOnMousePressed(e -> {
-			resume_game();
-		});
-		this.homeButton.setOnMousePressed(e -> {
-			goToScene("com.example.demo.scenes.HomeScene");
-		});
-
-		pause_scene.getChildren().add(playButton);
-		pause_scene.getChildren().add(saveButton);
-		pause_scene.getChildren().add(homeButton);
-		pause_scene.getChildren().add(informationButton);
-		pause_scene.getChildren().add(settingsButton);
-		pause_scene.getChildren().add(quitButton);
-		return pause_scene;
+	public Group initializeLooseScreen (){
+		createLossScreen();
+		return lossScreen.get_scene_container();
 	}
-
-	public void initializeLooseScreen (){
-		this.lossScreen = levelView.createLooseScreen();
-		this.lostQuitButton = new Button("Quit");
-		lostQuitButton.setMinWidth(179.6);
-		lostQuitButton.setMinHeight(35.2);
-		lostQuitButton.setLayoutX(383.6);
-		lostQuitButton.setLayoutY(238);
-
-		this.lossHomeButton = new Button("Home");
-		lossHomeButton.setMinWidth(169.6);
-		lossHomeButton.setMinHeight(35.2);
-		lossHomeButton.setLayoutX(198.8);
-		lossHomeButton.setLayoutY(378);
-
-		this.lostRestartButton = new Button("Replay");
-		lostRestartButton.setMinWidth(175.8);
-		lostRestartButton.setMinHeight(35.2);
-		lostRestartButton.setLayoutX(40);
-		lostRestartButton.setLayoutY(240);
-
-		this.lostTipsButton = new Button("Tips");
-		lostTipsButton.setMinWidth(167.6);
-		lostTipsButton.setMinHeight(35.2);
-		lostTipsButton.setLayoutX(196.6);
-		lostTipsButton.setLayoutY(425.2);
-
-		this.lostSkipLevelButton = new Button("Skip level");
-		lostSkipLevelButton.setMinWidth(169.6);
-		lostSkipLevelButton.setMinHeight(35.2);
-		lostSkipLevelButton.setLayoutX(214.2);
-		lostSkipLevelButton.setLayoutY(238);
-
-		lossScreen.getChildren().add(lostTipsButton);
-		lossScreen.getChildren().add(lossHomeButton);
-		lossScreen.getChildren().add(lostRestartButton);
-		lossScreen.getChildren().add(lostSkipLevelButton);
-		lossScreen.getChildren().add(lostQuitButton);
-
-		this.root.getChildren().add(lossScreen);
-
+	public void createLossScreen (){
+		lossScreen = new LoseScreen(355,160);
 	}
 
 	public void resume_game(){

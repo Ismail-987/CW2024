@@ -34,10 +34,10 @@ public class StageManager implements PropertyChangeListener {
 			goToScene(HOME_SCENE);
 
 	}
-			// This is Link Element. THE MANAGER OF THE STAGE
+
 	private void goToScene(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-			// Create Class Object that represent ClassName Class
+
 			if(Objects.equals(className, HOME_SCENE)){
 
 				if(homeScene.exists){
@@ -46,35 +46,31 @@ public class StageManager implements PropertyChangeListener {
 				}
 				Class<?> myClass = Class.forName(className);
 				Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-				 homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
-				 homeScene.exists = true;
-//				homeScreen.addObserver(this);
-				homeScene.getSupport().addPropertyChangeListener(this);// Add Listeners Or Observers.
+				homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				homeScene.exists = true;
+				homeScene.getSupport().addPropertyChangeListener(this);
 				homeScene.getHomeScreenMusic().play();
-				Scene scene = homeScene.returnScene(); // Web page for level 1.
-
-				stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
+				Scene scene = homeScene.returnScene();
+				stage.setScene(scene);
  			}
 			else {
 
 				if (myLevel.exist) {
-//					myLevel.timeline.play();  // Resume
-//					myLevel.background.requestFocus(); // timeline.pause() removes focus.
 					stage.setScene(myLevel.getScene());
-				} else {
+				}
+				else {
 					Class<?> myClass = Class.forName(className);
 					Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-					myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth()); // Create Level 1 Screen or Page
-					myLevel.getSupport().addPropertyChangeListener(this); // Add a SUBSCRIBER.
-					Scene scene = myLevel.initializeScene(); // Web page for level 1.
+					myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
+					myLevel.getSupport().addPropertyChangeListener(this);
+					Scene scene = myLevel.initializeScene();
 					try {
 						scene.getStylesheets().add(getClass().getResource("/game-styles.css").toExternalForm());
 					} catch (NullPointerException e) {
 						System.err.println("CSS file not found! Ensure the file is in the correct location.");
 					}finally {
-						stage.setScene(scene); // THIS IS THE <a> TAG TO CHANGE PAGES.
-						// Game Loop
-						myLevel.startGame(); // This will start the game loop after initializing or setting the scene.
+						stage.setScene(scene);
+						myLevel.startGame();
 					}
 
 				}
@@ -88,7 +84,9 @@ public class StageManager implements PropertyChangeListener {
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 				 | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText(e.getCause().toString());
+			Throwable cause = e.getCause();
+			String message = (cause != null) ? cause.toString() : "Unknown error";
+			alert.setContentText(message);
 			alert.show();
 		}
 	}

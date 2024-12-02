@@ -2,17 +2,16 @@ package com.example.demo.factories;
 
 import com.example.demo.UIObjects.Containers.HeartDisplay;
 import com.example.demo.UIObjects.Containers.LoseScreen;
-import com.example.demo.UIObjects.Containers.PauseScreen;
-import com.example.demo.UIObjects.Containers.WinScreen;
-import com.example.demo.UIObjects.Images.actors.ActiveActor;
+
+
+
 import com.example.demo.UIObjects.Images.actors.UserPlane;
 import com.example.demo.UIObjects.Images.figures.*;
-import javafx.event.EventHandler;
+
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+
 
 import java.util.Objects;
 
@@ -33,7 +32,6 @@ public class LevelView {
 	private ImageView background;
 
 	private PauseButton pause_button;
-	private PlayButton play_button;
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;
 	private final HeartDisplay heartDisplay;
@@ -57,13 +55,6 @@ public class LevelView {
 		return new PauseButton(PAUSE_BUTTON_X_POSITION,PAUSE_BUTTON_Y_POSITION);
 	}
 
-	public Group createPauseScene(){
-		return new PauseScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
-	}
-
-	public Group createWinScreen (){
-		return new WinScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
-	}
 
 	public Group createLooseScreen (){
 		return new LoseScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION).get_scene_container();
@@ -103,26 +94,5 @@ public class LevelView {
 		return new Group();
 	};
 
-//
-//	public void initializeBackground() { // Made this method public
-//		background.setFocusTraversable(true);
-//		background.setFitHeight(screenHeight);
-//		background.setFitWidth(screenWidth);
-//		background.setUserData("back_name");
-//		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//			public void handle(KeyEvent e) {
-//				KeyCode kc = e.getCode();
-//				if (kc == KeyCode.UP) user.moveUp();
-//				if (kc == KeyCode.DOWN) user.moveDown();
-//				if (kc == KeyCode.SPACE) fireProjectile();
-//				if (kc == KeyCode.P) load_pause_screen();
-//			}
-//		});
-//		background.setOnKeyReleased(e -> {
-//			KeyCode kc = e.getCode();
-//			if (kc == KeyCode.UP || kc == KeyCode.DOWN) user.stop();
-//		});
-//		root.getChildren().add(background);
-//	}
 
 }

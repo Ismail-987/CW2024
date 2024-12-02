@@ -92,6 +92,9 @@ This project involves the maintenance and extension of a game software
    (Used to be LevelViewLevelTwo.java)
 10. LevelTwo.java + LevelViewLevelTwo.java
 11. LevelThree.java + LevelViewLevelThree.java
+12. DataUtilities.java
+13. FileUtility.java
+14. NavigationUtilities.java
 
 
 ### MODIFIED CLASSES
