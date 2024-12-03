@@ -11,5 +11,5 @@ module com.example.demo {
     opens com.example.demo.UIObjects.Images.figures to javafx.fxml;
     opens com.example.demo.UIObjects.Containers to javafx.fxml;
     opens com.example.demo.scenes to javafx.fxml;
-    opens com.example.demo.factories to javafx.fxml;
+    opens com.example.demo.utilities.uiManagers to javafx.fxml;
 }

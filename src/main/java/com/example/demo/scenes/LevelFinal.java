@@ -1,70 +1,56 @@
 package com.example.demo.scenes;
 
-import com.example.demo.UIObjects.Images.actors.FighterPlane;
-import com.example.demo.factories.LevelView;
-import com.example.demo.factories.LevelViewLevelFinal;
-import com.example.demo.UIObjects.Images.actors.Boss;
+import com.example.demo.utilities.uiManagers.LevelView;
+import com.example.demo.utilities.uiManagers.LevelViewLevelFinal;
 import com.example.demo.utilities.DataUtilities;
 import com.example.demo.utilities.FileUtility;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
 
 public class LevelFinal extends LevelParent {
 
-	private final FighterPlane boss;
 	private LevelViewLevelFinal levelView;
-	private MediaPlayer youWinMusic = new MediaPlayer(new Media(getClass().getResource(DataUtilities.YouWinMusic).toString()));
 
-	public LevelFinal(double screenHeight, double screenWidth) {
-		super(DataUtilities.LevelFinalBackgroundImage,DataUtilities.LevelFinalMusic, screenHeight, screenWidth, DataUtilities.LevelFinalPlayerHealth,DataUtilities.LevelFinalNumber,DataUtilities.LevelFinalName);
-		this.boss = new Boss();
-
-	}
-
-	@Override
-	protected void initializeFriendlyUnits() {
-		getRoot().getChildren().add(getUser());
+	public LevelFinal() {
+		super(DataUtilities.LevelFinalNumber);
 	}
 
 	@Override
 	protected void checkIfGameOver() {
-		if (userIsDestroyed()) {
+		if (getGameState().userIsDestroyed()) {
 			loseGame();
 		}
-		else if (boss.isDestroyed()) {
+		else if (getGameState().boss.isDestroyed()) {
 			winGame();
-			youWinMusic.play();
-			this.getPauseButton().setVisible(false);
+			getGameState().gameWonMusic.play();
+			levelView.pauseButton.setVisible(false);
 			getRoot().getChildren().add(getLevelView().createGameFinishedScreen());
 			FileUtility.saveGameStatus(DataUtilities.LevelOne);
 
 		}else{
-			getScoreLabel().setText("SCORE : "+(boss.getInitHealth()- boss.getHealth())+ "/ "+ boss.getInitHealth());
+			levelView.scoreLabel.setText("SCORE : "+(getGameState().boss.getInitHealth()- getGameState().boss.getHealth())+ "/ "+ getGameState().boss.getInitHealth());
 		}
 	}
 
 
 	@Override
 	protected void spawnEnemyUnits() {
-		if (getCurrentNumberOfEnemies() == 0) {
-			addEnemyUnit(boss);
+		if (getGameState().getCurrentNumberOfEnemies() == 0) {
+			getGameState().addEnemyUnit(getGameState().boss);
 		}
 	}
 
 	@Override
 	protected LevelView instantiateLevelView() {
-		levelView = new LevelViewLevelFinal(getRoot(), DataUtilities.LevelFinalPlayerHealth,DataUtilities.LevelFinalBackgroundImage,getUser());
+		levelView = new LevelViewLevelFinal(getRoot(),getGameState(),()->{goToScene(DataUtilities.HomeScene);});
 		return levelView;
 
 	}
 
 	@Override
 	public void updateLevelView(){
-		levelView.removeHearts(getUser().getHealth());
-		if (boss.isShielded()){
+		levelView.removeHearts(getGameState().user.getHealth());
+		if (getGameState().boss.isShielded()){
 			levelView.showShield();
-			levelView.getShield().setLayoutY(boss.getLayoutY()+boss.getTranslateY());
+			levelView.getShield().setLayoutY(getGameState().boss.getLayoutY()+getGameState().boss.getTranslateY());
 		}else{
 			levelView.hideShield();
 		}

@@ -1,8 +1,8 @@
-package com.example.demo.factories;
+package com.example.demo.utilities.uiManagers;
 
 import com.example.demo.UIObjects.Containers.GameFinishedScreen;
-import com.example.demo.UIObjects.Images.actors.UserPlane;
 import com.example.demo.UIObjects.Images.figures.ShieldImage;
+import com.example.demo.utilities.GameState;
 import javafx.scene.Group;
 
 public class LevelViewLevelFinal extends LevelView {
@@ -11,10 +11,10 @@ public class LevelViewLevelFinal extends LevelView {
 	private static final int SHIELD_Y_POSITION = 500;
 	private final Group root;
 	private final ShieldImage shieldImage;
-	private Group winScreen;
+
 	
-	public LevelViewLevelFinal(Group root, int heartsToDisplay, String backgroundImageName, UserPlane user) {
-		super(root, heartsToDisplay, backgroundImageName, user);
+	public LevelViewLevelFinal(Group root, GameState gamestate,Runnable goToHomeScreen) {
+		super(root,gamestate,goToHomeScreen);
 		this.root = root;
 		this.shieldImage = new ShieldImage(SHIELD_X_POSITION, SHIELD_Y_POSITION);
 

@@ -56,6 +56,11 @@ public class DataUtilities {
     public static String GameTitle = "SKY BATTLE";
 
     public static String GameFile = "src/main/resources/gameStatus/gameStatus.txt";
+    public static int MILISECOND_DELAY = 50;
+    public static int SCREENHEIGHTADJUSTMENT = 170;
+
+    public static int GAME_SCREENS_X_POSITION =355;
+    public static int GAME_SCREENS_Y_POSITION = 170;
 
 
     public DataUtilities(){

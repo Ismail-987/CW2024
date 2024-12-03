@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import com.example.demo.scenes.LevelOne;
 import com.example.demo.scenes.HomeScene;
+import com.example.demo.utilities.DataUtilities;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -16,12 +17,11 @@ import com.example.demo.scenes.LevelParent;
 
 public class StageManager implements PropertyChangeListener {
 
-	private static final String HOME_SCENE = "com.example.demo.scenes.HomeScene";
 	private final Stage stage;
-	private  LevelParent myLevel = new LevelOne(10,20); // A copy of a level for tracking.
+	private  LevelParent myLevel = new LevelOne();
 	private HomeScene homeScene = new HomeScene(10,20);
 
-	// Constructor
+
 	public StageManager(Stage stage) {
 
 		this.stage = stage;
@@ -31,14 +31,14 @@ public class StageManager implements PropertyChangeListener {
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
 
 			stage.show();
-			goToScene(HOME_SCENE);
+			goToScene(DataUtilities.HomeScene);
 
 	}
 
 	private void goToScene(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-			if(Objects.equals(className, HOME_SCENE)){
+			if(Objects.equals(className, DataUtilities.HomeScene)){
 
 				if(homeScene.exists){
 					homeScene.getHomeScreenMusic().play();
@@ -60,15 +60,19 @@ public class StageManager implements PropertyChangeListener {
 				}
 				else {
 					Class<?> myClass = Class.forName(className);
-					Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-					myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
+					Constructor<?> constructor = myClass.getConstructor();
+					myLevel = (LevelParent) constructor.newInstance();
 					myLevel.getSupport().addPropertyChangeListener(this);
 					Scene scene = myLevel.initializeScene();
+
+					// NEED A FILE FOR STYLING THE COMPONENTS OF THE SCENE.
 					try {
 						scene.getStylesheets().add(getClass().getResource("/game-styles.css").toExternalForm());
-					} catch (NullPointerException e) {
+					}
+					catch (NullPointerException e) {
 						System.err.println("CSS file not found! Ensure the file is in the correct location.");
-					}finally {
+					}
+					finally {
 						stage.setScene(scene);
 						myLevel.startGame();
 					}
@@ -80,7 +84,7 @@ public class StageManager implements PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		try {
-			goToScene((String) evt.getNewValue());// The real manager.
+			goToScene((String) evt.getNewValue());
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 				 | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			Alert alert = new Alert(AlertType.ERROR);

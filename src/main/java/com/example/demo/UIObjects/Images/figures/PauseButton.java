@@ -12,7 +12,6 @@ public class PauseButton extends ImageView{
     private static final int HEIGHT = 40;
     private static final int WIDTH = 40;
     public PauseButton(double xPosition, double yPosition) {
-//		this.setImage(new Image(getClass().getResource(IMAGE_NAME).toExternalForm()));
         this.setImage(new Image(Objects.requireNonNull(getClass().getResource(IMAGE_NAME)).toExternalForm()));
         this.setFitHeight(HEIGHT);
         this.setFitWidth(WIDTH);

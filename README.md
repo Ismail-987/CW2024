@@ -1,8 +1,8 @@
 # SOFTWARE MAINTENANCE (20612966)
 
 ## DESCRIPTION
-This project involves the maintenance and extension of a game software
-* Game 1
+This project involves the maintenance and extension of a game software.
+
 
 ## GITHUB REPOSITORY
 * https://github.com/Ismail-987/CW2024.git
@@ -64,7 +64,6 @@ This project involves the maintenance and extension of a game software
  travels to JUPITER and finishes the enemies off. Then to realize that their boss lives in 
  planet "PHOENIX-365". He then prepares well and face the final Boss and save
  the UNIVERSE.
-8. 
 
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
@@ -99,7 +98,9 @@ This project involves the maintenance and extension of a game software
 
 ### MODIFIED CLASSES
 1. LevelParent.java
-* Restructured in a logical Order for ease of programming access.
+* Refactored the code by separating concerns into uiManagers and GameState respectively
+* Applied a factory Pattern using members in "uiManagers" package. This package involves 
+ creating and management of various UI Layouts like HeartDisplay, Score Labels and others.
 2. Boss.java
 * Changed the IMAGE_NAME attribute to match the correct format for importing images.
 * Added projectile sound system for boss projectiles
@@ -124,6 +125,8 @@ This project involves the maintenance and extension of a game software
 5. com.example.demo.UIObjects.Images
 6. com.example.demo.UIObjects.Images.actors
 7. com.example.demo.UIObjects.Images.figures
+8. com.example.demo.utilities
+9. com.example.demo.utilities.uiManagers
 
 ### MODIFIED PACKAGES
 
