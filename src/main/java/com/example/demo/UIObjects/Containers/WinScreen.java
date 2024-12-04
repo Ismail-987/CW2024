@@ -10,7 +10,9 @@ import javafx.scene.media.MediaPlayer;
 import java.sql.Time;
 import java.util.Objects;
 
-
+/**
+ * Represents the win screen display in the game with control buttons.
+ */
 public class WinScreen {
     private Group root;
 
@@ -25,16 +27,35 @@ public class WinScreen {
     private Button winSettingsButton;
 
 
+    /**
+     * Constructs a WinScreen with specified positions and actions for buttons.
+     *
+     * @param Xposition      The x-coordinate for the screen layout position.
+     * @param Yposition      The y-coordinate for the screen layout position.
+     * @param goToHome       Runnable to execute on home button action.
+     * @param goToNextLevel  Runnable to execute on next level action.
+     * @param replayLevel    Runnable to execute on replay level action.
+     * @param saveGameLevel  Runnable to execute on save action.
+     */
     public WinScreen(double Xposition, double Yposition, Runnable goToHome,Runnable goToNextLevel,Runnable replayLevel, Runnable saveGameLevel){
 
        creator(Xposition, Yposition, goToHome,goToNextLevel,replayLevel,saveGameLevel);
        initializer();
     }
+
+    /**
+     * Returns the group container for the win screen.
+     *
+     * @return The group containing the win screen elements.
+     */
     public Group get_scene_container(){
 
         return winScreen;
     }
 
+    /**
+     * Initializes and adds UI components to the win screen.
+     */
     public void initializer(){
         winScreen.getChildren().add(winBackground);
         winScreen.getChildren().add(winSaveButton);
@@ -45,6 +66,16 @@ public class WinScreen {
         winScreen.getChildren().add(winHomeButton);
     }
 
+    /**
+     * Creates the win screen components and sets their properties.
+     *
+     * @param Xposition      The x-coordinate for the layout position.
+     * @param Yposition      The y-coordinate for the layout position.
+     * @param goToHome       Runnable to execute on home button action.
+     * @param goToNextLevel  Runnable to execute on next level action.
+     * @param replayLevel    Runnable to execute on replay level action.
+     * @param saveGameLevel  Runnable to execute on save action.
+     */
     public void creator(double Xposition, double Yposition, Runnable goToHome,Runnable goToNextLevel,Runnable replayLevel, Runnable saveGameLevel){
         this.winScreen = new Group();
         // DO SOME IN-LINE STYLING

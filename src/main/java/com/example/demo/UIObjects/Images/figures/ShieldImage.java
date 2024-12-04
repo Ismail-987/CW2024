@@ -5,11 +5,20 @@ import javafx.scene.image.ImageView;
 
 import java.util.Objects;
 
+/**
+ * Represents a shield image with specified size and position, which can be shown or hidden.
+ */
 public class ShieldImage extends ImageView {
-	
+
 	private static final String IMAGE_NAME = "/com/example/demo/images/shield.png";
 	private static final int SHIELD_SIZE = 200;
-	
+
+	/**
+	 * Constructs a ShieldImage with specified x and y position.
+	 *
+	 * @param xPosition The x-coordinate for the position of the shield.
+	 * @param yPosition The y-coordinate for the position of the shield.
+	 */
 	public ShieldImage(double xPosition, double yPosition) {
 		this.setLayoutX(xPosition);
 		this.setLayoutY(yPosition);
@@ -19,14 +28,17 @@ public class ShieldImage extends ImageView {
 		this.setFitWidth(SHIELD_SIZE);
 	}
 
+	/**
+	 * Makes the shield visible.
+	 */
 	public void showShield() {
-
 		this.setVisible(true);
 	}
-	
-	public void hideShield() {
 
+	/**
+	 * Hides the shield from view.
+	 */
+	public void hideShield() {
 		this.setVisible(false);
 	}
-
 }

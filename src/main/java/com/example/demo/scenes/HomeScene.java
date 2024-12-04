@@ -23,6 +23,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * Represents the home scene of the game, providing navigation and settings.
+ */
 public class HomeScene {
 
     private Scene scene;
@@ -40,6 +43,12 @@ public class HomeScene {
     private final PropertyChangeSupport support;
     public Boolean exists = false;
 
+    /**
+     * Constructs the HomeScene object with specified screen dimensions.
+     *
+     * @param screenHeight The height of the screen.
+     * @param screenWidth  The width of the screen.
+     */
     public HomeScene( double screenHeight, double screenWidth){
         this.root = new Group();
         this.SCREENHEIGHT = screenHeight;
@@ -50,6 +59,9 @@ public class HomeScene {
         this.scene = new Scene(root,screenWidth,screenHeight);
         this.support = new PropertyChangeSupport(this);
     }
+    /**
+     * Initializes the buttons for the home scene.
+     */
     public void initializeButtons(){
         this.sgbutton = new Button();
         this.sgbutton.setOnMousePressed(e -> {
@@ -120,6 +132,9 @@ public class HomeScene {
 
     }
 
+    /**
+     * Sets up the home menu view.
+     */
     public void initializeHomeMenu(){
         this.homeMenu = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(DataUtilities.HomeMenuBackgroundImage)).toExternalForm()));
         homeMenu.setFitWidth(500);
@@ -129,28 +144,58 @@ public class HomeScene {
         root.getChildren().add(homeMenu);
     }
 
+    /**
+     * Sets up the background image for the home scene.
+     */
     public void initializeBackground(){
         this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(DataUtilities.HomeBackgroundImage)).toExternalForm()));
         background.setFitHeight(SCREENHEIGHT);
         background.setFitWidth(SCREENWIDTH);
         root.getChildren().add(background);
     }
+
+    /**
+     * Returns the scene object for display.
+     *
+     * @return the Scene of the home interface
+     */
     public Scene returnScene(){
 
         return scene; // This is like A React Component Returning a Single div or container.
     }
+
+    /**
+     * Loads the level data by the given name.
+     *
+     * @param levelName The name of the level to load.
+     */
     public void load_level(String levelName) {
             support.firePropertyChange("Page Change",null, levelName); // Notify all observers with change of Level
     }
 
+    /**
+     * Returns the PropertyChangeSupport object for managing property change listeners.
+     *
+     * @return the PropertyChangeSupport instance
+     */
     public PropertyChangeSupport getSupport(){
         return this.support;
     }
 
+    /**
+     * Returns the root group of the home scene.
+     *
+     * @return the root Group of the scene
+     */
     public Group getRoot(){
         return this.root;
     }
 
+    /**
+     * Returns the MediaPlayer for home screen music.
+     *
+     * @return the MediaPlayer of the home screen music
+     */
     public MediaPlayer getHomeScreenMusic(){
 
         return this.homeScreenMusic;

@@ -6,24 +6,45 @@ import javafx.scene.Group;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Manages and processes collisions among game actors.
+ */
 public class CollisionManager {
-    public CollisionManager(){
 
-    }
-    public static void collisionManager(List<ActiveActor> friendlyUnits, List<ActiveActor>EnemyUnits, List<ActiveActor>UserProjectiles, List<ActiveActor>EnemyProjectiles, Group root) {
-
-        handleCollisions(UserProjectiles, EnemyUnits);
-        handleCollisions(EnemyProjectiles, friendlyUnits);
-        handleCollisions(friendlyUnits, EnemyUnits);
-
-        removeDestroyedActors(friendlyUnits,root);
-        removeDestroyedActors(EnemyProjectiles,root);
-        removeDestroyedActors(UserProjectiles,root);
-        removeDestroyedActors(EnemyUnits,root);
+    /**
+     * Constructs a new CollisionManager instance.
+     */
+    public CollisionManager() {
+        // Default constructor
     }
 
-    public static void handleCollisions(List<ActiveActor> actors1,
-                                  List<ActiveActor> actors2) {
+    /**
+     * Processes collisions between different game actors and projectiles.
+     *
+     * @param friendlyUnits list of friendly units in the game
+     * @param enemyUnits list of enemy units in the game
+     * @param userProjectiles projectiles launched by the user
+     * @param enemyProjectiles projectiles launched by enemies
+     * @param root the root node for managing scene objects
+     */
+    public static void collisionManager(List<ActiveActor> friendlyUnits, List<ActiveActor> enemyUnits, List<ActiveActor> userProjectiles, List<ActiveActor> enemyProjectiles, Group root) {
+        handleCollisions(userProjectiles, enemyUnits);
+        handleCollisions(enemyProjectiles, friendlyUnits);
+        handleCollisions(friendlyUnits, enemyUnits);
+
+        removeDestroyedActors(friendlyUnits, root);
+        removeDestroyedActors(enemyProjectiles, root);
+        removeDestroyedActors(userProjectiles, root);
+        removeDestroyedActors(enemyUnits, root);
+    }
+
+    /**
+     * Handles collision detection between two lists of actors.
+     *
+     * @param actors1 list of the first group of actors
+     * @param actors2 list of the second group of actors
+     */
+    public static void handleCollisions(List<ActiveActor> actors1, List<ActiveActor> actors2) {
         for (ActiveActor actor : actors2) {
             for (ActiveActor otherActor : actors1) {
                 if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
@@ -32,12 +53,17 @@ public class CollisionManager {
                 }
             }
         }
-
     }
 
-
+    /**
+     * Removes actors that have been destroyed from both the scene and the list.
+     *
+     * @param actors list of actors to check for destruction
+     * @param root the root node for handling scene objects
+     */
     public static void removeDestroyedActors(List<ActiveActor> actors, Group root) {
-        List<ActiveActor> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
+        List<ActiveActor> destroyedActors = actors.stream()
+                .filter(ActiveActor::isDestroyed)
                 .collect(Collectors.toList());
         root.getChildren().removeAll(destroyedActors);
         actors.removeAll(destroyedActors);

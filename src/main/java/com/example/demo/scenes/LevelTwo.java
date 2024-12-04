@@ -10,22 +10,25 @@ import com.example.demo.utilities.FileUtility;
 import javafx.scene.Group;
 import javafx.scene.media.MediaPlayer;
 
-
-public class LevelTwo extends LevelParent{
+/**
+ * Represents the second level of the game, overseeing enemy spawning and win/loss conditions.
+ */
+public class LevelTwo extends LevelParent {
 
     private WinScreen winScreen;
     private MediaPlayer youWinMusic = getGameState().gameWonMusic;
     private MediaPlayer youLostSound = getGameState().gameOverMusic;
 
-
-
+    /**
+     * Constructs the LevelTwo object with initial settings.
+     */
     public LevelTwo() {
-
         super(DataUtilities.LevelTwoNumber);
-
-
     }
 
+    /**
+     * Checks if the game is over based on user destruction or kill target achievement.
+     */
     @Override
     protected void checkIfGameOver() {
         if (getGameState().userIsDestroyed()) {
@@ -39,6 +42,9 @@ public class LevelTwo extends LevelParent{
         }
     }
 
+    /**
+     * Spawns enemy units on the scene with a defined probability.
+     */
     @Override
     protected void spawnEnemyUnits() {
         int currentNumberOfEnemies = getGameState().getCurrentNumberOfEnemies();
@@ -51,37 +57,49 @@ public class LevelTwo extends LevelParent{
         }
     }
 
+    /**
+     * Instantiates the LevelView specific to Level Two.
+     *
+     * @return a new LevelViewLevelTwo instance
+     */
     @Override
     protected LevelView instantiateLevelView() {
-
-        return new LevelViewLevelTwo(getRoot(), getGameState(),()->{goToScene(DataUtilities.HomeScene);});
+        return new LevelViewLevelTwo(getRoot(), getGameState(), () -> { goToScene(DataUtilities.HomeScene); });
     }
 
+    /**
+     * Checks if the user has reached the required number of kills to win.
+     *
+     * @return true if kill target is reached, otherwise false
+     */
     private boolean userHasReachedKillTarget() {
-        String score = ("SCORE : "+ getGameState().user.getNumberOfKills()+" /"+DataUtilities.LevelTwoNumberOfKills);
+        String score = ("SCORE : " + getGameState().user.getNumberOfKills() + " /" + DataUtilities.LevelTwoNumberOfKills);
         getLevelView().scoreLabel.setText(score);
         return getGameState().user.getNumberOfKills() >= DataUtilities.LevelTwoNumberOfKills;
     }
 
-    public Group initializeWinScreen(){
-        this.winScreen = new WinScreen(355,175,
-                ()->{
+    /**
+     * Initializes and returns the win screen when the user wins the level.
+     *
+     * @return Group containing the win screen elements
+     */
+    public Group initializeWinScreen() {
+        this.winScreen = new WinScreen(355, 175,
+                () -> {
                     goToScene(DataUtilities.HomeScene);
                     youWinMusic.stop();
                 },
-                ()->{
+                () -> {
                     goToScene(DataUtilities.LevelThree);
                     youWinMusic.stop();
                 },
-                ()->{
+                () -> {
                     goToScene(DataUtilities.LevelTwo);
                     youWinMusic.stop();
                 },
-                ()->{
+                () -> {
                     FileUtility.saveGameStatus(DataUtilities.LevelThree);
                 });
         return winScreen.get_scene_container();
     }
-
-
 }

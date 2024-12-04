@@ -8,30 +8,34 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+/**
+ * Utility class for handling file operations related to game status.
+ */
 public class FileUtility {
 
-    public FileUtility(){
-
+    /**
+     * Default constructor.
+     */
+    public FileUtility() {
     }
-    public static void saveGameStatus (String levelName){
+
+    /**
+     * Saves the current game level name to a file.
+     *
+     * @param levelName The name of the level to be saved.
+     */
+    public static void saveGameStatus(String levelName) {
         try {
-            // Define the path to the file in a platform-independent way
             Path savedStatusPath = Paths.get("src", "main", "resources", "gameStatus", "gameStatus.txt");
-
-            // Print resolved absolute path
             System.out.println("Resolved Path: " + savedStatusPath.toAbsolutePath());
-
-            // Ensure parent directories exist
             Files.createDirectories(savedStatusPath.getParent());
             System.out.println("Parent directories ensured.");
 
-            if(!Files.exists(savedStatusPath)){
-                // Attempt to create the file unconditionally
-                Files.createFile(savedStatusPath); // Force file creation
+            if (!Files.exists(savedStatusPath)) {
+                Files.createFile(savedStatusPath);
                 System.out.println("File created successfully at: " + savedStatusPath.toAbsolutePath());
             }
 
-            // Write to the file
             try (FileWriter fileWriter = new FileWriter(savedStatusPath.toFile(), false)) {
                 fileWriter.write(levelName);
                 System.out.println("Game level saved successfully!");
@@ -43,24 +47,21 @@ public class FileUtility {
         }
     }
 
-    public static String readGameStatus(){
-
-
-
+    /**
+     * Reads the saved game level name from a file.
+     *
+     * @return The name of the saved level, or a default level if not found.
+     */
+    public static String readGameStatus() {
         File savedStatusFile = new File(DataUtilities.GameFile);
-
-
-        // Debugging: Check if the file exists and print the file path
         System.out.println("Looking for file at: " + savedStatusFile.getAbsolutePath());
 
         if (savedStatusFile.exists()) {
             System.out.println("File exists!");
 
             try (Scanner scanner = new Scanner(savedStatusFile)) {
-                // Read the first line from the file
                 if (scanner.hasNextLine()) {
-                    String levelName = scanner.nextLine().trim(); // Clean up any spaces/newlines
-
+                    String levelName = scanner.nextLine().trim();
                     if (!levelName.isEmpty()) {
                         return levelName;
                     } else {
