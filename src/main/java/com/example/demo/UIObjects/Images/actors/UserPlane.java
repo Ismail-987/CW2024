@@ -107,6 +107,15 @@ public class UserPlane extends FighterPlane {
 	}
 
 	/**
+	 * Increases the kill count of the user plane by 2.
+	 * This method is intended to be used when a power-up is active,
+	 * allowing the user plane to more effectively eliminate enemies.
+	 */
+	public void powerUpKillCount() {
+		numberOfKills += 2;
+	}
+
+	/**
 	 * Retrieves the initial health of the user plane.
 	 *
 	 * @return the initial health value.

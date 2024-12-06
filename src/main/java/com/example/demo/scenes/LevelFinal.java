@@ -30,7 +30,7 @@ public class LevelFinal extends LevelParent {
 			winGame();
 			getGameState().gameWonMusic.play();
 			levelView.pauseButton.setVisible(false);
-			getRoot().getChildren().add(getLevelView().createGameFinishedScreen());
+			getRoot().getChildren().add(getLevelView().initializeGameFinishedScreen());
 			FileUtility.saveGameStatus(DataUtilities.LevelOne);
 		} else {
 			levelView.scoreLabel.setText("SCORE : "

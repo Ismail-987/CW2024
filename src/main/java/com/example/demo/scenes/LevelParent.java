@@ -1,7 +1,6 @@
 package com.example.demo.scenes;
 
 import java.beans.PropertyChangeSupport;
-import com.example.demo.UIObjects.Containers.LoseScreen;
 import com.example.demo.utilities.uiManagers.LevelView;
 import com.example.demo.utilities.DataUtilities;
 import com.example.demo.utilities.GameState;
@@ -9,17 +8,18 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 
 /**
- * Abstract class representing a parent level in a game, managing game state and transitions.
+ * Abstract class representing the common characteristics and behaviors of a game level.
+ * This class provides foundational functionality for managing game states, scenes, and
+ * transitions between levels. Subclasses are required to implement specific methods to
+ * define unique behaviors such as spawning enemy units and handling game over scenarios.
  */
 public abstract class LevelParent {
 
 	/**
 	 * Indicates whether the level currently exists.
 	 */
-	public boolean exist = false;
 
 	private GameState gameState;
-	private LoseScreen lossScreen;
 	private final Group root;
 	private final Scene scene;
 	private final PropertyChangeSupport support;
@@ -34,16 +34,16 @@ public abstract class LevelParent {
 		this.root = new Group();
 		this.scene = new Scene(root, DataUtilities.ScreenWidth, DataUtilities.ScreenHeight);
 		this.support = new PropertyChangeSupport(this);
-		this.gameState = new GameState(this::updateScene, this::loseGame, root, levelNo);
+		this.gameState = new GameState(this::updateScene, this::loseGame, root, levelNo,this.support);
 		this.levelView = instantiateLevelView();
 		gameState.initializeTimeline();
 		gameState.friendlyUnits.add(gameState.user);
 	}
 
 	/**
-	 * Gets the PropertyChangeSupport object.
+	 * Retrieves the PropertyChangeSupport associated with this instance.
 	 *
-	 * @return the support instance
+	 * @return the PropertyChangeSupport instance used to support bound properties and listeners.
 	 */
 	public PropertyChangeSupport getSupport() {
 		return this.support;
@@ -56,7 +56,7 @@ public abstract class LevelParent {
 	 */
 	public void goToScene(String levelName) {
 		winGame();
-		exist = false;
+		gameState.exist = false;
 		support.firePropertyChange("Page Change", null, levelName);
 	}
 
@@ -75,7 +75,7 @@ public abstract class LevelParent {
 	public Scene initializeScene() {
 		gameState.sceneInitializationScenario();
 		levelView.levelViewInitializer();
-		exist = true;
+		gameState.exist = true;
 		return scene;
 	}
 
@@ -88,22 +88,41 @@ public abstract class LevelParent {
 	}
 
 	/**
-	 * Updates the scene by spawning enemies and managing game loop.
+	 * Updates the state of the current game scene by performing the following actions:
+	 *
+	 * - Spawns new enemy units in the scene by invoking the abstract `spawnEnemyUnits` method.
+	 * - Updates the display and functionality of the power-up button by calling `updateButton`.
+	 * - Modifies the power-up state based on its current status and duration using `updatePowerUp`.
+	 * - Executes the main game loop logic by invoking `runGameLoopThread` on the `gameState` object.
+	 * - Refreshes the graphical user interface based on the current gameplay state through `updateLevelView`.
+	 * - Determines if the current game session has ended using the `checkIfGameOver` method and takes necessary actions if so.
+	 *
+	 * This method is intended to be called continuously to maintain the game's state during active gameplay.
 	 */
 	private void updateScene() {
 		spawnEnemyUnits();
+		updateButton();
+		updatePowerUp();
 		gameState.runGameLoopThread();
 		updateLevelView();
 		checkIfGameOver();
 	}
 
 	/**
-	 * Spawns enemy units in the scene.
+	 * Spawns enemy units for the current level.
+	 *
+	 * This abstract method should be implemented by subclasses
+	 * to define the logic for creating and placing enemy units
+	 * within the game scene. It is typically invoked during the
+	 * game loop to continuously add new enemy challenges as the
+	 * game progresses.
 	 */
 	protected abstract void spawnEnemyUnits();
 
 	/**
-	 * Updates the level view, such as removing player hearts upon damage.
+	 * Updates the level view by adjusting the heart display to match the current
+	 * health of the user. This method removes hearts from the display to reflect
+	 * the player's remaining health as retrieved from the game state.
 	 */
 	public void updateLevelView() {
 		levelView.removeHearts(gameState.user.getHealth());
@@ -126,16 +145,13 @@ public abstract class LevelParent {
 	 * Handles game losing logic, stopping the game elements and displaying the lose screen.
 	 */
 	protected void loseGame() {
-		gameState.timeline.stop();
-		gameState.Backgroundmusic.stop();
-		this.levelView.pauseButton.setVisible(false);
-		root.getChildren().add(initializeLooseScreen());
+		levelView.looseGameScenario();
 	}
 
 	/**
-	 * Gets the root group node for this level.
+	 * Retrieves the root group associated with the current level.
 	 *
-	 * @return the root group
+	 * @return the root group of the current level
 	 */
 	protected Group getRoot() {
 		return root;
@@ -178,12 +194,82 @@ public abstract class LevelParent {
 	}
 
 	/**
-	 * Initializes and returns the lose screen.
+	 * Updates the state and appearance of the power-up button based on certain conditions.
 	 *
-	 * @return the container Group for the lose screen
+	 * The method performs the following actions:
+	 * - If the button is currently active, it increments the frame count that the button
+	 *   has been visible.
+	 * - If the button is not active and should be made active according to certain logic,
+	 *   and if no power-up is currently active, the button is placed at a new random location
+	 *   and made visible. The button is marked as active and its frame count is reset.
+	 * - If the button's active frame count has reached its maximum threshold, the button is
+	 *   deactivated, its frame count is reset, and it is made invisible.
 	 */
-	public Group initializeLooseScreen() {
-		lossScreen = new LoseScreen(355, 160);
-		return lossScreen.get_scene_container();
+	private void updateButton(){
+		if(DataUtilities.isButtonActive){
+			DataUtilities.frameswithButton++;
+		} else if (buttonShouldBeActive()) {
+
+			if(!DataUtilities.isPowerUpActive){
+				levelView.powerUpButton.setLayoutX(Math.random()*1000);
+				levelView.powerUpButton.setLayoutY(Math.random()*700+50);
+				levelView.powerUpButton.setVisible(true);
+				DataUtilities.isButtonActive = true;
+				DataUtilities.frameswithButton = 0;
+			}
+
+		}
+		if(buttonIsExhausted()){
+			DataUtilities.isButtonActive = false;
+			DataUtilities.frameswithButton = 0;
+			levelView.powerUpButton.setVisible(false);
+		}
+	}
+
+	/**
+	 * Determines if the button should be active based on a random probability.
+	 *
+	 * @return true if the button should be active, false otherwise
+	 */
+	private boolean buttonShouldBeActive(){
+		return Math.random() < DataUtilities.BUTTON_PROBABILITY;
+	}
+
+	/**
+	 * Checks whether the power-up button has been active for the maximum number of frames.
+	 *
+	 * @return true if the button's active frame count has reached the maximum threshold defined
+	 *         by MAX_FRAMES_FOR_BUTTON, false otherwise.
+	 */
+	private Boolean buttonIsExhausted(){
+		return DataUtilities.frameswithButton == DataUtilities.MAX_FRAMES_FOR_BUTTON;
+	}
+
+	/**
+	 * Updates the state of the power-up based on its current activity and duration.
+	 *
+	 * If the power-up is active, increments the frame count indicating the duration
+	 * for which the power-up has been active. Once the power-up has been active for
+	 * its maximum allowed duration, it is deactivated and the frame count is reset.
+	 */
+	private void updatePowerUp(){
+		if(DataUtilities.isPowerUpActive){
+			DataUtilities.frameswithPowerUp++;
+		}
+
+		if(powerUpIsExhausted()){
+			DataUtilities.isPowerUpActive = false;
+			DataUtilities.frameswithPowerUp = 0;
+		}
+	}
+
+	/**
+	 * Checks if the power-up has been active for the maximum number of frames.
+	 *
+	 * @return true if the power-up's active frame count has reached the maximum
+	 *         threshold defined by MAX_FRAMES_FOR_POWER_UP, false otherwise.
+	 */
+	private Boolean powerUpIsExhausted(){
+		return DataUtilities.frameswithPowerUp == DataUtilities.MAX_FRAMES_FOR_POWER_UP;
 	}
 }

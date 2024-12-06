@@ -1,5 +1,7 @@
 package com.example.demo.UIObjects.Images.actors;
 
+import com.example.demo.utilities.DataUtilities;
+
 import java.util.*;
 
 /**
@@ -100,14 +102,15 @@ public class Boss extends FighterPlane {
 	 */
 	private void updateShield() {
 		if (isShielded) {
-			framesWithShieldActivated++;
-		} else if (shieldShouldBeActivated()) {
+			framesWithShieldActivated++; // Per frame
+		} else if (shieldShouldBeActivated()) {// Check if the power-up active?
 			activateShield();
 		}
 		if (shieldExhausted()) {
 			deactivateShield();
 		}
 	}
+
 
 	/**
 	 * Determines the next movement increment for the boss.

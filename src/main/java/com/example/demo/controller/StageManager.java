@@ -66,16 +66,19 @@ public class StageManager implements PropertyChangeListener {
 				homeScene.getHomeScreenMusic().play();
 				stage.setScene(homeScene.returnScene());
 			}
-			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-			homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
-			homeScene.exists = true;
-			homeScene.getSupport().addPropertyChangeListener(this);
-			homeScene.getHomeScreenMusic().play();
-			Scene scene = homeScene.returnScene();
-			stage.setScene(scene);
+			else {
+				Class<?> myClass = Class.forName(className);
+				Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
+				homeScene = (HomeScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				homeScene.exists = true;
+				homeScene.getSupport().addPropertyChangeListener(this);
+				homeScene.getHomeScreenMusic().play();
+				Scene scene = homeScene.returnScene();
+				stage.setScene(scene);
+			}
+
 		} else {
-			if (myLevel.exist) {
+			if (myLevel.getGameState().exist) {
 				stage.setScene(myLevel.getScene());
 			} else {
 				Class<?> myClass = Class.forName(className);

@@ -78,6 +78,15 @@ public class DataUtilities {
     public static int GAME_SCREENS_X_POSITION = 355;
     public static int GAME_SCREENS_Y_POSITION = 170;
 
+    public static int MAX_FRAMES_FOR_POWER_UP = 300;
+    public static int frameswithPowerUp = 0;
+    public static double BUTTON_PROBABILITY = 0.2;
+    public static int MAX_FRAMES_FOR_BUTTON = 100;
+    public static int frameswithButton = 0;
+
+    public static Boolean isPowerUpActive = false;
+    public static Boolean isButtonActive = false;
+
     /**
      * Default constructor.
      */

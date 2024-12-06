@@ -8,6 +8,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +33,14 @@ public class GameState {
     public final Boss boss;
     public String levelName;
     public String levelClassName;
+    public String NextLevelClassName;
     public int levelNumber;
     public int initialHealth;
     public String levelBackground;
     public String levelMusic;
     public Group root;
+    public Boolean exist = false;
+    public PropertyChangeSupport support;
 
 
     /**
@@ -47,7 +51,7 @@ public class GameState {
      * @param root the root group node
      * @param levelNumber the level number
      */
-    public GameState (Runnable updateScene,Runnable looseGame, Group root, int levelNumber){
+    public GameState (Runnable updateScene,Runnable looseGame, Group root, int levelNumber, PropertyChangeSupport support){
         this.levelNumber = levelNumber;
         setInitialPlayerHealth();
         setLevelName();
@@ -55,6 +59,7 @@ public class GameState {
         setLevelBackground();
         setLevelMusic();
 
+        this.support = support;
         this.friendlyUnits = new ArrayList<>();
         this.enemyUnits = new ArrayList<>();
         this.userProjectiles = new ArrayList<>();
@@ -131,11 +136,17 @@ public class GameState {
     }
 
     /**
-     * Updates the scenario when a target is killed.
+     * Updates the kill count for the user based on the difference between the initial
+     * and current number of enemies. If a power-up is active, it increments the user's
+     * kill count by a higher value; otherwise, it increments it normally.
      */
     public void updateKillCount() {
         for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
-            user.incrementKillCount();
+            if(DataUtilities.isPowerUpActive == true){
+                user.powerUpKillCount();
+            }else {
+                user.incrementKillCount();
+            }
         }
     }
 
@@ -207,19 +218,34 @@ public class GameState {
     }
 
     /**
-     * Sets the class name for the level.
+     * Handles the scenario when the game is lost by stopping ongoing background music,
+     * playing the game over music, and stopping the game timeline.
+     */
+    public void loseGameScenario(){
+        Backgroundmusic.stop();
+        gameOverMusic.play();
+        timeline.stop();
+    }
+
+    /**
+     * Sets the class name for the level
+     * Also sets the class name for the level after this.
      */
     private void setLevelClassName() {
         if(levelNumber == 1){
             levelClassName = DataUtilities.LevelOne;
+            NextLevelClassName = DataUtilities.LevelTwo;
         }else if(levelNumber == 2){
             levelClassName = DataUtilities.LevelTwo;
+            NextLevelClassName = DataUtilities.LevelThree;
         }
         else if(levelNumber == 3){
             levelClassName = DataUtilities.LevelThree;
+            NextLevelClassName = DataUtilities.LevelFinal;
         }
         else{
             levelClassName = DataUtilities.LevelFinal;
+            NextLevelClassName = "";
         }
     }
 
@@ -294,4 +320,5 @@ public class GameState {
             initialHealth = DataUtilities.LevelFinalPlayerHealth;
         }
     }
+
 }

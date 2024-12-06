@@ -6,8 +6,6 @@ import com.example.demo.UIObjects.Images.actors.EnemyPlane;
 import com.example.demo.utilities.uiManagers.LevelView;
 import com.example.demo.utilities.uiManagers.LevelViewLevelTwo;
 import com.example.demo.utilities.DataUtilities;
-import com.example.demo.utilities.FileUtility;
-import javafx.scene.Group;
 import javafx.scene.media.MediaPlayer;
 
 /**
@@ -38,7 +36,7 @@ public class LevelTwo extends LevelParent {
         if (userHasReachedKillTarget()) {
             getGameState().killTargetScenario();
             getLevelView().pauseButton.setVisible(false);
-            getGameState().root.getChildren().add(initializeWinScreen());
+            getLevelView().initializeWinScreen();
         }
     }
 
@@ -78,28 +76,4 @@ public class LevelTwo extends LevelParent {
         return getGameState().user.getNumberOfKills() >= DataUtilities.LevelTwoNumberOfKills;
     }
 
-    /**
-     * Initializes and returns the win screen when the user wins the level.
-     *
-     * @return Group containing the win screen elements
-     */
-    public Group initializeWinScreen() {
-        this.winScreen = new WinScreen(355, 175,
-                () -> {
-                    goToScene(DataUtilities.HomeScene);
-                    youWinMusic.stop();
-                },
-                () -> {
-                    goToScene(DataUtilities.LevelThree);
-                    youWinMusic.stop();
-                },
-                () -> {
-                    goToScene(DataUtilities.LevelTwo);
-                    youWinMusic.stop();
-                },
-                () -> {
-                    FileUtility.saveGameStatus(DataUtilities.LevelThree);
-                });
-        return winScreen.get_scene_container();
-    }
 }

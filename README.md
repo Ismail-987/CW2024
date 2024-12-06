@@ -26,7 +26,6 @@ This project involves the maintenance and extension of a game software.
 * Users can pause by clicking the pause button on the top right or pressing "P" on keyboard.
 * This will direct them to a pause screen.
 * Users can resume the game by clicking play button in the pause screen.
-* 
 
 3. SHIELD FUNCTIONALITY
 * Showing shield. The boss's shield is now active and working as expected.
@@ -48,6 +47,9 @@ This project involves the maintenance and extension of a game software.
  the game will save the level checkpoint. Upon clicking "CONTINUE" button 
  in HomeScreen in HomeScene, the game will load the level next to the last 
  level that the user saved, continuing the progress.
+* Upon pausing, the save button will save the current level that the user
+ is playing. Hence the continue button will direct to the current level of the 
+ game.
 
 6. SCORE TRACKING AND LEVEL DISPLAY
 * The game has the facilities for tracking the score count upon every kill.
@@ -65,9 +67,17 @@ This project involves the maintenance and extension of a game software.
  planet "PHOENIX-365". He then prepares well and face the final Boss and save
  the UNIVERSE.
 
+8. POWER-UP FUNCTIONALITY
+* This feature is available in each level as the user is presented
+ with a "Power-Up" Button that if he or she is lucky enough to press it,
+ he or she will have increased kill count, thus having more damage per 
+ projectile to his or her enemies.
+* This features enhances the "SCORE COUNT" per projectile if gotten
+ and only lasts for a couple of time and becomes expired. This is until
+ another lucky shot of getting to click the power-up button again.
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
-* Resizing the stage. Unfortunately user can resize the stage but aspect ratio is not feasible.
+* STAGE RESIZING. Unfortunately user can resize the stage but aspect ratio is not feasible.
  Perhaps if I could more time for the game, I could have make it a reality.
 * NAVIGATION BUTTONS. Some navigation buttons in some screens will not behave as expected.
  Unfortunately, it became overwhelming to finish all the functionality but had it been with more time,
@@ -94,27 +104,17 @@ This project involves the maintenance and extension of a game software.
 12. DataUtilities.java
 13. FileUtility.java
 14. NavigationUtilities.java
+15. CollisionManager.java
+16. LoseScreen.java
+17. GameBackground.java
+18. GameFinishedScreen.java
+19. 
 
 
 ### MODIFIED CLASSES
-1. LevelParent.java
-* Refactored the code by separating concerns into uiManagers and GameState respectively
-* Applied a factory Pattern using members in "uiManagers" package. This package involves 
- creating and management of various UI Layouts like HeartDisplay, Score Labels and others.
-2. Boss.java
-* Changed the IMAGE_NAME attribute to match the correct format for importing images.
-* Added projectile sound system for boss projectiles
-3. SheildImage.java
-* SHIELD_IMAGE attribute is changed from .jpg to .png.
-4. Controller Class
-* Changed the notification system from Observer Pattern to PropertyChangeListener. 
- This is because the Observer Class is no longer supported in Java (Deprecated).
-* Changed its name to StageManager.java for convenience.
-5. ActiveActorDestructible.java
-* This class has been deleted from the code as its functionality can be combined in a single super class.
- This lowers the code base.
-6. LevelOne.java
-* Added Win Screen for better interactivity.
+* Almost All classes have been modified to some degree to 
+ enhance the functionality of the game.
+
 
 ## PACKAGES
 ### NEW PACKAGES
@@ -133,6 +133,36 @@ This project involves the maintenance and extension of a game software.
 ## NEW FILES
 1. game-styles.css
 2. gameStatus.txt
+
+## REFACTORING
+* Code refactoring has been done to ensure better performance of the 
+ the game and efficiency. These include the following:-
+1. SEPARATION OF CONCERNS
+* Classes like LevelParent.java and other big classes were too long and had a lot of responsibilities 
+ combined together. Further splits of responsibilities were done leading to the creation of the 
+ package called "utilities". This package manages Majority of the functions found in the gameLoop Thread
+ and others.
+2. DOCUMENTATION
+* Further documentation was added to the code for better code readability.
+ The comments added reflects the comments in the javaDoc.
+* Class Diagram: The class diagram is present to show visual representation of the 
+ game system. This aids in game code interpretation and analysis.
+3. DESIGN PATTERNS
+* Observer Pattern: A new implementation of the observer pattern using PropertyChangeListener is applied
+ in StageManager.java. This Specific implementation is necessary for further development as 
+ it is not deprecated by java community developers.
+* Factory Pattern: This pattern is applied by the use of 
+ uiManagers in utilities class. These managers ensures the creation of various UI components
+ and some of the logic to manage them. Further management of the UI components 
+ is done in GameState.java as this class deals with main Game Thread running in every game Loop.
+* Singleton Pattern. This pattern has been implemented but in the form of having only one
+ instance and passing it as an argument to other functions and other classes as reference.
+ A typical example of this is the use of GameState object of that particular instance is used in 
+ multiple classes to complete the logic of the host class.
+
+4. 
+ 
+
 
 ## UNCERTAINTIES
 1. Lack of enough experience with application of Design Principles and Patterns.

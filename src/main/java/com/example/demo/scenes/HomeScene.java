@@ -170,7 +170,8 @@ public class HomeScene {
      * @param levelName The name of the level to load.
      */
     public void load_level(String levelName) {
-            support.firePropertyChange("Page Change",null, levelName); // Notify all observers with change of Level
+        homeScreenMusic.stop();
+        support.firePropertyChange("Page Changes",null, levelName); // Notify all observers with change of Level
     }
 
     /**

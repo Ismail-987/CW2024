@@ -1,5 +1,9 @@
 package com.example.demo.UIObjects.Containers;
 
+import com.example.demo.utilities.DataUtilities;
+import com.example.demo.utilities.FileUtility;
+import com.example.demo.utilities.GameState;
+import com.example.demo.utilities.NavigationUtilities;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -14,32 +18,29 @@ import java.util.Objects;
  * Represents the win screen display in the game with control buttons.
  */
 public class WinScreen {
-    private Group root;
 
     private String image = "/com/example/demo/images/winScreen.jpg";
     private ImageView winBackground = new ImageView();
     private Group winScreen;
-    private  Button winNextLevelButton;
+    private Button winNextLevelButton;
     private Button winReplayLevelButton;
-    private  Button winQuitButton;
+    private Button winQuitButton;
     private Button winSaveButton;
     private Button  winHomeButton;
     private Button winSettingsButton;
+    private GameState gameState;
 
 
     /**
-     * Constructs a WinScreen with specified positions and actions for buttons.
+     * Constructs a new WinScreen instance with the specified position and game state.
      *
-     * @param Xposition      The x-coordinate for the screen layout position.
-     * @param Yposition      The y-coordinate for the screen layout position.
-     * @param goToHome       Runnable to execute on home button action.
-     * @param goToNextLevel  Runnable to execute on next level action.
-     * @param replayLevel    Runnable to execute on replay level action.
-     * @param saveGameLevel  Runnable to execute on save action.
+     * @param Xposition The x-coordinate where the win screen should be displayed.
+     * @param Yposition The y-coordinate where the win screen should be displayed.
+     * @param gameStateVariable The current game state used to initialize the win screen.
      */
-    public WinScreen(double Xposition, double Yposition, Runnable goToHome,Runnable goToNextLevel,Runnable replayLevel, Runnable saveGameLevel){
-
-       creator(Xposition, Yposition, goToHome,goToNextLevel,replayLevel,saveGameLevel);
+    public WinScreen(double Xposition, double Yposition, GameState gameStateVariable){
+        this.gameState = gameStateVariable;
+       creator(Xposition, Yposition, gameState);
        initializer();
     }
 
@@ -71,12 +72,8 @@ public class WinScreen {
      *
      * @param Xposition      The x-coordinate for the layout position.
      * @param Yposition      The y-coordinate for the layout position.
-     * @param goToHome       Runnable to execute on home button action.
-     * @param goToNextLevel  Runnable to execute on next level action.
-     * @param replayLevel    Runnable to execute on replay level action.
-     * @param saveGameLevel  Runnable to execute on save action.
      */
-    public void creator(double Xposition, double Yposition, Runnable goToHome,Runnable goToNextLevel,Runnable replayLevel, Runnable saveGameLevel){
+    public void creator(double Xposition, double Yposition,GameState gameState){
         this.winScreen = new Group();
         // DO SOME IN-LINE STYLING
         this.winScreen.setLayoutX(Xposition);
@@ -134,7 +131,7 @@ public class WinScreen {
         });
 
         this.winSaveButton.setOnMousePressed(e -> {
-            saveGameLevel.run();
+            FileUtility.saveGameStatus(gameState.NextLevelClassName);
         });
 
         this.winQuitButton.setOnMousePressed(e -> {
@@ -142,15 +139,21 @@ public class WinScreen {
         });
 
         this.winNextLevelButton.setOnMousePressed(e -> {
-            goToNextLevel.run();
+            gameState.exist=false;
+            gameState.gameWonMusic.stop();
+            NavigationUtilities.goToScene(gameState.support, gameState.NextLevelClassName);
         });
 
         this.winHomeButton.setOnMousePressed(e -> {
-            goToHome.run();
+            gameState.exist=false;
+            gameState.gameWonMusic.stop();
+            NavigationUtilities.goToScene(gameState.support, DataUtilities.HomeScene);
         });
 
         this.winReplayLevelButton.setOnMousePressed(e -> {
-            replayLevel.run();
+            gameState.exist=false;
+            gameState.gameWonMusic.stop();
+            NavigationUtilities.goToScene(gameState.support,gameState.levelClassName);
         });
     }
 }
