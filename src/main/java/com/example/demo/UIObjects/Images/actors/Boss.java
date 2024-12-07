@@ -77,11 +77,18 @@ public class Boss extends FighterPlane {
 
 	/**
 	 * Applies damage to the boss if not shielded.
+	 * Also checks if the powerUp feature active and
+	 * activate the power-up damage.
 	 */
 	@Override
 	public void takeDamage() {
 		if (!isShielded) {
-			super.takeDamage();
+			if (DataUtilities.isPowerUpActive){
+				this.health -= 2;
+			}
+			else {
+				super.takeDamage();
+			}
 		}
 	}
 

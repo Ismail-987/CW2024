@@ -71,7 +71,12 @@ public class LevelThree extends LevelParent {
      * @return true if kill target is reached, otherwise false
      */
     private boolean userHasReachedKillTarget() {
-        String score = ("SCORE : " + getGameState().user.getNumberOfKills() + " /" + DataUtilities.LevelThreeNumberOfKills);
+        String score = "";
+        if (getGameState().user.getNumberOfKills()> DataUtilities.LevelThreeNumberOfKills){
+            score = ("SCORE : " + DataUtilities.LevelThreeNumberOfKills + " /" + DataUtilities.LevelThreeNumberOfKills);
+        }else {
+            score = ("SCORE : " + getGameState().user.getNumberOfKills() + " /" + DataUtilities.LevelThreeNumberOfKills);
+        }
         getLevelView().scoreLabel.setText(score);
         return getGameState().user.getNumberOfKills() >= DataUtilities.LevelThreeNumberOfKills;
     }

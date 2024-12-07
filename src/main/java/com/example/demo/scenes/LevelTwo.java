@@ -1,6 +1,5 @@
 package com.example.demo.scenes;
 
-import com.example.demo.UIObjects.Containers.WinScreen;
 import com.example.demo.UIObjects.Images.actors.ActiveActor;
 import com.example.demo.UIObjects.Images.actors.EnemyPlane;
 import com.example.demo.utilities.uiManagers.LevelView;
@@ -13,8 +12,6 @@ import javafx.scene.media.MediaPlayer;
  */
 public class LevelTwo extends LevelParent {
 
-    private WinScreen winScreen;
-    private MediaPlayer youWinMusic = getGameState().gameWonMusic;
     private MediaPlayer youLostSound = getGameState().gameOverMusic;
 
     /**
@@ -71,7 +68,12 @@ public class LevelTwo extends LevelParent {
      * @return true if kill target is reached, otherwise false
      */
     private boolean userHasReachedKillTarget() {
-        String score = ("SCORE : " + getGameState().user.getNumberOfKills() + " /" + DataUtilities.LevelTwoNumberOfKills);
+        String score = "";
+        if (getGameState().user.getNumberOfKills()> DataUtilities.LevelTwoNumberOfKills){
+            score = ("SCORE : " + DataUtilities.LevelTwoNumberOfKills + " /" + DataUtilities.LevelTwoNumberOfKills);
+        }else {
+            score = ("SCORE : " + getGameState().user.getNumberOfKills() + " /" + DataUtilities.LevelTwoNumberOfKills);
+        }
         getLevelView().scoreLabel.setText(score);
         return getGameState().user.getNumberOfKills() >= DataUtilities.LevelTwoNumberOfKills;
     }

@@ -8,8 +8,10 @@ This project involves the maintenance and extension of a game software.
 * https://github.com/Ismail-987/CW2024.git
 
 ## COMPILATION INSTRUCTIONS
-1. Upon opening the game in any IDE, in command line run "mvn install"  
- for maven to fetch the added dependencies in pom.xml. 
+1. Upon opening the game in any IDE, in command line run "mvn clean" then "mvn install"  
+ for maven to fetch the added dependencies in pom.xml.
+2. a
+
 
 ## ADDED DEPENDENCIES
 1. javafx-media - Need to check if module-info.java has - "requires javafx.media" package added.
@@ -60,7 +62,7 @@ This project involves the maintenance and extension of a game software.
 7. MULTI-LEVEL FUNCTIONALITY
 * The game supports multiple levels of up to 4. 
 * In each level, you pass through different worlds where you fight the enemies of the 
- final boss who lives in Planet "PHOENIX-365" to save the UNIVERSE. 
+ final boss who lives on Planet "PHOENIX-365" to save the UNIVERSE. 
 * The player first goes from Earth, destroys the enemies. Then attempts 
  another revenge by travelling to MARS and kills the enemies of that place. Then,
  travels to JUPITER and finishes the enemies off. Then to realize that their boss lives in 
@@ -73,7 +75,7 @@ This project involves the maintenance and extension of a game software.
  he or she will have increased kill count, thus having more damage per 
  projectile to his or her enemies.
 * This features enhances the "SCORE COUNT" per projectile if gotten
- and only lasts for a couple of time and becomes expired. This is until
+ and only lasts for a couple of times and becomes expired. This is until
  another lucky shot of getting to click the power-up button again.
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
@@ -136,10 +138,10 @@ This project involves the maintenance and extension of a game software.
 
 ## REFACTORING
 * Code refactoring has been done to ensure better performance of the 
- the game and efficiency. These include the following:-
+ game. These include the following:-
 1. SEPARATION OF CONCERNS
 * Classes like LevelParent.java and other big classes were too long and had a lot of responsibilities 
- combined together. Further splits of responsibilities were done leading to the creation of the 
+ combined. Further splits of responsibilities were done leading to the creation of the 
  package called "utilities". This package manages Majority of the functions found in the gameLoop Thread
  and others.
 2. DOCUMENTATION
@@ -148,20 +150,17 @@ This project involves the maintenance and extension of a game software.
 * Class Diagram: The class diagram is present to show visual representation of the 
  game system. This aids in game code interpretation and analysis.
 3. DESIGN PATTERNS
-* Observer Pattern: A new implementation of the observer pattern using PropertyChangeListener is applied
+* OBSERVER PATTERN: A new implementation of the observer pattern using PropertyChangeListener is applied
  in StageManager.java. This Specific implementation is necessary for further development as 
  it is not deprecated by java community developers.
-* Factory Pattern: This pattern is applied by the use of 
+* FACTORY PATTERN: This pattern is applied by the use of 
  uiManagers in utilities class. These managers ensures the creation of various UI components
  and some of the logic to manage them. Further management of the UI components 
  is done in GameState.java as this class deals with main Game Thread running in every game Loop.
-* Singleton Pattern. This pattern has been implemented but in the form of having only one
+* SINGLETON PATTERN: This pattern has been implemented but in the form of having only one
  instance and passing it as an argument to other functions and other classes as reference.
  A typical example of this is the use of GameState object of that particular instance is used in 
  multiple classes to complete the logic of the host class.
-
-4. 
- 
 
 
 ## UNCERTAINTIES

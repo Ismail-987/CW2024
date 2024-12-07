@@ -66,7 +66,12 @@ public class LevelOne extends LevelParent {
 	 * @return true if kill target is reached, otherwise false
 	 */
 	private boolean userHasReachedKillTarget() {
-		String score = ("SCORE : " + getGameState().user.getNumberOfKills() + " /" + DataUtilities.LevelOneNumberOfKills);
+		String score = "";
+		if (getGameState().user.getNumberOfKills()> DataUtilities.LevelOneNumberOfKills){
+			score = ("SCORE : " + DataUtilities.LevelOneNumberOfKills + " /" + DataUtilities.LevelOneNumberOfKills);
+		}else {
+			score = ("SCORE : " + getGameState().user.getNumberOfKills() + " /" + DataUtilities.LevelOneNumberOfKills);
+		}
 		getLevelView().scoreLabel.setText(score);
 		return getGameState().user.getNumberOfKills() >= DataUtilities.LevelOneNumberOfKills;
 	}

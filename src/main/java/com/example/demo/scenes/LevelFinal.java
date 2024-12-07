@@ -20,7 +20,7 @@ public class LevelFinal extends LevelParent {
 	}
 
 	/**
-	 * Checks if the game is over by evaluating the player's or boss's conditions.
+	 * Checks if game is over and update the score label respectively.
 	 */
 	@Override
 	protected void checkIfGameOver() {
@@ -32,10 +32,14 @@ public class LevelFinal extends LevelParent {
 			levelView.pauseButton.setVisible(false);
 			getRoot().getChildren().add(getLevelView().initializeGameFinishedScreen());
 			FileUtility.saveGameStatus(DataUtilities.LevelOne);
-		} else {
-			levelView.scoreLabel.setText("SCORE : "
-					+ (getGameState().boss.getInitHealth() - getGameState().boss.getHealth())
-					+ " / " + getGameState().boss.getInitHealth());
+			levelView.scoreLabel.setText("SCORE : "+ getGameState().boss.getInitHealth() + " / " + getGameState().boss.getInitHealth());
+		}
+		else {
+			String score = "SCORE : "
+						+ (getGameState().boss.getInitHealth() - getGameState().boss.getHealth())
+						+ " / " + getGameState().boss.getInitHealth();
+
+			levelView.scoreLabel.setText(score);
 		}
 	}
 

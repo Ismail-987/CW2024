@@ -1,11 +1,13 @@
 package com.example.demo.UIObjects.Images.actors;
 
+
+
 /**
  * Represents a fighter plane with the ability to take damage and fire projectiles.
  */
 public abstract class FighterPlane extends ActiveActor {
 
-	private int health;
+	public int health;
 
 	/**
 	 * Constructs a FighterPlane with the specified parameters.
