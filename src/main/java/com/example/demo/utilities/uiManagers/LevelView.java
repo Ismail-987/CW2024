@@ -277,4 +277,100 @@ public class LevelView {
 		root.getChildren().add(powerUpButton);
 	}
 
+	public void levelViewUILoopLogic(){
+		updateButton();
+		updatePowerUp();
+	}
+
+	/**
+	 * Updates the state and appearance of the power-up button based on certain conditions.
+	 *
+	 * The method performs the following actions:
+	 * - If the button is currently active, it increments the frame count that the button
+	 *   has been visible.
+	 * - If the button is not active and should be made active according to certain logic,
+	 *   and if no power-up is currently active, the button is placed at a new random location
+	 *   and made visible. The button is marked as active and its frame count is reset.
+	 * - If the button's active frame count has reached its maximum threshold, the button is
+	 *   deactivated, its frame count is reset, and it is made invisible.
+	 */
+	public void updateButton(){
+		if(DataUtilities.isButtonActive){
+			DataUtilities.frameswithButton++;
+		} else if (buttonShouldBeActive()) {
+
+			if(!DataUtilities.isPowerUpActive){
+				powerUpButton.setLayoutX(Math.random()*1000);
+				powerUpButton.setLayoutY(Math.random()*700+50);
+				powerUpButton.setVisible(true);
+				DataUtilities.isButtonActive = true;
+				DataUtilities.frameswithButton = 0;
+			}
+
+		}
+		if(buttonIsExhausted()){
+			DataUtilities.isButtonActive = false;
+			DataUtilities.frameswithButton = 0;
+			powerUpButton.setVisible(false);
+		}
+	}
+
+	/**
+	 * Determines if the button should be active based on a random probability.
+	 *
+	 * @return true if the button should be active, false otherwise
+	 */
+	private boolean buttonShouldBeActive(){
+		return Math.random() < DataUtilities.BUTTON_PROBABILITY;
+	}
+
+	/**
+	 * Checks whether the power-up button has been active for the maximum number of frames.
+	 *
+	 * @return true if the button's active frame count has reached the maximum threshold defined
+	 *         by MAX_FRAMES_FOR_BUTTON, false otherwise.
+	 */
+	private Boolean buttonIsExhausted(){
+		return DataUtilities.frameswithButton == DataUtilities.MAX_FRAMES_FOR_BUTTON;
+	}
+
+
+	/**
+	 * Updates the state of the power-up based on its current activity and duration.
+	 *
+	 * If the power-up is active, increments the frame count indicating the duration
+	 * for which the power-up has been active. Once the power-up has been active for
+	 * its maximum allowed duration, it is deactivated and the frame count is reset.
+	 */
+	private void updatePowerUp(){
+		if(DataUtilities.isPowerUpActive){
+			DataUtilities.frameswithPowerUp++;
+		}
+
+		if(powerUpIsExhausted()){
+			DataUtilities.isPowerUpActive = false;
+			DataUtilities.frameswithPowerUp = 0;
+		}
+	}
+
+	/**
+	 * Checks if the power-up has been active for the maximum number of frames.
+	 *
+	 * @return true if the power-up's active frame count has reached the maximum
+	 *         threshold defined by MAX_FRAMES_FOR_POWER_UP, false otherwise.
+	 */
+	private Boolean powerUpIsExhausted(){
+		return DataUtilities.frameswithPowerUp == DataUtilities.MAX_FRAMES_FOR_POWER_UP;
+	}
+
+	public void setPauseScreen(PauseScreen pauseScreen) {
+		this.pauseScreen = pauseScreen;
+	}
+	public void setWinScreen(WinScreen winScreen) {
+		this.winScreen = winScreen;
+	}
+
+	public void setLossScreen(LoseScreen lossScreen) {
+		this.lossScreen = lossScreen;
+	}
 }

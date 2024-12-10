@@ -10,12 +10,12 @@ This project involves the maintenance and extension of a game software.
 ## COMPILATION INSTRUCTIONS
 1. Upon opening the game in any IDE, in command line run "mvn clean" then "mvn install"  
  for maven to fetch the added dependencies in pom.xml.
-2. a
 
 
 ## ADDED DEPENDENCIES
 1. javafx-media - Need to check if module-info.java has - "requires javafx.media" package added.
 2. java.desktop package in module com.example.demo in module-info.java.
+3. mockito. This is used in testing.
 
 ## FEATURES IMPLEMENTED 
 
@@ -144,11 +144,13 @@ This project involves the maintenance and extension of a game software.
  combined. Further splits of responsibilities were done leading to the creation of the 
  package called "utilities". This package manages Majority of the functions found in the gameLoop Thread
  and others.
+
 2. DOCUMENTATION
 * Further documentation was added to the code for better code readability.
  The comments added reflects the comments in the javaDoc.
 * Class Diagram: The class diagram is present to show visual representation of the 
  game system. This aids in game code interpretation and analysis.
+
 3. DESIGN PATTERNS
 * OBSERVER PATTERN: A new implementation of the observer pattern using PropertyChangeListener is applied
  in StageManager.java. This Specific implementation is necessary for further development as 
@@ -162,6 +164,22 @@ This project involves the maintenance and extension of a game software.
  A typical example of this is the use of GameState object of that particular instance is used in 
  multiple classes to complete the logic of the host class.
 
+4. TESTING
+* The testing done on the project is based on the criteria of 
+ frequency of usage of classes and their respective methods.
+ This is because the more the class or method is used, the more relevant it becomes.
+ Thus it is wise to test the most used classes as they cover more 
+ project scope.
+* Thus based on this, the below are the classes chosen:-
+
+* i. HIGH-LEVEL CLASSES: Like LevelParent, LevelView and ActiveActor are chosen
+ for testing as high-level classes are more like to be used. Thus their logic should
+ be tested.
+* ii. UTILITY CLASSES: Utility classes found in utilities packages like GameState.java, 
+ NavigationUtilities.java and FileUtilities.java are also tested due to their scope of usage in the game.
+* iii. MANAGER CLASSES: Manager classes like Main.java and StageManager.java are also tested 
+ as they envelope the whole project scope. Thus testing to see if they work will
+ be vital for confidentiality of the project as a whole.
 
 ## UNCERTAINTIES
 1. Lack of enough experience with application of Design Principles and Patterns.

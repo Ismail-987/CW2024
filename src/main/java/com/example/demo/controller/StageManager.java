@@ -20,7 +20,7 @@ import com.example.demo.scenes.LevelParent;
 public class StageManager implements PropertyChangeListener {
 
 	private final Stage stage;
-	private LevelParent myLevel = new LevelOne();
+	public LevelParent myLevel = new LevelOne();
 	private HomeScene homeScene = new HomeScene(10, 20);
 
 	/**
@@ -59,7 +59,7 @@ public class StageManager implements PropertyChangeListener {
 	 * @throws IllegalAccessException if the constructor is inaccessible.
 	 * @throws InvocationTargetException if the underlying method throws an exception.
 	 */
-	private void goToScene(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
+    public void goToScene(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, InvocationTargetException {
 		if (Objects.equals(className, DataUtilities.HomeScene)) {
 			if (homeScene.exists) {

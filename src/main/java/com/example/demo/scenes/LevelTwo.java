@@ -63,6 +63,14 @@ public class LevelTwo extends LevelParent {
     }
 
     /**
+     * This method updates the levelView which in turns updates the User Interface of the game.
+     */
+    @Override
+    public void updateLevelView(){
+        getLevelView().removeHearts(getGameState().user.getHealth());
+    }
+
+    /**
      * Checks if the user has reached the required number of kills to win.
      *
      * @return true if kill target is reached, otherwise false

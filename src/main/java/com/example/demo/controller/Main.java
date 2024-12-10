@@ -12,6 +12,16 @@ public class Main extends Application {
 
 	private StageManager myController;
 
+	public void setMyController(StageManager myController) {
+		this.myController = myController;
+	}
+
+	public Main(StageManager stageManager) {
+		this.myController = stageManager;
+	}
+	public Main() {
+	}
+
 	/**
 	 * Starts the JavaFX application, setting up the main stage and launching the game.
 	 *
@@ -30,7 +40,10 @@ public class Main extends Application {
 		stage.setResizable(true);
 		stage.setHeight(DataUtilities.ScreenHeight);
 		stage.setWidth(DataUtilities.ScreenWidth);
-		myController = new StageManager(stage);
+
+		if (myController == null) {
+			myController = new StageManager(stage);
+		}
 		myController.launchGame();
 	}
 

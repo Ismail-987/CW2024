@@ -29,7 +29,7 @@ public class HomeScene {
     private double SCREENWIDTH;
     public ImageView background;
     private ImageView homeMenu;
-    private MediaPlayer homeScreenMusic = new MediaPlayer(new Media(getClass().getResource(DataUtilities.HomeMusic).toString()));
+    private MediaPlayer homeScreenMusic ;
     private final PropertyChangeSupport support;
     public Boolean exists = false;
 
@@ -48,6 +48,7 @@ public class HomeScene {
         initializeButtons();
         this.scene = new Scene(root,screenWidth,screenHeight);
         this.support = new PropertyChangeSupport(this);
+        this.homeScreenMusic = new MediaPlayer(new Media(getClass().getResource(DataUtilities.HomeMusic).toString()));
     }
     /**
      * Initializes the buttons for the home scene.
@@ -137,8 +138,14 @@ public class HomeScene {
     /**
      * Sets up the background image for the home scene.
      */
-    public void initializeBackground(){
-        this.background = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(DataUtilities.HomeBackgroundImage)).toExternalForm()));
+    public void initializeBackground() {
+        String resourcePath = DataUtilities.HomeBackgroundImage;
+        if (getClass().getResource(resourcePath) == null) {
+            throw new IllegalArgumentException("Resource not found: " + resourcePath);
+        }
+
+        Image image = new Image(getClass().getResource(resourcePath).toExternalForm());
+        this.background = new ImageView(image);
         background.setFitHeight(SCREENHEIGHT);
         background.setFitWidth(SCREENWIDTH);
         root.getChildren().add(background);
@@ -192,5 +199,16 @@ public class HomeScene {
         return this.homeScreenMusic;
     }
 
+    public Button getSgbutton() {
+        return sgbutton;
+    }
+
+    public Button getContinueButton() {
+        return continueButton;
+    }
+
+    public Button getQuitButton() {
+        return quitButton;
+    }
 
 }

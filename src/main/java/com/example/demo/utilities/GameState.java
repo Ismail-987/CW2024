@@ -142,7 +142,7 @@ public class GameState {
      */
     public void updateKillCount() {
         for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
-            if(DataUtilities.isPowerUpActive == true){
+            if(DataUtilities.isPowerUpActive){
                 user.powerUpKillCount();
             }else {
                 user.incrementKillCount();
@@ -214,6 +214,7 @@ public class GameState {
      */
     public void sceneInitializationScenario(){
         initializeFriendlyUnits();
+        exist = true;
         Backgroundmusic.play();
     }
 

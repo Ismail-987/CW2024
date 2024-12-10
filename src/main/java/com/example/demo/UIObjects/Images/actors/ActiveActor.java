@@ -1,13 +1,12 @@
 package com.example.demo.UIObjects.Images.actors;
 
-import com.example.demo.Destructible;
 import javafx.scene.image.*;
 import java.util.Objects;
 
 /**
  * Abstract representation of an active actor in the game, providing methods for movement and destruction.
  */
-public abstract class ActiveActor extends ImageView implements Destructible {
+public abstract class ActiveActor extends ImageView  {
 
 	private static final String IMAGE_LOCATION = "/com/example/demo/images/";
 	private boolean isDestroyed;
@@ -55,13 +54,11 @@ public abstract class ActiveActor extends ImageView implements Destructible {
 	/**
 	 * Applies damage to the actor. Must be implemented by subclasses.
 	 */
-	@Override
 	public abstract void takeDamage();
 
 	/**
 	 * Destroys the actor, marking it as destroyed.
 	 */
-	@Override
 	public void destroy() {
 		setDestroyed(true);
 	}
