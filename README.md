@@ -7,7 +7,7 @@ This project involves the maintenance and extension of a game software.
 ## GITHUB REPOSITORY
 * https://github.com/Ismail-987/CW2024.git
 
-## COMPILATION INSTRUCTIONS
+## CONFIGURATION INSTRUCTIONS
 1. Upon opening the game in any IDE, in command line run "mvn clean" then "mvn install"  
  for maven to fetch the added dependencies in pom.xml.
 
@@ -188,3 +188,5 @@ This project involves the maintenance and extension of a game software.
  exposure and experience, better results would have been attained, I believe.
 2. Graphics designing. It was a challenging experience to have consistent screens for various scenes.
  This is because of low experience with graphics designing and usage of graphics tools.
+3. Testing. User Interface Testing was a very challenging task as UI figures runs on a separate 
+ thread. Thus requiring "MOCKING TESTING" and many other configuration settings to ensure it works.
