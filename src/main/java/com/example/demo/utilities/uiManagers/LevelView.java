@@ -19,7 +19,7 @@ public class LevelView {
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 25;
 	private static final int PAUSE_BUTTON_X_POSITION = 1200;
-	private static final int PAUSE_BUTTON_Y_POSITION = 15;
+	private static final int PAUSE_BUTTON_Y_POSITION = 20;
 	private static final int PAUSE_SCENE_X_POSITION = 375;
 	private static final int PAUSE_SCENE_Y_POSITION = 100;
 	private final Group root;
@@ -166,7 +166,7 @@ public class LevelView {
 
 		levelLabel.setLayoutY(30);
 		levelLabel.setLayoutX(468);
-		levelLabel.getStyleClass().add("level-label");
+		levelLabel.getStyleClass().add("score-label");
 
 		this.root.getChildren().add(scoreLabel);
 		this.root.getChildren().add(levelLabel);
@@ -208,7 +208,7 @@ public class LevelView {
 	 * within the game interface.
 	 */
 	public void initializePauseScreen(){
-		this.pauseScreen = new PauseScreen(PAUSE_SCENE_X_POSITION,PAUSE_SCENE_Y_POSITION,this::resume_game,goToHomeScene,()->{
+		this.pauseScreen = new PauseScreen(gameState,this::resume_game,goToHomeScene,()->{
 			FileUtility.saveGameStatus(gameState.levelClassName);});
 		root.getChildren().add(pauseScreen.get_scene_container());
 	}
@@ -267,7 +267,7 @@ public class LevelView {
 	public void initializePowerUpButton(){
 		powerUpButton = new Button("Power Up");
 		powerUpButton.setLayoutX(Math.random()*1000);
-		powerUpButton.setLayoutY(Math.random()*680+50);
+		powerUpButton.setLayoutY(Math.random()*600+50);
 		powerUpButton.getStyleClass().add("power-up-button");
 		powerUpButton.setOnMouseClicked(e -> {
 			DataUtilities.isPowerUpActive = true;
@@ -278,7 +278,7 @@ public class LevelView {
 	}
 
 	public void levelViewUILoopLogic(){
-		updateButton();
+		updatePowerUpButton();
 		updatePowerUp();
 	}
 
@@ -294,7 +294,7 @@ public class LevelView {
 	 * - If the button's active frame count has reached its maximum threshold, the button is
 	 *   deactivated, its frame count is reset, and it is made invisible.
 	 */
-	public void updateButton(){
+	public void updatePowerUpButton(){
 		if(DataUtilities.isButtonActive){
 			DataUtilities.frameswithButton++;
 		} else if (buttonShouldBeActive()) {
@@ -363,13 +363,26 @@ public class LevelView {
 		return DataUtilities.frameswithPowerUp == DataUtilities.MAX_FRAMES_FOR_POWER_UP;
 	}
 
+	/**
+	 * Sets the pauseScreen of the game.
+	 * @param pauseScreen
+	 */
 	public void setPauseScreen(PauseScreen pauseScreen) {
 		this.pauseScreen = pauseScreen;
 	}
+
+	/**
+	 * Sets the winScreen of the game.
+	 * @param winScreen
+	 */
 	public void setWinScreen(WinScreen winScreen) {
 		this.winScreen = winScreen;
 	}
 
+	/**
+	 * Sets the lossScreen of the game.
+	 * @param lossScreen	Requires a LoseScreen object
+	 */
 	public void setLossScreen(LoseScreen lossScreen) {
 		this.lossScreen = lossScreen;
 	}

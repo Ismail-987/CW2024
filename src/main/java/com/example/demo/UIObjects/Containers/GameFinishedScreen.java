@@ -52,21 +52,26 @@ public class GameFinishedScreen {
         this.pauseBackground.setFitWidth(600);
         this.pauseBackground.setFitHeight(513);
 
-        this.restartGame = new Button("Restart Game");
+        this.restartGame = new Button();
         restartGame.setLayoutX(74.8);
-        restartGame.setLayoutY(398);
-        restartGame.setMinWidth(75);
+        restartGame.setLayoutY(348);
+        restartGame.setMinWidth(110);
         restartGame.setMinHeight(50);
-        this.homeButton = new Button("Home");
+        restartGame.getStyleClass().add("play-buttons");
+
+        this.homeButton = new Button();
         homeButton.setLayoutX(416);
-        homeButton.setLayoutY(398);
-        homeButton.setMinWidth(75);
+        homeButton.setLayoutY(348);
+        homeButton.setMinWidth(112.5);
         homeButton.setMinHeight(50);
-        this.quitButton = new Button("Quit");
+        homeButton.getStyleClass().add("play-buttons");
+
+        this.quitButton = new Button();
         quitButton.setLayoutX(230);
-        quitButton.setLayoutY(398);
-        quitButton.setMinWidth(75);
+        quitButton.setLayoutY(348);
+        quitButton.setMinWidth(150);
         quitButton.setMinHeight(50);
+        quitButton.getStyleClass().add("play-buttons");
 
         restartGame.setOnMousePressed(e -> {
             gameState.exist=false;

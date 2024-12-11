@@ -30,7 +30,7 @@ public class CollisionManager {
     public static void collisionManager(List<ActiveActor> friendlyUnits, List<ActiveActor> enemyUnits, List<ActiveActor> userProjectiles, List<ActiveActor> enemyProjectiles, Group root) {
         handleCollisions(userProjectiles, enemyUnits);
         handleCollisions(enemyProjectiles, friendlyUnits);
-        handleCollisions(friendlyUnits, enemyUnits);
+        handleUserEnemyCollisions(friendlyUnits,enemyUnits);
 
         removeDestroyedActors(friendlyUnits, root);
         removeDestroyedActors(enemyProjectiles, root);
@@ -50,6 +50,17 @@ public class CollisionManager {
                 if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
                     actor.takeDamage();
                     otherActor.takeDamage();
+                }
+            }
+        }
+    }
+
+    public static void handleUserEnemyCollisions(List<ActiveActor> actors1, List<ActiveActor> actors2) {
+        for (ActiveActor actor : actors2) {
+            for (ActiveActor otherActor : actors1) {
+                if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+                    actor.destroy();
+                    otherActor.destroy();
                 }
             }
         }

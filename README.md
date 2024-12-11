@@ -81,9 +81,9 @@ This project involves the maintenance and extension of a game software.
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * STAGE RESIZING. Unfortunately user can resize the stage but aspect ratio is not feasible.
  Perhaps if I could more time for the game, I could have make it a reality.
-* NAVIGATION BUTTONS. Some navigation buttons in some screens will not behave as expected.
- Unfortunately, it became overwhelming to finish all the functionality but had it been with more time,
- they would have work as expected.
+* BUTTONS: Some button functionalities like in Settings Page (The one for sound) and in pause screen,
+ the one for tips are not behaving as expected. The project was too overwhelming that finishing all the 
+ functionalities did not seem feasible. Unfortunately.
 
 ## FEATURES NOT IMPLEMENTED
 
@@ -92,8 +92,8 @@ This project involves the maintenance and extension of a game software.
 
 ### NEW CLASSES
 1. PauseButton.java
-2. PlayButton.java
-3. RestartButton.java
+2. SettingsScene.java
+3. InformationScene.java
 4. HomeScene.java
 5. PauseScreen.java
 6. StageManager.java (Used to be Controller.java)
@@ -110,7 +110,8 @@ This project involves the maintenance and extension of a game software.
 16. LoseScreen.java
 17. GameBackground.java
 18. GameFinishedScreen.java
-19. 
+19. LevelViewLevelOne.java
+20. GameState.java
 
 
 ### MODIFIED CLASSES
@@ -134,7 +135,7 @@ This project involves the maintenance and extension of a game software.
 
 ## NEW FILES
 1. game-styles.css
-2. gameStatus.txt
+2. gameStatus.txt (generated dynamically during initial save)
 
 ## REFACTORING
 * Code refactoring has been done to ensure better performance of the 

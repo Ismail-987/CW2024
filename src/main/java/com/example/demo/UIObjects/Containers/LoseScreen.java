@@ -75,48 +75,53 @@ public class LoseScreen {
         this.lossBackground.setFitWidth(600);
         this.lossBackground.setFitHeight(513);
 
-        this.lostQuitButton = new Button("Quit");
+        this.lostQuitButton = new Button();
         lostQuitButton.setMinWidth(179.6);
         lostQuitButton.setMinHeight(35.2);
         lostQuitButton.setLayoutX(383.6);
         lostQuitButton.setLayoutY(238);
+        lostQuitButton.getStyleClass().add("play-buttons");
         this.lostQuitButton.setOnMousePressed(e -> System.exit(1));
 
-        this.lossHomeButton = new Button("Home");
+        this.lossHomeButton = new Button();
         lossHomeButton.setMinWidth(169.6);
         lossHomeButton.setMinHeight(35.2);
         lossHomeButton.setLayoutX(198.8);
         lossHomeButton.setLayoutY(378);
+        lossHomeButton.getStyleClass().add("play-buttons");
         this.lossHomeButton.setOnMousePressed(e -> {
             gameState.exist=false;
             NavigationUtilities.goToScene(gameState.support, DataUtilities.HomeScene);});
 
-        this.lostRestartButton = new Button("Replay");
+        this.lostRestartButton = new Button();
         lostRestartButton.setMinWidth(175.8);
         lostRestartButton.setMinHeight(35.2);
         lostRestartButton.setLayoutX(40);
         lostRestartButton.setLayoutY(240);
+        lostRestartButton.getStyleClass().add("play-buttons");
         this.lostRestartButton.setOnMousePressed(e -> {
             gameState.exist=false;
             NavigationUtilities.goToScene(gameState.support, gameState.levelClassName);
         });
 
-        this.lostTipsButton = new Button("Tips");
+        this.lostTipsButton = new Button();
         lostTipsButton.setMinWidth(167.6);
         lostTipsButton.setMinHeight(35.2);
         lostTipsButton.setLayoutX(196.6);
         lostTipsButton.setLayoutY(425.2);
+        lostTipsButton.getStyleClass().add("play-buttons");
         this.lostTipsButton.setOnMousePressed(e ->
         {
             gameState.exist=false;
             NavigationUtilities.goToScene(gameState.support,DataUtilities.HomeScene);
         });
 
-        this.lostSkipLevelButton = new Button("Skip level");
+        this.lostSkipLevelButton = new Button();
         lostSkipLevelButton.setMinWidth(169.6);
         lostSkipLevelButton.setMinHeight(35.2);
         lostSkipLevelButton.setLayoutX(214.2);
         lostSkipLevelButton.setLayoutY(238);
+        lostSkipLevelButton.getStyleClass().add("play-buttons");
         this.lostSkipLevelButton.setOnMousePressed(e -> {
             gameState.exist=false;
             NavigationUtilities.goToScene(gameState.support, gameState.NextLevelClassName);});

@@ -72,6 +72,7 @@ public class WinScreen {
      *
      * @param Xposition      The x-coordinate for the layout position.
      * @param Yposition      The y-coordinate for the layout position.
+     * @param gameState      The current state of the game used for navigation support on button actions.
      */
     public void creator(double Xposition, double Yposition,GameState gameState){
         this.winScreen = new Group();
@@ -83,42 +84,42 @@ public class WinScreen {
         this.winBackground.setFitHeight(513);
 
 
-        this.winQuitButton = new Button("Quit Game");
+        this.winQuitButton = new Button();
         winQuitButton.setMinWidth(125.6);
         winQuitButton.setMinHeight(74.8);
         winQuitButton.setLayoutX(87.2);
         winQuitButton.setLayoutY(350.8);
         winQuitButton.getStyleClass().add("youWin-buttons");
 
-        this.winNextLevelButton = new Button("Next Level");
+        this.winNextLevelButton = new Button();
         winNextLevelButton.setMinWidth(103.6);
         winNextLevelButton.setMinHeight(74.8);
         winNextLevelButton.setLayoutX(67.2);
         winNextLevelButton.setLayoutY(262.2);
         winNextLevelButton.getStyleClass().add("pause-buttons");
 
-        this.winReplayLevelButton = new Button("Replay level");
+        this.winReplayLevelButton = new Button();
         winReplayLevelButton.setMinWidth(125.6);
         winReplayLevelButton.setMinHeight(74.8);
         winReplayLevelButton.setLayoutX(386.8);
         winReplayLevelButton.setLayoutY(345.8);
         winReplayLevelButton.getStyleClass().add("youWin-buttons");
 
-        this.winHomeButton = new Button("Home Button");
+        this.winHomeButton = new Button();
         winHomeButton.setMinWidth(103.6);
         winHomeButton.setMinHeight(74.8);
         winHomeButton.setLayoutX(431.2);
         winHomeButton.setLayoutY(262.2);
         winHomeButton.getStyleClass().add("youWin-buttons");
 
-        this.winSaveButton = new Button("Save");
+        this.winSaveButton = new Button();
         winSaveButton.setMinWidth(103.6);
         winSaveButton.setMinHeight(74.8);
         winSaveButton.setLayoutX(185.2);
         winSaveButton.setLayoutY(262.2);
         winSaveButton.getStyleClass().add("youWin-buttons");
 
-        this.winSettingsButton = new Button("Settings");
+        this.winSettingsButton = new Button();
         winSettingsButton.setMinWidth(103.6);
         winSettingsButton.setMinHeight(74.8);
         winSettingsButton.setLayoutX(307);
@@ -127,7 +128,7 @@ public class WinScreen {
 
 
         this.winSettingsButton.setOnMousePressed(e -> {
-            System.exit(1);
+            NavigationUtilities.goToScene(gameState.support,DataUtilities.SettingsScene);
         });
 
         this.winSaveButton.setOnMousePressed(e -> {

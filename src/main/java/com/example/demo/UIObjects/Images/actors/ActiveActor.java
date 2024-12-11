@@ -39,6 +39,7 @@ public abstract class ActiveActor extends ImageView  {
 	 * @param horizontalMove The amount to move horizontally.
 	 */
 	protected void moveHorizontally(double horizontalMove) {
+
 		this.setTranslateX(getTranslateX() + horizontalMove);
 	}
 
@@ -48,6 +49,7 @@ public abstract class ActiveActor extends ImageView  {
 	 * @param verticalMove The amount to move vertically.
 	 */
 	protected void moveVertically(double verticalMove) {
+
 		this.setTranslateY(getTranslateY() + verticalMove);
 	}
 

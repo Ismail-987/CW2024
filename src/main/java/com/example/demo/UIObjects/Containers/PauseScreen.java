@@ -1,5 +1,8 @@
 package com.example.demo.UIObjects.Containers;
 
+import com.example.demo.utilities.DataUtilities;
+import com.example.demo.utilities.GameState;
+import com.example.demo.utilities.NavigationUtilities;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -21,18 +24,18 @@ public class PauseScreen {
     private Button informationButton;
     private Button homeButton;
     private Button settingsButton;
+    private GameState gameState;
 
     /**
      * Constructs a PauseScreen with specified position and actions for buttons.
-     *
-     * @param Xposition       The x-coordinate for the screen layout position.
-     * @param Yposition       The y-coordinate for the screen layout position.
+     * @param gameState       GameState for further control utilisation.
      * @param resume          Runnable to execute on resume action.
      * @param goToScene       Runnable to execute on home button action.
      * @param saveToGameFile  Runnable to execute on save action.
      */
-    public PauseScreen(double Xposition, double Yposition, Runnable resume, Runnable goToScene, Runnable saveToGameFile) {
-        creator(Xposition, Yposition, resume, goToScene, saveToGameFile);
+    public PauseScreen(GameState gameState, Runnable resume, Runnable goToScene, Runnable saveToGameFile) {
+        this.gameState = gameState;
+        creator(DataUtilities.GAME_SCREENS_X_POSITION, DataUtilities.GAME_SCREENS_Y_POSITION, resume, goToScene, saveToGameFile);
         initializer();
     }
 
@@ -98,8 +101,8 @@ public class PauseScreen {
         this.saveButton.setOnMousePressed(e -> saveToGameFile.run());
         this.playButton.setOnMousePressed(e -> resume.run());
         this.quitButton.setOnMousePressed(e -> System.exit(1));
-        this.informationButton.setOnMousePressed(e -> resume.run());
-        this.settingsButton.setOnMousePressed(e -> resume.run());
+        this.informationButton.setOnMousePressed(e -> NavigationUtilities.goToScene(gameState.support,DataUtilities.InformationScene));
+        this.settingsButton.setOnMousePressed(e -> NavigationUtilities.goToScene(gameState.support,DataUtilities.SettingsScene));
         this.homeButton.setOnMousePressed(e -> goToScene.run());
 
 

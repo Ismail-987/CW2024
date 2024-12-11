@@ -48,7 +48,7 @@ public class LevelThree extends LevelParent {
         int currentNumberOfEnemies = getGameState().getCurrentNumberOfEnemies();
         for (int i = 0; i < DataUtilities.LevelOneTotalEnemies - currentNumberOfEnemies; i++) {
             if (Math.random() < DataUtilities.LevelOneEnemySpawnProbability) {
-                double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
+                double newEnemyInitialYPosition = 50 + Math.random() * getEnemyMaximumYPosition();
                 ActiveActor newEnemy = new EnemyPlane(DataUtilities.ScreenWidth, newEnemyInitialYPosition);
                 getGameState().addEnemyUnit(newEnemy);
             }
