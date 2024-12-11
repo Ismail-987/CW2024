@@ -5,14 +5,13 @@ import java.beans.PropertyChangeListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
-import com.example.demo.scenes.LevelOne;
-import com.example.demo.scenes.HomeScene;
+
+import com.example.demo.scenes.*;
 import com.example.demo.utilities.DataUtilities;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.scenes.LevelParent;
 
 /**
  * Manages scene transitions and lifecycle events for the game stages.
@@ -22,6 +21,9 @@ public class StageManager implements PropertyChangeListener {
 	private final Stage stage;
 	public LevelParent myLevel = new LevelOne();
 	private HomeScene homeScene = new HomeScene(10, 20);
+	private InformationScene informationScene = new InformationScene(10,10);
+	private SettingsScene settingsScene = new SettingsScene(10,10);
+
 
 	/**
 	 * Constructs a StageManager for handling the specified stage.
@@ -74,10 +76,46 @@ public class StageManager implements PropertyChangeListener {
 				homeScene.getSupport().addPropertyChangeListener(this);
 				homeScene.getHomeScreenMusic().play();
 				Scene scene = homeScene.returnScene();
+				scene.getStylesheets().add(getClass().getResource("/game-styles.css").toExternalForm());
 				stage.setScene(scene);
 			}
 
-		} else {
+		} else if (Objects.equals(className, DataUtilities.InformationScene)) {
+			if (informationScene.exists) {
+				informationScene.getHomeScreenMusic().play();
+				stage.setScene(informationScene.returnScene());
+			} else {
+				Class<?> myClass = Class.forName(className);
+				Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
+				informationScene = (InformationScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				informationScene.exists = true;
+				informationScene.getSupport().addPropertyChangeListener(this);
+				informationScene.getHomeScreenMusic().play();
+				Scene scene = informationScene.returnScene();
+				scene.getStylesheets().add(getClass().getResource("/game-styles.css").toExternalForm());
+				stage.setScene(scene);
+
+			}
+		}
+		else if (Objects.equals(className, DataUtilities.SettingsScene)){
+
+			if (settingsScene.exists) {
+				settingsScene.getHomeScreenMusic().play();
+				stage.setScene(settingsScene.returnScene());
+			} else {
+				Class<?> myClass = Class.forName(className);
+				Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
+				settingsScene = (SettingsScene) constructor.newInstance(stage.getHeight(), stage.getWidth());
+				settingsScene.exists = true;
+				settingsScene.getSupport().addPropertyChangeListener(this);
+				settingsScene.getHomeScreenMusic().play();
+				Scene scene = settingsScene.returnScene();
+				scene.getStylesheets().add(getClass().getResource("/game-styles.css").toExternalForm());
+				stage.setScene(scene);
+			}
+
+		}
+		else {
 			if (myLevel.getGameState().exist) {
 				stage.setScene(myLevel.getScene());
 			} else {

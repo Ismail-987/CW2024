@@ -1,6 +1,7 @@
 package com.example.demo.UIObjects.Images.actors;
 
 
+import com.example.demo.utilities.DataUtilities;
 
 /**
  * Represents a fighter plane with the ability to take damage and fire projectiles.
@@ -35,7 +36,11 @@ public abstract class FighterPlane extends ActiveActor {
 	 */
 	@Override
 	public void takeDamage() {
-		health--;
+		if (DataUtilities.isPowerUpActive){
+			this.health -= 2;
+		}else {
+			health--;
+		}
 		if (healthAtZero()) {
 			this.destroy();
 		}
@@ -67,7 +72,7 @@ public abstract class FighterPlane extends ActiveActor {
 	 * @return true if health is zero, otherwise false.
 	 */
 	private boolean healthAtZero() {
-		return health == 0;
+		return health == 0 || health <= 0;
 	}
 
 	/**

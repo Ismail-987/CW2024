@@ -11,6 +11,8 @@ public class DataUtilities {
     public static String LevelThree = "com.example.demo.scenes.LevelThree";
     public static String LevelFinal = "com.example.demo.scenes.LevelFinal";
     public static String HomeScene = "com.example.demo.scenes.HomeScene";
+    public static String InformationScene = "com.example.demo.scenes.InformationScene";
+    public static String SettingsScene = "com.example.demo.scenes.SettingsScene";
 
     // Level names
     public static String LevelOneName = "EARTH";
@@ -74,9 +76,9 @@ public class DataUtilities {
 
     // Timer and screen adjustments
     public static int MILISECOND_DELAY = 50;
-    public static int SCREENHEIGHTADJUSTMENT = 170;
+    public static int SCREENHEIGHTADJUSTMENT = 210;
     public static int GAME_SCREENS_X_POSITION = 355;
-    public static int GAME_SCREENS_Y_POSITION = 170;
+    public static int GAME_SCREENS_Y_POSITION = 100;
 
     public static int MAX_FRAMES_FOR_POWER_UP = 300;
     public static int frameswithPowerUp = 0;
@@ -86,6 +88,17 @@ public class DataUtilities {
 
     public static Boolean isPowerUpActive = false;
     public static Boolean isButtonActive = false;
+
+    public static String GAMEINFORMATION ="The game supports multiple levels of up to 4. \n" +
+            "In each level, you pass through different worlds where you fight the enemies of the " +
+            "final boss who lives\non Planet \"PHOENIX-365\" to save the UNIVERSE.\n" +"LEVEL ONE:\n"+
+            "The player first goes from Earth, destroys the enemies.\n\n"+"LEVEL TWO:\n"+"Then attempts " +
+            "another revenge by travelling to MARS and kills the enemies of that place.\n\n"+"LEVEL THREE: \n"+ "Then," +
+            " travels to JUPITER and finishes the enemies off.\nThen to realize that their boss lives in " +
+            " planet \"PHOENIX-365\".\n\n"+"FINAL LEVEL: \n"+"He then prepares well and face the final Boss and save" +
+            " the UNIVERSE.";
+
+    public static Boolean MUSICSTATUS = true;
 
     /**
      * Default constructor.

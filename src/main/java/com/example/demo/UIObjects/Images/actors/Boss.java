@@ -83,12 +83,7 @@ public class Boss extends FighterPlane {
 	@Override
 	public void takeDamage() {
 		if (!isShielded) {
-			if (DataUtilities.isPowerUpActive){
-				this.health -= 2;
-			}
-			else {
-				super.takeDamage();
-			}
+			super.takeDamage();
 		}
 	}
 

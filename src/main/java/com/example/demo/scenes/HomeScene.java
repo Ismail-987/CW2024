@@ -57,7 +57,7 @@ public class HomeScene {
         this.sgbutton = new Button();
         this.sgbutton.setOnMousePressed(e -> {
             this.homeScreenMusic.stop();
-            load_level("com.example.demo.scenes.LevelOne");
+            goToScene("com.example.demo.scenes.LevelOne");
         });
         sgbutton.setLayoutX(448);
         sgbutton.setLayoutY(320);
@@ -86,7 +86,7 @@ public class HomeScene {
 
         this.continueButton.setOnMousePressed(e -> {
             homeScreenMusic.stop();
-            load_level(FileUtility.readGameStatus());
+            goToScene(FileUtility.readGameStatus());
         });
 
         this.informationButton = new Button();
@@ -98,7 +98,7 @@ public class HomeScene {
 
         this.informationButton.setOnMousePressed(e -> {
             homeScreenMusic.stop();
-            load_level("com.example.demo.scenes.LevelOne");
+            goToScene(DataUtilities.InformationScene);
         });
 
 
@@ -111,7 +111,7 @@ public class HomeScene {
 
         this.settingsButton.setOnMousePressed(e -> {
             homeScreenMusic.stop();
-            load_level("com.example.demo.scenes.LevelOne");
+            goToScene(DataUtilities.SettingsScene);
         });
 
         root.getChildren().add(sgbutton);
@@ -166,7 +166,7 @@ public class HomeScene {
      *
      * @param levelName The name of the level to load.
      */
-    public void load_level(String levelName) {
+    public void goToScene(String levelName) {
         homeScreenMusic.stop();
         support.firePropertyChange("Page Changes",null, levelName); // Notify all observers with change of Level
     }

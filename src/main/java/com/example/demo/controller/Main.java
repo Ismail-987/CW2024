@@ -12,10 +12,6 @@ public class Main extends Application {
 
 	private StageManager myController;
 
-	public void setMyController(StageManager myController) {
-		this.myController = myController;
-	}
-
 	public Main(StageManager stageManager) {
 		this.myController = stageManager;
 	}
@@ -54,5 +50,9 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) {
 		launch();
+	}
+
+	public void setMyController(StageManager myController) {
+		this.myController = myController;
 	}
 }
