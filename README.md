@@ -50,7 +50,7 @@ This project involves the maintenance and extension of a game software.
  in HomeScreen in HomeScene, the game will load the level next to the last 
  level that the user saved, continuing the progress.
 * Upon pausing, the save button will save the current level that the user
- is playing. Hence the continue button will direct to the current level of the 
+ is playing. Hence, the continue button will direct to the current level of the 
  game.
 
 6. SCORE TRACKING AND LEVEL DISPLAY
@@ -65,18 +65,23 @@ This project involves the maintenance and extension of a game software.
  final boss who lives on Planet "PHOENIX-365" to save the UNIVERSE. 
 * The player first goes from Earth, destroys the enemies. Then attempts 
  another revenge by travelling to MARS and kills the enemies of that place. Then,
- travels to JUPITER and finishes the enemies off. Then to realize that their boss lives in 
+ travels to JUPITER and finishes the enemies off. Then to realize that their boss lives on 
  planet "PHOENIX-365". He then prepares well and face the final Boss and save
  the UNIVERSE.
 
-8. POWER-UP FUNCTIONALITY
-* This feature is available in each level as the user is presented
- with a "Power-Up" Button that if he or she is lucky enough to press it,
- he or she will have increased kill count, thus having more damage per 
- projectile to his or her enemies.
-* This features enhances the "SCORE COUNT" per projectile if gotten
- and only lasts for a couple of times and becomes expired. This is until
- another lucky shot of getting to click the power-up button again.
+8. SCORE-BOOST FUNCTIONALITY
+* This feature is available in each level where the user is presented
+ with a "SCORE X2" Button that if he or she is lucky enough to press it,
+ he or she will have "DOUBLE" increased kill count, thus having more score per kill.
+ For the final level, this button increases score count per projectile damage.
+* This feature, if gotten, only lasts for a couple of times and becomes expired. This is until
+ another lucky shot of getting to click the "SCORE X2" button again.
+
+9. HEALTH-BOOST FUNCTIONALITY
+* This feature is available in each level where the user is presented with
+ a "HEALTH +1" button that if pressed, he or she will get an INCREMENT increase in 
+ health. This button appears randomly in any 
+ position on the screen in a random probability if the user's health is below "3 HEARTS"
 
 ### THAT DO NOT SUCCESSFULLY WORK PROPERLY
 * STAGE RESIZING. Unfortunately user can resize the stage but aspect ratio is not feasible.

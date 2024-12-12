@@ -46,7 +46,7 @@ public class LevelTwo extends LevelParent {
         for (int i = 0; i < DataUtilities.LevelOneTotalEnemies - currentNumberOfEnemies; i++) {
             if (Math.random() < DataUtilities.LevelOneEnemySpawnProbability) {
                 double newEnemyInitialYPosition = 50 + Math.random() * getEnemyMaximumYPosition();
-                ActiveActor newEnemy = new EnemyPlane(DataUtilities.ScreenWidth, newEnemyInitialYPosition);
+                ActiveActor newEnemy = new EnemyPlane(DataUtilities.ScreenWidth, newEnemyInitialYPosition, getGameState().currentEnemyImage, getGameState().currentEnemyHealth,getGameState().currentEnemyFireRate);
                 getGameState().addEnemyUnit(newEnemy);
             }
         }

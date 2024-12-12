@@ -2,6 +2,7 @@ package com.example.demo.utilities;
 
 /**
  * Utility class for storing static data used in the game.
+ * It behaves like a config file for most systems.
  */
 public class DataUtilities {
 
@@ -29,7 +30,7 @@ public class DataUtilities {
     // Background images paths
     public static String LevelOneBackgroundImage = "/com/example/demo/images/level1Background.jpg";
     public static String LevelTwoBackgroundImage = "/com/example/demo/images/level2Background.jpg";
-    public static String LevelThreeBackgroundImage = "/com/example/demo/images/background1.jpg";
+    public static String LevelThreeBackgroundImage = "/com/example/demo/images/level3Background.jpg";
     public static String LevelFinalBackgroundImage = "/com/example/demo/images/finalLevelBackground.jpg";
     public static String HomeMenuBackgroundImage = "/com/example/demo/images/homescreen.jpg";
     public static String HomeBackgroundImage = "/com/example/demo/images/homescreenbackground2.jpg";
@@ -62,6 +63,20 @@ public class DataUtilities {
     public static String LevelFinalMusic = "/com/example/demo/images/level1music.mp3";
     public static String HomeMusic = "/com/example/demo/images/homemenuviewmusic.mp3";
 
+    public static String LevelOneEnemyImage= "levelOneEnemies.png";
+    public static String LevelTwoEnemyImage = "levelTwoEnemies.png";
+    public static String LevelThreeEnemyImage = "levelThreeEnemies.png";
+
+    public static int LevelOneEnemyHealth = 2;
+    public static int LevelTwoEnemyHealth = 3;
+    public static int LevelThreeEnemyHealth = 5;
+
+    public static double LevelOneEnemyFireRate = 0.01;
+    public static double LevelTwoEnemyFireRate = 0.01;
+    public static double LevelThreeEnemyFireRate = 0.01;
+
+
+
     // Music file paths for win/lose scenarios
     public static String YouWinMusic = "/com/example/demo/images/youwinmusic.mp3";
     public static String YouLoseMusic = "/com/example/demo/images/youLostSound.mp3";
@@ -88,6 +103,11 @@ public class DataUtilities {
 
     public static Boolean isPowerUpActive = false;
     public static Boolean isButtonActive = false;
+
+    public static Boolean isHealthButtonActive = false;
+    public static int maxFramesWithHealthButton = 100;
+    public static int framesWithHealthPowerButton = 0;
+    public static double HEALTHBUTTONPROBABILITY = 0.1;
 
     public static String GAMEINFORMATION ="The game supports multiple levels of up to 4. \n" +
             "In each level, you pass through different worlds where you fight the enemies of the " +

@@ -35,7 +35,8 @@ public class LevelView {
 	public  Label levelLabel;
 	public  Label scoreLabel;
 	public GameBackground background;
-	public Button powerUpButton;
+	public Button scoreBoostButton;
+	public Button healthBoostButton;
 
 	/**
 	 * Constructs a LevelView with root node, game state, and a callback to go to home.
@@ -63,7 +64,8 @@ public class LevelView {
 		initializeLevelLabels();
 		initializeHeartDisplay();
 		initializeShield();
-		initializePowerUpButton();
+		initializeScoreBoostButton();
+		initializeHealthBoostButton();
 	}
 
 	/**
@@ -264,45 +266,90 @@ public class LevelView {
 	 * itself by setting the `isButtonActive` flag to false and making the button
 	 * invisible. Finally, the button is added to the root node of the view.
 	 */
-	public void initializePowerUpButton(){
-		powerUpButton = new Button("Power Up");
-		powerUpButton.setLayoutX(Math.random()*1000);
-		powerUpButton.setLayoutY(Math.random()*600+50);
-		powerUpButton.getStyleClass().add("power-up-button");
-		powerUpButton.setOnMouseClicked(e -> {
+	public void initializeScoreBoostButton(){
+		scoreBoostButton = new Button("SCORE X2");
+		scoreBoostButton.setLayoutX(Math.random()*1000);
+		scoreBoostButton.setLayoutY(Math.random()*600+50);
+		scoreBoostButton.getStyleClass().add("powerUp-label");
+		scoreBoostButton.setOnMouseClicked(e -> {
 			DataUtilities.isPowerUpActive = true;
 			DataUtilities.isButtonActive = false;
-			this.powerUpButton.setVisible(false);
+			this.scoreBoostButton.setVisible(false);
 		});
-		root.getChildren().add(powerUpButton);
+		root.getChildren().add(scoreBoostButton);
+	}
+	public void initializeHealthBoostButton(){
+		healthBoostButton = new Button("HEALTH +1");
+		healthBoostButton.setLayoutX(Math.random()*1000);
+		healthBoostButton.setLayoutY(Math.random()*600+50);
+		healthBoostButton.getStyleClass().add("powerUp-label");
+		healthBoostButton.setVisible(false);
+		healthBoostButton.setOnMouseClicked(e -> {
+			DataUtilities.isHealthButtonActive = false;
+			this.healthBoostButton.setVisible(false);
+			gameState.user.health++;
+			heartDisplay.addOneHeart();
+		});
+		root.getChildren().add(healthBoostButton);
 	}
 
+	public void updateHealthBoostButton(){
+		if (gameState.user.health<3){
+			if(DataUtilities.isHealthButtonActive){
+				DataUtilities.framesWithHealthPowerButton++;
+			}
+			else if (healthButtonShouldBeActive()) {
+					healthBoostButton.setLayoutX(Math.random()*1000);
+					healthBoostButton.setLayoutY(Math.random()*700+50);
+					healthBoostButton.setVisible(true);
+					DataUtilities.isHealthButtonActive = true;
+					DataUtilities.framesWithHealthPowerButton = 0;
+
+			}
+			if(healthButtonIsExhausted()){
+				DataUtilities.isButtonActive = false;
+				DataUtilities.frameswithButton = 0;
+				scoreBoostButton.setVisible(false);
+			}
+		}
+	}
+
+	private Boolean healthButtonShouldBeActive(){
+		return Math.random()< DataUtilities.HEALTHBUTTONPROBABILITY;
+	}
+
+	private Boolean healthButtonIsExhausted(){
+		return DataUtilities.framesWithHealthPowerButton == DataUtilities.maxFramesWithHealthButton;
+	}
+
+
 	public void levelViewUILoopLogic(){
-		updatePowerUpButton();
+		updateScoreBoosterButton();
+		updateHealthBoostButton();
 		updatePowerUp();
 	}
 
 	/**
-	 * Updates the state and appearance of the power-up button based on certain conditions.
+	 * Updates the state and appearance of the score-booster button based on certain conditions.
 	 *
 	 * The method performs the following actions:
 	 * - If the button is currently active, it increments the frame count that the button
 	 *   has been visible.
 	 * - If the button is not active and should be made active according to certain logic,
-	 *   and if no power-up is currently active, the button is placed at a new random location
+	 *   and if no score power-up is currently active, the button is placed at a new random location
 	 *   and made visible. The button is marked as active and its frame count is reset.
 	 * - If the button's active frame count has reached its maximum threshold, the button is
 	 *   deactivated, its frame count is reset, and it is made invisible.
 	 */
-	public void updatePowerUpButton(){
+	public void updateScoreBoosterButton(){
 		if(DataUtilities.isButtonActive){
 			DataUtilities.frameswithButton++;
 		} else if (buttonShouldBeActive()) {
 
 			if(!DataUtilities.isPowerUpActive){
-				powerUpButton.setLayoutX(Math.random()*1000);
-				powerUpButton.setLayoutY(Math.random()*700+50);
-				powerUpButton.setVisible(true);
+				scoreBoostButton.setLayoutX(Math.random()*1000);
+				scoreBoostButton.setLayoutY(Math.random()*700+50);
+				scoreBoostButton.setVisible(true);
 				DataUtilities.isButtonActive = true;
 				DataUtilities.frameswithButton = 0;
 			}
@@ -311,7 +358,7 @@ public class LevelView {
 		if(buttonIsExhausted()){
 			DataUtilities.isButtonActive = false;
 			DataUtilities.frameswithButton = 0;
-			powerUpButton.setVisible(false);
+			scoreBoostButton.setVisible(false);
 		}
 	}
 

@@ -17,11 +17,11 @@ public abstract class Projectile extends ActiveActor {
 	 * @param imageHeight    The height of the projectile's image.
 	 * @param initialXPos    The initial x-coordinate of the projectile.
 	 * @param initialYPos    The initial y-coordinate of the projectile.
-	 * @param projectileName The name of the sound file for the projectile.
+	 * @param projectileSound The name of the sound file for the projectile.
 	 */
-	public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, String projectileName) {
+	public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, String projectileSound) {
 		super(imageName, imageHeight, initialXPos, initialYPos);
-		this.projectileSound = new MediaPlayer(new Media(getClass().getResource(projectileName).toString()));
+		this.projectileSound = new MediaPlayer(new Media(getClass().getResource(projectileSound).toString()));
 	}
 
 	/**

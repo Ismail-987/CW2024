@@ -12,6 +12,10 @@ public class Main extends Application {
 
 	private StageManager myController;
 
+	/**
+	 * Second Main Constructor for Setting the stage by passing it to the Main class.
+	 * @param stageManager
+	 */
 	public Main(StageManager stageManager) {
 		this.myController = stageManager;
 	}

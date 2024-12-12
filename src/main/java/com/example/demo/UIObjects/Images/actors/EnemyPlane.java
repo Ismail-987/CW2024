@@ -5,13 +5,11 @@ package com.example.demo.UIObjects.Images.actors;
  */
 public class EnemyPlane extends FighterPlane {
 
-	private static final String IMAGE_NAME = "enemyplane.png";
 	private static final int IMAGE_HEIGHT = 150;
 	private static final int HORIZONTAL_VELOCITY = -6;
 	private static final double PROJECTILE_X_POSITION_OFFSET = -100.0;
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 50.0;
-	private static final int INITIAL_HEALTH = 1;
-	private static final double FIRE_RATE = .01;
+	private static  double FIRE_RATE = .01;
 
 	/**
 	 * Constructs an EnemyPlane with the specified initial position.
@@ -19,8 +17,9 @@ public class EnemyPlane extends FighterPlane {
 	 * @param initialXPos The initial x-coordinate for the enemy plane.
 	 * @param initialYPos The initial y-coordinate for the enemy plane.
 	 */
-	public EnemyPlane(double initialXPos, double initialYPos) {
+	public EnemyPlane(double initialXPos, double initialYPos,String IMAGE_NAME, int INITIAL_HEALTH,double Firerate) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH);
+		FIRE_RATE = Firerate;
 	}
 
 	/**

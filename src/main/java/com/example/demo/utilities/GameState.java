@@ -35,6 +35,9 @@ public class GameState {
     public String levelClassName;
     public String NextLevelClassName;
     public int levelNumber;
+    public String currentEnemyImage;
+    public int currentEnemyHealth;
+    public double currentEnemyFireRate;
     public int initialHealth;
     public String levelBackground;
     public String levelMusic;
@@ -256,12 +259,15 @@ public class GameState {
     private void setLevelBackground() {
         if(levelNumber == 1){
             levelBackground = DataUtilities.LevelOneBackgroundImage;
+            currentEnemyImage = DataUtilities.LevelOneEnemyImage;
         }
         else if(levelNumber == 2){
             levelBackground = DataUtilities.LevelTwoBackgroundImage;
+            currentEnemyImage = DataUtilities.LevelTwoEnemyImage;
         }
         else if(levelNumber == 3){
             levelBackground = DataUtilities.LevelThreeBackgroundImage;
+            currentEnemyImage = DataUtilities.LevelThreeEnemyImage;
         }
         else{
             levelBackground = DataUtilities.LevelFinalBackgroundImage;
@@ -310,12 +316,18 @@ public class GameState {
     private void setInitialPlayerHealth(){
         if(levelNumber == 1){
             initialHealth = DataUtilities.LevelOnePlayerHealth;
+            currentEnemyHealth = DataUtilities.LevelOneEnemyHealth;
+            currentEnemyFireRate = DataUtilities.LevelOneEnemyFireRate;
         }
         else if(levelNumber == 2){
             initialHealth = DataUtilities.LevelTwoPlayerHealth;
+            currentEnemyHealth = DataUtilities.LevelTwoEnemyHealth;
+            currentEnemyFireRate = DataUtilities.LevelTwoEnemyFireRate;
         }
         else if(levelNumber == 3){
             initialHealth = DataUtilities.LevelThreePlayerHealth;
+            currentEnemyHealth = DataUtilities.LevelThreeEnemyHealth;
+            currentEnemyFireRate = DataUtilities.LevelThreeEnemyFireRate;
         }
         else{
             initialHealth = DataUtilities.LevelFinalPlayerHealth;
