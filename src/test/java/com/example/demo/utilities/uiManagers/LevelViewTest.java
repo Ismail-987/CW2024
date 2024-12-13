@@ -74,12 +74,12 @@ public class LevelViewTest {
     @Test
     void testPowerUpButtonLogic() {
         // Simulate the initialization of the power-up button
-        levelView.initializePowerUpButton();
+        levelView.initializeScoreBoostButton();
 
         // Simulate clicking the button
-        levelView.powerUpButton.fire();
+        levelView.scoreBoostButton.fire();
 
-        assertFalse(levelView.powerUpButton.isVisible(), "The power-up button should hide after being clicked");
+        assertFalse(levelView.scoreBoostButton.isVisible(), "The power-up button should hide after being clicked");
         assertTrue(DataUtilities.isPowerUpActive, "PowerUp should activate after clicking the button");
     }
 
@@ -95,7 +95,7 @@ public class LevelViewTest {
 
     @Test
     void testGameLoseLogic() {
-        // Simulate the lose screen initialization
+        // Simulate the loose screen initialization
         levelView.looseGameScenario();
 
         verify(mockGameState, times(1)).loseGameScenario();

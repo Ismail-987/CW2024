@@ -7,9 +7,14 @@ This project involves the maintenance and extension of a game software.
 ## GITHUB REPOSITORY
 * https://github.com/Ismail-987/CW2024.git
 
+## PROJECT REQUIREMENTS
+ - JDK-23 for Maven build. Hence, the system should have JDK-23 installed.
+ - JDK-23 for Intellij development SDK in File->ProjectStructure->Project->JDK.
+
 ## CONFIGURATION INSTRUCTIONS
-1. Upon opening the game in any IDE, in command line run "mvn clean" then "mvn install"  
+1. Upon opening the game in any IDE, in command line run "mvn clean" then "mvn install" 
  for maven to fetch the added dependencies in pom.xml.
+ Please ignore the test results while building and just proceed to the Main.java.
 2. Other note: If packages are not seen in JavaDoc html site, please go to "TREE" section to see the class and package hierarchy.
 
 

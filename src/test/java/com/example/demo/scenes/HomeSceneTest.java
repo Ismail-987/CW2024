@@ -87,6 +87,6 @@ class HomeSceneTest extends ApplicationTest {
         });
 
         // Trigger load_level
-        homeScene.load_level("com.example.demo.scenes.LevelOne");
+        homeScene.goToScene("com.example.demo.scenes.LevelOne");
     }
 }
