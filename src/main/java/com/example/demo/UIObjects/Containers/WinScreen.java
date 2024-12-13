@@ -128,6 +128,8 @@ public class WinScreen {
 
 
         this.winSettingsButton.setOnMousePressed(e -> {
+            gameState.exist =false;
+            gameState.gameWonMusic.stop();
             NavigationUtilities.goToScene(gameState.support,DataUtilities.SettingsScene);
         });
 

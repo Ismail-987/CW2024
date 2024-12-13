@@ -278,6 +278,19 @@ public class LevelView {
 		});
 		root.getChildren().add(scoreBoostButton);
 	}
+
+	/**
+	 * Initializes the health-boost button within the level view.
+	 *
+	 * This method creates a new button labeled "Power Up" and randomly positions
+	 * it within the game's UI, with specific x and y coordinates. The button
+	 * acquires a predefined style class designated as "health-boost-button".
+	 * Clicking the button triggers an event that activates a health-boost within the
+	 * game. This is achieved by setting the `isHealthBoostActive` flag in the
+	 * `DataUtilities` class to true, while simultaneously deactivating the button
+	 * itself by setting the `isHealthButtonActive` flag to false and making the button
+	 * invisible. Finally, the button is added to the root node of the view.
+	 */
 	public void initializeHealthBoostButton(){
 		healthBoostButton = new Button("HEALTH +1");
 		healthBoostButton.setLayoutX(Math.random()*1000);
@@ -293,34 +306,6 @@ public class LevelView {
 		root.getChildren().add(healthBoostButton);
 	}
 
-	public void updateHealthBoostButton(){
-		if (gameState.user.health<3){
-			if(DataUtilities.isHealthButtonActive){
-				DataUtilities.framesWithHealthPowerButton++;
-			}
-			else if (healthButtonShouldBeActive()) {
-					healthBoostButton.setLayoutX(Math.random()*1000);
-					healthBoostButton.setLayoutY(Math.random()*700+50);
-					healthBoostButton.setVisible(true);
-					DataUtilities.isHealthButtonActive = true;
-					DataUtilities.framesWithHealthPowerButton = 0;
-
-			}
-			if(healthButtonIsExhausted()){
-				DataUtilities.isButtonActive = false;
-				DataUtilities.frameswithButton = 0;
-				scoreBoostButton.setVisible(false);
-			}
-		}
-	}
-
-	private Boolean healthButtonShouldBeActive(){
-		return Math.random()< DataUtilities.HEALTHBUTTONPROBABILITY;
-	}
-
-	private Boolean healthButtonIsExhausted(){
-		return DataUtilities.framesWithHealthPowerButton == DataUtilities.maxFramesWithHealthButton;
-	}
 
 
 	public void levelViewUILoopLogic(){
@@ -409,6 +394,49 @@ public class LevelView {
 	private Boolean powerUpIsExhausted(){
 		return DataUtilities.frameswithPowerUp == DataUtilities.MAX_FRAMES_FOR_POWER_UP;
 	}
+
+
+	/**
+	 * Updates the state and appearance of the health-boost button based on certain conditions.
+	 *
+	 * The method performs the following actions:
+	 * - If the button is currently active, it increments the frame count that the button
+	 *   has been visible.
+	 * - If the button is not active and should be made active according to certain logic,
+	 *   and if no score power-up is currently active, the button is placed at a new random location
+	 *   and made visible. The button is marked as active and its frame count is reset.
+	 * - If the button's active frame count has reached its maximum threshold, the button is
+	 *   deactivated, its frame count is reset, and it is made invisible.
+	 */
+	public void updateHealthBoostButton(){
+		if (gameState.user.health<3){
+			if(DataUtilities.isHealthButtonActive){
+				DataUtilities.framesWithHealthPowerButton++;
+			}
+			else if (healthButtonShouldBeActive()) {
+				healthBoostButton.setLayoutX(Math.random()*1000);
+				healthBoostButton.setLayoutY(Math.random()*700+50);
+				healthBoostButton.setVisible(true);
+				DataUtilities.isHealthButtonActive = true;
+				DataUtilities.framesWithHealthPowerButton = 0;
+
+			}
+			if(healthButtonIsExhausted()){
+				DataUtilities.isButtonActive = false;
+				DataUtilities.frameswithButton = 0;
+				scoreBoostButton.setVisible(false);
+			}
+		}
+	}
+
+	private Boolean healthButtonShouldBeActive(){
+		return Math.random()< DataUtilities.HEALTHBUTTONPROBABILITY;
+	}
+
+	private Boolean healthButtonIsExhausted(){
+		return DataUtilities.framesWithHealthPowerButton == DataUtilities.maxFramesWithHealthButton;
+	}
+
 
 	/**
 	 * Sets the pauseScreen of the game.
